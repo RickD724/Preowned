@@ -3,22 +3,24 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Porsche Residual — Fetch JSON</title>
+<title>Residual App — By Ricardo (11/25 Programs)</title>
 <style>
   :root{
     --bg:#0b1020; --card:#121932; --text:#e6ebff; --muted:#a8b3d1; --border:#233057;
     --accent:#2ea66a; --chip:#243156; --chip-text:#cfe1ff; --danger:#ff5d5d;
     --radius:14px; --shadow:0 10px 26px rgba(0,0,0,.28);
+    --badge:#1d263f; --badge-border:#2a3a68;
   }
   [data-theme="light"]{
     --bg:#f6f7fb; --card:#ffffff; --text:#0f172a; --muted:#64748b; --border:#e8ecf5;
     --chip:#eef2ff; --chip-text:#2f2f91; --shadow:0 10px 26px rgba(16,24,40,.08);
+    --badge:#f3f5ff; --badge-border:#d9defa;
   }
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,Inter,Segoe UI,Roboto,system-ui,sans-serif}
   .wrap{max-width:1040px;margin:20px auto;padding:0 14px}
   .top{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 0 8px}
-  .brand{display:flex;gap:10px;align-items:center;justify-content:space-between}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--chip);color:var(--chip-text);padding:8px 12px;border-radius:999px;border:1px solid var(--border)}
+  .brand{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--chip);color:var(--chip-text);padding:8px 12px;border-radius:999px;border:1px solid var(--border);font-weight:600}
   .theme{border:1px solid var(--border);background:var(--chip);color:var(--chip-text);padding:8px 12px;border-radius:999px;cursor:pointer}
   .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:14px}
   .controls{position:sticky;top:56px;z-index:20}
@@ -27,13 +29,16 @@
   .g2{grid-template-columns:repeat(2, minmax(0,1fr))}
   @media (max-width:900px){.g3,.g2{grid-template-columns:1fr}}
   label{font-size:.85rem;color:var(--muted);display:block;margin:0 0 6px}
-  select,input[type="number"],input[type="text"],button{width:100%;appearance:none;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:11px 12px}
+  select,input[type="number"],input[type="text"],button{width:100%;appearance:none;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
   select:focus,input:focus,button:focus{outline:2px solid var(--accent);outline-offset:0}
   .rowline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .switch{display:flex;align-items:center;gap:10px}
   .muted{color:var(--muted)}
   .hint{font-size:.8rem;color:var(--muted);margin-top:6px}
   .warn{color:var(--danger);font-size:.86rem;margin-top:6px;display:none}
+
+  /* Search sizing — smaller, non-overlapping */
+  .searchWrap{max-width:360px; min-width:220px}
+  @media (max-width:900px){ .searchWrap{max-width:100%} }
 
   .result{display:flex;align-items:baseline;gap:12px;margin-top:6px;flex-wrap:wrap}
   .result .big{font-size:2.0rem;font-weight:800;letter-spacing:.25px}
@@ -47,13 +52,30 @@
   td.ok{color:var(--accent);font-weight:600}
   td.err{color:var(--danger)}
   td:first-child, th:first-child{position:sticky;left:0;background:var(--card);z-index:2}
+
+  /* Pretty Summary */
+  .summary{margin-top:12px;padding:14px;border:1px dashed var(--border);border-radius:12px;background:var(--chip);color:var(--chip-text)}
+  .sum-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+  @media (max-width:700px){.sum-grid{grid-template-columns:1fr}}
+  .srow{display:flex;gap:8px;align-items:center;justify-content:space-between;background:var(--badge);border:1px solid var(--badge-border);border-radius:10px;padding:8px 10px}
+  .slabel{font-weight:600}
+  .sval{font-variant-numeric:tabular-nums}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .badge{background:var(--badge);border:1px solid var(--badge-border);padding:6px 10px;border-radius:999px;font-size:.85rem}
+  .copybtn{margin-left:auto}
+
+  /* Footer disclaimer */
+  .footer{margin:16px 0 8px}
+  .foot-card{background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px}
+  .foot-title{font-weight:800;letter-spacing:.2px;margin-bottom:6px}
+  .foot-text{color:var(--muted);font-size:.92rem}
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="top">
       <div class="brand">
-        <div class="pill">Porsche Residual — Fetch JSON</div>
+        <div class="pill">Residual App — By Ricardo (11/25 Programs)</div>
         <button id="themeBtn" class="theme" type="button">Light</button>
       </div>
     </div>
@@ -78,7 +100,7 @@
       </div>
 
       <div class="grid g3" style="margin-top:10px">
-        <div>
+        <div class="searchWrap">
           <label>Search Trim</label>
           <input id="trimSearch" type="text" placeholder="Type to filter by name or code… (e.g. 992, 95B)" />
         </div>
@@ -87,13 +109,13 @@
           <select id="termSel"></select>
         </div>
         <div class="rowline" style="margin-top:22px">
-          <label class="switch">
-            <span>+2% PACPO</span>
+          <label class="rowline" style="gap:8px;">
             <input id="pacpoToggle" type="checkbox" />
+            <span>+2% PACPO</span>
           </label>
-          <label class="switch">
-            <span>Hide N/A Columns</span>
+          <label class="rowline" style="gap:8px;">
             <input id="hideNA" type="checkbox" />
+            <span>Hide N/A Columns</span>
           </label>
           <div class="pill" id="codeBadge">MY Code: —</div>
         </div>
@@ -125,12 +147,38 @@
         </table>
       </div>
 
-      <div class="card" style="margin-top:12px">
+      <!-- Nicer, structured Summary -->
+      <div class="summary" id="summaryBox">
         <div class="rowline">
           <strong>Summary</strong>
-          <button id="copyBtn" class="theme" style="margin-left:auto" type="button">Copy</button>
+          <button id="copyBtn" class="theme copybtn" type="button">Copy</button>
         </div>
-        <div id="summaryText" class="muted" style="margin-top:8px"></div>
+
+        <div class="sum-grid">
+          <div class="srow"><span class="slabel">Model Year</span><span class="sval" id="sumYear">—</span></div>
+          <div class="srow"><span class="slabel">Family</span><span class="sval" id="sumFamily">—</span></div>
+          <div class="srow"><span class="slabel">Trim</span><span class="sval" id="sumTrim">—</span></div>
+          <div class="srow"><span class="slabel">Term</span><span class="sval" id="sumTerm">—</span></div>
+          <div class="srow"><span class="slabel">Miles/Year</span><span class="sval" id="sumMilesYear">—</span></div>
+          <div class="srow"><span class="slabel">Odometer</span><span class="sval" id="sumOdo">—</span></div>
+        </div>
+
+        <div class="badges" id="badgeRow" aria-label="Adjustments"></div>
+        <div class="srow" style="margin-top:10px">
+          <span class="slabel">Final Residual</span>
+          <span class="sval" id="sumFinal">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="foot-card">
+        <div class="foot-title">Made by Ricardo</div>
+        <div class="foot-text">
+          This tool is proprietary. Redistribution, copying, or use without Ricardo’s explicit written consent is prohibited.
+          By viewing or using this app, you agree not to duplicate the data, design, or logic in any form.  
+          <strong>Ask first. Respect the craft.</strong>
+        </div>
       </div>
     </div>
   </div>
@@ -166,14 +214,22 @@
   const tvalRow  = document.getElementById('tvalRow');
   const annualMilesSel = document.getElementById('annualMilesSel');
   const odoInput = document.getElementById('odoInput');
-  const summaryText = document.getElementById('summaryText');
+
+  // Summary fields
+  const sumYear = document.getElementById('sumYear');
+  const sumFamily = document.getElementById('sumFamily');
+  const sumTrim = document.getElementById('sumTrim');
+  const sumTerm = document.getElementById('sumTerm');
+  const sumMilesYear = document.getElementById('sumMilesYear');
+  const sumOdo = document.getElementById('sumOdo');
+  const sumFinal = document.getElementById('sumFinal');
+  const badgeRow = document.getElementById('badgeRow');
   const copyBtn = document.getElementById('copyBtn');
 
   // ========= FETCH JSON =========
-  // Default file name (same folder). You can override via ?data=filename.json
   const params = new URLSearchParams(location.search);
   const jsonFile = params.get('data') || 'porsche_residuals_all.json';
-  const cacheBuster = `v=${Date.now()}`; // force refresh on GH Pages
+  const cacheBuster = `v=${Date.now()}`;
   let data;
 
   try {
@@ -183,7 +239,7 @@
   } catch (err) {
     alert(`Failed to load JSON: ${err.message}.
 - Ensure ${jsonFile} exists in the same folder as this HTML
-- If using file://, most browsers block fetch; serve via GitHub Pages or a local server`);
+- If using file://, the browser may block fetch; use GitHub Pages or a local server`);
     throw err;
   }
   window.__data = data;
@@ -399,22 +455,48 @@
       td.textContent = shown; tvalRow.appendChild(td);
     });
 
-    // Summary (always show inception when odo provided)
-    const parts = [];
-    if(base !== null && term) parts.push(`Base ${base}%`);
-    if(pacpoToggle.checked) parts.push(`${pacpoAdj>=0?'+':''}${pacpoAdj}% PACPO`);
-    if(term && parseInt(term,10) >= 24) parts.push(`${annualAdj>=0?'+':''}${annualAdj}% Annual Miles (${milesPerYear.toLocaleString()}/yr)`);
-    if(odo != null && !Number.isNaN(odo)) parts.push(`${inceptionAdj>=0?'+':''}${inceptionAdj}% Inception (${odo.toLocaleString()} mi)`);
+    // Structured summary values
+    sumYear.textContent = dispYear || '—';
+    sumFamily.textContent = fam || '—';
+    sumTrim.textContent = entry?.model ?? '—';
+    sumTerm.textContent = term ? `${term} mo` : '—';
+    sumMilesYear.textContent = isFinite(milesPerYear) ? `${milesPerYear.toLocaleString()} mi/yr` : '—';
+    sumOdo.textContent = (odo!=null && !Number.isNaN(odo)) ? `${odo.toLocaleString()} mi` : '—';
 
-    const line1 = `${dispYear} • ${fam} • ${entry?.model ?? '—'} • ${term||'—'} mo`;
-    const line2 = (final===null) ? `N/A` : `Final Residual: ${final}%  (${parts.join('  |  ')})`;
-    summaryText.textContent = `${line1}\n${line2}`;
+    // Badges (adjustments)
+    badgeRow.innerHTML = '';
+    if (base !== null && term) {
+      const b = document.createElement('div'); b.className='badge'; b.textContent = `Base ${base}%`; badgeRow.appendChild(b);
+    }
+    if (pacpoToggle.checked){
+      const b = document.createElement('div'); b.className='badge'; b.textContent = `+${PACPO}% PACPO`; badgeRow.appendChild(b);
+    }
+    if (term && parseInt(term,10) >= 24){
+      const a = document.createElement('div'); a.className='badge';
+      const adj = annualAdj>=0?`+${annualAdj}%`:`${annualAdj}%`;
+      a.textContent = `${adj} Annual Miles`; badgeRow.appendChild(a);
+    }
+    if (odo != null && !Number.isNaN(odo)){
+      const i = document.createElement('div'); i.className='badge';
+      const adj = inceptionAdj>=0?`+${inceptionAdj}%`:`${inceptionAdj}%`;
+      i.textContent = `${adj} Inception`; badgeRow.appendChild(i);
+    }
+
+    sumFinal.textContent = final===null ? '—' : `${final}%`;
   }
 
   // ========= COPY =========
   copyBtn.addEventListener('click', ()=>{
-    const txt = summaryText.textContent || '';
-    navigator.clipboard.writeText(txt).then(()=>{
+    const text = [
+      `Year: ${sumYear.textContent}`,
+      `Family: ${sumFamily.textContent}`,
+      `Trim: ${sumTrim.textContent}`,
+      `Term: ${sumTerm.textContent}`,
+      `Miles/Year: ${sumMilesYear.textContent}`,
+      `Odometer: ${sumOdo.textContent}`,
+      `Final Residual: ${sumFinal.textContent}`
+    ].join(' | ');
+    navigator.clipboard.writeText(text).then(()=>{
       const old = copyBtn.textContent;
       copyBtn.textContent = 'Copied!';
       setTimeout(()=>copyBtn.textContent = old, 900);
@@ -423,16 +505,10 @@
 
   // ========= INIT / EVENTS =========
   function init(){
-    // Populate controls
-    familySel.innerHTML = '';
     populateFamilies();
-    yearSel.innerHTML = '';
     populateYears();
-    termSel.innerHTML = '';
     populateTerms();
-    annualMilesSel.innerHTML = '';
     populateAnnualMiles();
-    // Trims
     collectTrimsForYear(); populateTrims();
     compute();
   }

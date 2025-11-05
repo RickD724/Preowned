@@ -114,7 +114,6 @@
 
   .muted{ color:var(--muted); }
   .hint{ font-size:.8rem; color:var(--muted); margin-top:6px; font-weight:500; }
-  .warn{ color:var(--danger); font-size:.875rem; margin-top:8px; display:none; font-weight:700; padding:8px 12px; background:rgba(239,68,68,.1); border-radius:8px; }
 
   .searchWrap{ max-width:240px; min-width:200px; }
   .rowline{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
@@ -162,12 +161,11 @@
       <div class="brand">
         <div class="leftRow">
           <div class="pill">Residual App — By Ricardo</div>
-          <!-- PROGRAM OPTIONS HERE -->
           <select id="programSel" class="select">
             <option value="__current__">Program: Current (from ?data or default)</option>
             <option value="porsche_residuals_all.json">Program: PB 25-10R (Default)</option>
             <option value="porsche_residuals_25-09R.json">Program: PB 25-09R (Oct)</option>
-            <!-- Add new datasets here:
+            <!-- Add more datasets as needed:
                  <option value="porsche_residuals_25-11R.json">Program: PB 25-11R (Nov)</option>
             -->
           </select>
@@ -195,7 +193,7 @@
           <label>Trim</label>
           <select id="trimSel"></select>
           <div class="hint" id="trimCount"></div>
-          <div class="warn" id="trimWarn">No trims found for this family/year. Check JSON spelling/case.</div>
+          <div class="hint" id="trimWarn" style="display:none;">No trims found for this family/year. Check JSON spelling/case.</div>
         </div>
         <div class="searchWrap">
           <label>Search Trim</label>
@@ -248,7 +246,7 @@
         <div class="big" id="finalOut">-</div>
         <div class="small muted" id="detailOut">Select a term to calculate</div>
         <div class="small" id="trueOut" style="font-weight:800;"></div>
-        <!-- New tiny badge (only shows when MF is present) -->
+        <!-- LVI badge (only shows when MF is present) -->
         <div class="small muted" id="lviBadge" style="font-weight:700;"></div>
       </div>
 
@@ -278,12 +276,12 @@
           <div class="srow"><span class="slabel">Term</span><span class="sval" id="sumTerm">-</span></div>
           <div class="srow"><span class="slabel">Miles/Year</span><span class="sval" id="sumMilesYear">-</span></div>
           <div class="srow"><span class="slabel">Odometer</span><span class="sval" id="sumOdo">-</span></div>
-          <div class="srow"><span class="slabel">MSRP</span><span class="sval" id="sumMsrp">-</span></div>
+          <!-- If you want fewer rows, you can hide MSRP by commenting it out -->
+          <div class="srow" style="display:none;">   <span class="slabel">MSRP</span>   <span class="sval" id="sumMsrp">-</span> </div>
           <div class="srow"><span class="slabel">MSRP × RV%</span><span class="sval" id="sumTrue">-</span></div>
-          <!-- New: Lease Value Index + Rank -->
-          <div class="srow"><span class="slabel">Lease Value Index</span><span class="sval" id="sumLvi">-</span></div>
-          <div class="srow"><span class="slabel">Value Rank (this set)</span><span class="sval" id="sumLviRank">-</span></div>
+          <div class="srow"><span class="slabel">Lease Value Index</span><span class="sval" id="sumLvi" title="Higher is better — more residual per unit of rent charge.">-</span></div>
         </div>
+        <div class="hint" id="lviHelp">Higher is better — more residual per unit of rent charge.</div>
 
         <div class="badges" id="badgeRow" aria-label="Adjustments"></div>
       </div>
@@ -342,9 +340,7 @@
         <div class="srow"><span class="slabel">Monthly (Pre-Tax)</span><span class="sval" id="leasePreTax">-</span></div>
         <div class="srow"><span class="slabel">Monthly (With Tax)</span><span class="sval" id="leaseWithTax">-</span></div>
       </div>
-
-      <!-- Optional warning placeholder (stays hidden unless Adj Cap <= 0) -->
-      <div id="leaseWarn" class="warn" style="display:none; margin-top:10px;">Adj Cap must be &gt; $0 (Cap Cost − Cap Reduction + Fees)</div>
+      <!-- Red warning removed per request -->
     </div>
 
     <!-- Validator Panel -->
@@ -360,8 +356,8 @@
       <div class="foot-card">
         <div class="foot-title">Made by Ricardo</div>
         <div class="foot-text">
-          This tool is proprietary. Redistribution, copying, or use without Ricardo's explicit written consent is prohibited.
-          By viewing or using this app, you agree not to duplicate the data, design, or logic in any form. <strong>Ask first. Respect the craft.</strong>
+          © Ricardo. This internal tool is confidential and intended for authorized use only.  
+          Do not share, copy, or redistribute without written permission.
         </div>
       </div>
     </div>
@@ -369,7 +365,7 @@
 
 <script>
 (function(){
-  // ===== A2HS: generate a simple icon & manifest at runtime (no extra files needed) =====
+  // ===== A2HS: generate a simple icon & manifest at runtime =====
   (function generateIconsAndManifest(){
     try{
       const canvas = document.createElement('canvas');
@@ -476,13 +472,11 @@
   var leaseAdjCap = document.getElementById('leaseAdjCap');
   var leasePreTax = document.getElementById('leasePreTax');
   var leaseWithTax = document.getElementById('leaseWithTax');
-  var leaseWarn = document.getElementById('leaseWarn');
   var mfAprHint = document.getElementById('mfAprHint');
 
-  // New: LVI elements
+  // LVI
   var lviBadge = document.getElementById('lviBadge');
   var sumLvi = document.getElementById('sumLvi');
-  var sumLviRank = document.getElementById('sumLviRank');
 
   var validatorCard = document.getElementById('validatorCard');
   var closeValBtn = document.getElementById('closeValBtn');
@@ -720,7 +714,7 @@
     }
   }
 
-  // New: adjusted residual for a trim (applies PACPO, miles, inception)
+  // adjusted residual for a trim (applies PACPO, miles, inception)
   function adjustedResidualForEntry(entry, term, milesPerYear, pacpoChecked, inceptionAdj){
     if(!entry || !entry.residuals) return null;
     var base = entry.residuals[term];
@@ -735,7 +729,7 @@
     }
     return base + pacpoAdj + annualAdj + (inceptionAdj || 0);
   }
-  // New: LVI = Residual% / MF (higher is better)
+  // LVI = Residual% / MF (higher is better)
   function computeLVI(rvPercent, mf){
     if(!isFinite(rvPercent) || !isFinite(mf) || mf <= 0) return null;
     return rvPercent / mf;
@@ -762,7 +756,6 @@
       trueOut.textContent = '';
       if(lviBadge) lviBadge.textContent = '';
       if(sumLvi) sumLvi.textContent = '-';
-      if(sumLviRank) sumLviRank.textContent = '-';
       updateShareURL();
       return;
     }
@@ -839,44 +832,12 @@
     var lviCurrent = computeLVI(final, mfVal);
 
     if(lviCurrent != null){
-      var lviText = lviCurrent.toFixed(1);
+      var lviText = (lviCurrent/1000).toFixed(1) + ' k'; // scaled display
       if(lviBadge) lviBadge.textContent = 'Value Index: ' + lviText;
       if(sumLvi) sumLvi.textContent = lviText;
     } else {
       if(lviBadge) lviBadge.textContent = '';
       if(sumLvi) sumLvi.textContent = '-';
-    }
-
-    // Optional rank across trims for current family/year (only if MF present)
-    if(sumLviRank){
-      if(isFinite(mfVal) && mfVal > 0 && yrKey){
-        var group = branch[yrKey] || {};
-        var milesPerYearN = parseInt(annualMilesSel.value, 10);
-        var rankList = [];
-
-        Object.keys(group).forEach(function(codeKey){
-          var entryX = group[codeKey];
-          var adj = adjustedResidualForEntry(entryX, term, milesPerYearN, pacpoToggle.checked, inceptionAdj);
-          if(adj != null){
-            var idx = computeLVI(adj, mfVal);
-            if(idx != null) rankList.push({ code: codeKey, idx: idx });
-          }
-        });
-
-        if(rankList.length){
-          rankList.sort(function(a,b){ return b.idx - a.idx; });
-          var pos = rankList.findIndex(function(r){ return r.code === code; });
-          if(pos >= 0){
-            sumLviRank.textContent = (pos+1) + ' of ' + rankList.length + ' (higher is better)';
-          } else {
-            sumLviRank.textContent = '-';
-          }
-        } else {
-          sumLviRank.textContent = '-';
-        }
-      } else {
-        sumLviRank.textContent = '-';
-      }
     }
 
     // Sync deep-link
@@ -911,8 +872,6 @@
     rows.push(['Trim/Term'].concat(monthsShown.map(function(m){return m + ' mo';})));
     var line = [(entry && entry.model) || '-'];
     var milesPerYear = parseInt(annualMilesSel.value, 10);
-    var term = termSel.value;
-    var msrp = msrpInput.value ? Number(msrpInput.value) : null;
 
     var pacpoAdj = pacpoToggle.checked ? (data.pacpo_bonus_percent || 2) : 0;
     var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
@@ -933,12 +892,11 @@
     });
     rows.push(line);
 
-    // Add footer with key summary
     rows.push([]);
     rows.push(['Program', currentProgramLabel]);
-    rows.push(['Year', dispYear], ['Family', fam], ['Trim', (entry && entry.model)||'-'], ['Term', term ? term+' mo':'-']);
+    rows.push(['Year', dispYear], ['Family', fam], ['Trim', (entry && entry.model)||'-'], ['Term', termSel.value ? termSel.value+' mo':'-']);
     rows.push(['Miles/Year', sumMilesYear.textContent], ['Odometer', sumOdo.textContent], ['Final Residual', sumFinal.textContent]);
-    if(msrp != null && !isNaN(msrp)){ rows.push(['MSRP', '$'+msrp.toLocaleString()], ['MSRP × RV%', sumTrue.textContent]); }
+    if(msrpInput.value){ rows.push(['MSRP', '$'+Number(msrpInput.value).toLocaleString()], ['MSRP × RV%', sumTrue.textContent]); }
 
     var csv = rows.map(function(r){
       return r.map(function(c){
@@ -959,9 +917,7 @@
   }
 
   // Print summary
-  function printSummary(){
-    window.print();
-  }
+  function printSummary(){ window.print(); }
 
   // Validator
   function validateJSON(){
@@ -1051,15 +1007,12 @@
     var adjCap = (isFinite(cap) ? cap : 0) - (isFinite(capRed) ? capRed : 0) + (isFinite(fees) ? fees : 0);
     leaseAdjCap.textContent = isFinite(adjCap) ? ('$' + adjCap.toLocaleString()) : '-';
 
-    // Show/hide friendly warning for bad adj cap
-    if(!isFinite(adjCap) || adjCap <= 0){
-      if(leaseWarn) leaseWarn.style.display = 'block';
+    // If Adj Cap doesn't pencil, keep payment as "–" quietly (no red banner)
+    if(!isFinite(adjCap) || adjCap <= 0 || !isFinite(mf) || mf <= 0){
       leasePreTax.textContent = '-';
       leaseWithTax.textContent = '-';
       if(mfAprHint) mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
       return;
-    } else {
-      if(leaseWarn) leaseWarn.style.display = 'none';
     }
 
     // Core lease math:
@@ -1128,8 +1081,7 @@
       'MSRP: ' + sumMsrp.textContent,
       'Final Residual: ' + sumFinal.textContent,
       'MSRP × RV%: ' + sumTrue.textContent,
-      'LVI: ' + (sumLvi ? sumLvi.textContent : '-'),
-      'Rank: ' + (sumLviRank ? sumLviRank.textContent : '-')
+      'LVI: ' + (sumLvi ? sumLvi.textContent : '-')
     ].join(' | ');
     navigator.clipboard.writeText(text).then(function(){
       var old = copyBtn.textContent; copyBtn.textContent = 'Copied!'; setTimeout(function(){ copyBtn.textContent = old; }, 1200);
@@ -1150,7 +1102,7 @@
   leaseFees.addEventListener('input', leaseCompute);
   leaseTerm.addEventListener('input', leaseCompute);
 
-  // Also recompute main view when MF changes (so LVI/Rank update live)
+  // Also recompute main view when MF changes (so LVI updates live)
   leaseMF.addEventListener('input', compute);
 
   // Boot

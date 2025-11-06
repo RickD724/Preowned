@@ -88,7 +88,7 @@
     animation: gradientShift 15s ease infinite;
   }
   
-  /* Centered, narrower column for readability */
+  /* Centered, narrower column */
   .wrap {
     max-width: 980px;
     margin: 0 auto;
@@ -129,7 +129,7 @@
   [data-theme="light"] .top { background: rgba(255,255,255,0.8); }
   
   .brand { display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
-  .leftRow, .rightRow { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .leftRow { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
   
   .pill{
     display:inline-flex; align-items:center; gap:12px;
@@ -142,13 +142,11 @@
     background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent); animation:shimmer 3s infinite; }
   .pill:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 12px 40px var(--accent-glow); }
   
-  .theme,.btn, .mini{
+  .theme,.btn{
     border:1px solid var(--border); background:var(--card); backdrop-filter:blur(10px);
     color:var(--text); padding:10px 18px; border-radius:var(--radius-sm); cursor:pointer;
     font-weight:600; font-size:.9rem; transition:var(--transition); white-space:nowrap; font-family:'Inter',sans-serif; position:relative; overflow:hidden;
   }
-  .mini{ padding:8px 12px; font-size:.85rem; }
-  select.mini{ padding:8px 36px 8px 12px; }
   .theme::before,.btn::before{ content:''; position:absolute; top:50%; left:50%; width:0; height:0; border-radius:50%; background:var(--accent-glow); transform:translate(-50%,-50%); transition:width .6s, height .6s; }
   .theme:hover::before,.btn:hover::before{ width:300px; height:300px; }
   .theme:hover,.btn:hover{ background:var(--card-hover); border-color:var(--border-hover); transform:translateY(-2px); box-shadow:0 8px 25px var(--accent-glow); }
@@ -293,13 +291,7 @@
             <option value="porsche_residuals_25-09R.json">Program: PB 25-09R (Oct)</option>
           </select>
         </div>
-        <div class="rightRow">
-          <!-- Favorites UI -->
-          <select id="favSel" class="mini" title="Saved favorites"></select>
-          <button id="saveFavBtn" class="mini" type="button" title="Save current as favorite">⭐ Save</button>
-          <button id="loadFavBtn" class="mini" type="button" title="Load selected favorite">📥 Load</button>
-          <button id="delFavBtn" class="mini" type="button" title="Delete selected favorite">🗑 Delete</button>
-          <!-- Utilities -->
+        <div class="leftRow">
           <button id="jumpSummaryBtn" class="btn" type="button" title="Scroll to Summary">📊 Summary</button>
           <button id="validateBtn" class="btn" type="button" title="Validate loaded JSON">✓ Validate</button>
           <button id="exportCsvBtn" class="btn" type="button" title="Export table as CSV">📥 Export</button>
@@ -410,10 +402,7 @@
           <div class="srow" style="display:none;">
             <span class="slabel">MSRP</span><span class="sval" id="sumMsrp">—</span>
           </div>
-          <div class="srow">
-            <span class="slabel rv-label">MSRP × RV%</span>
-            <span class="sval rv-value" id="sumTrue">—</span>
-          </div>
+          <div class="srow"><span class="slabel">MSRP × RV%</span><span class="sval" id="sumTrue">—</span></div>
           <div class="srow">
             <span class="slabel">Value Index</span>
             <span class="sval" id="sumLvi" title="Higher is better">—</span>
@@ -601,131 +590,10 @@
   var validatorCard = document.getElementById('validatorCard');
   var closeValBtn = document.getElementById('closeValBtn');
   var validatorOutput = document.getElementById('validatorOutput');
-  var favSel = document.getElementById('favSel');
-  var saveFavBtn = document.getElementById('saveFavBtn');
-  var loadFavBtn = document.getElementById('loadFavBtn');
-  var delFavBtn = document.getElementById('delFavBtn');
 
   var data, MONTHS = [], PACPO = 2;
   var fullTrimList = [];
   var currentProgramLabel = 'Current';
-
-  /* ---------- Favorites: storage helpers ---------- */
-  var FAV_KEY = 'residualPro.favorites';
-  function readFavs(){
-    try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch(e){ return []; }
-  }
-  function writeFavs(arr){ localStorage.setItem(FAV_KEY, JSON.stringify(arr)); }
-  function refreshFavUI(){
-    var favs = readFavs();
-    favSel.innerHTML = '';
-    if(!favs.length){
-      var o = document.createElement('option'); o.value=''; o.textContent='No favorites saved'; favSel.appendChild(o);
-      favSel.disabled = true; loadFavBtn.disabled = true; delFavBtn.disabled = true;
-    } else {
-      favSel.disabled = false; loadFavBtn.disabled = false; delFavBtn.disabled = false;
-      favs.forEach(function(f){ var o = document.createElement('option'); o.value=f.id; o.textContent=f.name; favSel.appendChild(o); });
-    }
-  }
-  function makeDefaultFavName(){
-    var fam = familySel.value || '—';
-    var yr = yearSel.value || '—';
-    var trimOpt = trimSel.options[trimSel.selectedIndex]; 
-    var trimName = trimOpt ? trimOpt.textContent : '—';
-    var term = termSel.value || '—';
-    var miles = annualMilesSel.value ? (Number(annualMilesSel.value).toLocaleString() + 'mi') : '—';
-    return (fam + ' ' + yr + ' ' + trimName + ' • ' + term + 'mo/' + miles).replace(/\s+/g,' ').trim();
-  }
-  function getCurrentConfig(){
-    return {
-      program: programSel.value,
-      family: familySel.value,
-      year: yearSel.value,
-      trim: trimSel.value,
-      term: termSel.value,
-      miles: annualMilesSel.value,
-      pacpo: pacpoToggle.checked ? 1 : 0,
-      hidena: hideNA.checked ? 1 : 0,
-      odo: odoInput.value || '',
-      msrp: msrpInput.value || '',
-      lease: {
-        cap: leaseCapCost.value || '',
-        mf: leaseMF.value || '',
-        tax: leaseTax.value || '',
-        capRed: leaseCapReduction.value || '',
-        fees: leaseFees.value || '',
-        term: leaseTerm.value || ''
-      },
-      label: currentProgramLabel,
-      savedAt: Date.now()
-    };
-  }
-  async function applyConfig(cfg){
-    if(!cfg) return;
-    // Load program first if different
-    if(cfg.program && cfg.program !== programSel.value){
-      programSel.value = cfg.program;
-      // label derived from option text if available
-      var label = programSel.options[programSel.selectedIndex]
-                  ? programSel.options[programSel.selectedIndex].textContent.replace(/^Program:\s*/,'')
-                  : cfg.label || cfg.program;
-      await loadProgram(cfg.program, label).catch(function(e){ alert('Load program failed: ' + e.message); });
-    }
-    // Set selectors in order
-    if(cfg.family){ familySel.value = cfg.family; }
-    populate(yearSel, yearsForFamily(familySel.value));
-    if(cfg.year && Array.from(yearSel.options).some(function(o){return o.value===cfg.year;})){ yearSel.value = cfg.year; }
-    collectTrimsForYear(); populateTrims(trimSearch.value || '');
-    if(cfg.trim && Array.from(trimSel.options).some(function(o){return o.value===cfg.trim;})){ trimSel.value = cfg.trim; }
-    if(cfg.term && Array.from(termSel.options).some(function(o){return o.value===cfg.term;})){ termSel.value = cfg.term; }
-    if(cfg.miles){ annualMilesSel.value = cfg.miles; }
-    pacpoToggle.checked = !!cfg.pacpo;
-    hideNA.checked = !!cfg.hidena;
-    odoInput.value = cfg.odo || '';
-    msrpInput.value = cfg.msrp || '';
-    // Lease fields
-    if(cfg.lease){
-      leaseCapCost.value = cfg.lease.cap || '';
-      leaseMF.value = cfg.lease.mf || '';
-      leaseTax.value = cfg.lease.tax || '';
-      leaseCapReduction.value = cfg.lease.capRed || '';
-      leaseFees.value = cfg.lease.fees || '';
-      leaseTerm.value = cfg.lease.term || '';
-    }
-    compute();
-  }
-  saveFavBtn.addEventListener('click', function(){
-    var favs = readFavs();
-    var name = prompt('Save favorite as:', makeDefaultFavName());
-    if(!name) return;
-    var cfg = getCurrentConfig();
-    var id = 'fav_' + Math.random().toString(36).slice(2);
-    favs.push({ id:id, name:name, cfg:cfg });
-    writeFavs(favs);
-    refreshFavUI();
-    // select the new one
-    favSel.value = id;
-    saveFavBtn.classList.add('success-flash'); setTimeout(function(){ saveFavBtn.classList.remove('success-flash'); }, 600);
-  });
-  loadFavBtn.addEventListener('click', async function(){
-    var id = favSel.value;
-    var fav = readFavs().find(function(f){return f.id===id;});
-    if(!fav){ alert('Select a favorite to load.'); return; }
-    await applyConfig(fav.cfg);
-    loadFavBtn.classList.add('success-flash'); setTimeout(function(){ loadFavBtn.classList.remove('success-flash'); }, 600);
-  });
-  delFavBtn.addEventListener('click', function(){
-    var id = favSel.value;
-    if(!id) return;
-    var favs = readFavs();
-    var idx = favs.findIndex(function(f){return f.id===id;});
-    if(idx === -1) return;
-    if(!confirm('Delete this favorite?')) return;
-    favs.splice(idx,1); writeFavs(favs); refreshFavUI();
-  });
-  refreshFavUI();
-
-  /* ---------- Core app ---------- */
 
   function readParams(){
     var p = new URLSearchParams(location.search);
@@ -776,6 +644,7 @@
         sumProgram.textContent = label || target;
         initSelectors();
         restoreFromParams();
+        applyLeaseDefaultsIfEmpty(); // <<< preload defaults for MF, tax, capred, fees, term
         compute();
         updateShareURL();
       });
@@ -1003,10 +872,12 @@
       if(sumLvi) sumLvi.textContent = '—';
     }
 
-    updateShareURL();
-    if(leaseTerm && (!leaseTerm.value || leaseTerm.value === '')) {
-      if(termSel && termSel.value) leaseTerm.value = termSel.value;
+    // Keep lease term mirrored with selection (always)
+    if(leaseTerm) {
+      if (termSel && termSel.value) leaseTerm.value = termSel.value;
     }
+
+    updateShareURL();
     leaseCompute();
   }
   
@@ -1179,6 +1050,21 @@
     mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
   }
 
+  // --- NEW: Preload lease defaults if fields are empty (keeps user edits & URL params) ---
+  function applyLeaseDefaultsIfEmpty(){
+    if(!leaseMF.value) leaseMF.value = '0.00400';
+    if(!leaseTax.value) leaseTax.value = '9.75';
+    if(!leaseCapReduction.value) leaseCapReduction.value = '7500';
+    if(!leaseFees.value) leaseFees.value = '1095';
+    if(termSel && termSel.value) leaseTerm.value = termSel.value;
+
+    // Optional helper: seed cap cost with MSRP if empty (commented by default)
+    // if(!leaseCapCost.value && msrpInput.value) leaseCapCost.value = msrpInput.value;
+
+    leaseCompute();
+  }
+  // ---------------------------------------------------------------------------------------
+
   function restoreFromParams(){
     var p = readParams();
     if(p.family){ familySel.value = p.family; }
@@ -1212,12 +1098,19 @@
   yearSel.addEventListener('change', function(){ collectTrimsForYear(); populateTrims(trimSearch.value); compute(); });
   trimSearch.addEventListener('input', function(){ populateTrims(trimSearch.value); compute(); });
   trimSel.addEventListener('change', compute);
-  termSel.addEventListener('change', compute);
+
+  // When the program term changes, mirror to leaseTerm immediately and recompute
+  termSel.addEventListener('change', function(){
+    compute();
+    if(termSel && leaseTerm){ leaseTerm.value = termSel.value || ''; }
+    leaseCompute();
+  });
+
   pacpoToggle.addEventListener('change', compute);
   hideNA.addEventListener('change', compute);
   annualMilesSel.addEventListener('change', compute);
   odoInput.addEventListener('input', compute);
-  msrpInput.addEventListener('input', compute);
+  msrpInput.addEventListener('input', function(){ compute(); leaseCompute(); });
 
   copyBtn.addEventListener('click', function(){
     var parts = [
@@ -1246,12 +1139,11 @@
   closeValBtn && closeValBtn.addEventListener('click', function(){ validatorCard.style.display='none'; });
 
   leaseCapCost.addEventListener('input', leaseCompute);
-  leaseMF.addEventListener('input', leaseCompute);
+  leaseMF.addEventListener('input', function(){ leaseCompute(); compute(); });
   leaseTax.addEventListener('input', leaseCompute);
   leaseCapReduction.addEventListener('input', leaseCompute);
   leaseFees.addEventListener('input', leaseCompute);
   leaseTerm.addEventListener('input', leaseCompute);
-  leaseMF.addEventListener('input', compute);
 
   var initialParams = readParams();
   if(initialParams.program){

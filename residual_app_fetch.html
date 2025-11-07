@@ -88,44 +88,17 @@
     animation: gradientShift 15s ease infinite;
   }
   
-  /* Centered, narrower column */
-  .wrap {
-    max-width: 980px;   /* was 1400px */
-    margin: 0 auto;
-    padding: 20px 20px 100px;
-    position: relative;
-  }
-  
+  .wrap { max-width: 980px; margin: 0 auto; padding: 20px 20px 100px; position: relative; }
   body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
     background: radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%),
                 radial-gradient(circle at 70% 80%, var(--purple-glow) 0%, transparent 50%);
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 0;
-    animation: float 20s ease-in-out infinite;
+    opacity: 0.4; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite;
   }
-  body::after {
-    content: '';
-    position: fixed; inset: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.03) 50%, transparent 100%);
-    pointer-events: none; z-index: 0;
-  }
+  body::after { content: ''; position: fixed; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.03) 50%, transparent 100%); pointer-events: none; z-index: 0; }
   .wrap > * { position: relative; z-index: 1; }
   
-  .top {
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow);
-    animation: slideInFromTop 0.6s ease;
-  }
+  .top { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%); background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow); animation: slideInFromTop 0.6s ease; }
   [data-theme="light"] .top { background: rgba(255,255,255,0.8); }
   
   .brand { display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
@@ -138,8 +111,7 @@
     color:#fff; padding:12px 24px; border-radius:999px; font-weight:900; font-size:.95rem; letter-spacing:.5px;
     box-shadow:0 8px 30px var(--accent-glow); white-space:nowrap; transition:var(--transition); position:relative; overflow:hidden;
   }
-  .pill::before{ content:''; position:absolute; inset:0; left:-100%;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent); animation:shimmer 3s infinite; }
+  .pill::before{ content:''; position:absolute; inset:0; left:-100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent); animation:shimmer 3s infinite; }
   .pill:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 12px 40px var(--accent-glow); }
   
   .theme,.btn{
@@ -173,7 +145,6 @@
   @media (max-width:900px){ .g4,.g3,.g2{ grid-template-columns:1fr; } }
   
   label{ font-size:.75rem; color:var(--muted); display:block; margin:0 0 10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:var(--transition); }
-  .form-group:hover label{ color:var(--accent); }
   
   select,input[type="number"],input[type="text"]{
     width:100%; appearance:none; -webkit-appearance:none; background:var(--bg-secondary);
@@ -188,11 +159,9 @@
     background-repeat:no-repeat; background-position:right 14px center; padding-right:45px;
   }
   input[type="checkbox"]{ width:24px; height:24px; cursor:pointer; accent-color:var(--accent); transition:var(--transition); }
-  input[type="checkbox"]:hover{ transform:scale(1.1); }
   
   .muted{ color:var(--muted); }
   .hint{ font-size:.8rem; color:var(--muted); margin-top:8px; font-weight:500; font-style:italic; }
-  .searchWrap{ max-width:280px; min-width:220px; }
   .rowline{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
   
   .result{
@@ -200,115 +169,49 @@
     background:linear-gradient(135deg, var(--accent-glow) 0%, var(--purple-glow) 100%);
     border-radius:var(--radius); border:2px solid var(--border-hover); position:relative; overflow:hidden; animation:scaleIn .6s ease;
   }
-  .result::before{ content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
-    background:linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent); animation:shimmer 3s infinite; }
-  .result .big{
-    font-size:4rem; font-weight:900; letter-spacing:-1px;
-    background:linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-    position:relative; z-index:1; text-shadow:0 0 40px var(--accent-glow);
-  }
-  .result .small{ font-size:1.1rem; font-weight:600; position:relative; z-index:1; }
+  .result .big{ font-size:4rem; font-weight:900; letter-spacing:-1px;
+    background:linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
   
-  .tableWrap{ margin-top:20px; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-secondary); box-shadow:inset 0 2px 10px rgba(0,0,0,0.1); }
+  .tableWrap{ margin-top:20px; overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-secondary); }
   table{ min-width:720px; width:100%; border-collapse:separate; border-spacing:0; }
-  th,td{ padding:16px 20px; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; transition:var(--transition); }
-  thead th{
-    font-size:.75rem; color:var(--muted); font-weight:800; position:sticky; top:0;
-    background:var(--card); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:1;
-    text-transform:uppercase; letter-spacing:1px; border-bottom:2px solid var(--border-hover);
-  }
-  tbody tr{ transition:var(--transition); }
+  th,td{ padding:16px 20px; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; }
+  thead th{ font-size:.75rem; color:var(--muted); font-weight:800; position:sticky; top:0; background:var(--card); text-transform:uppercase; letter-spacing:1px; border-bottom:2px solid var(--border-hover); }
   tbody tr:hover{ background:var(--card-hover); transform:scale(1.01); }
-  td.ok{ color:var(--success); font-weight:800; font-variant-numeric:tabular-nums; text-shadow:0 0 10px var(--success-glow); }
+  td.ok{ color:var(--success); font-weight:800; font-variant-numeric:tabular-nums; }
   td.err{ color:var(--danger); opacity:.5; }
-  td:first-child,th:first-child{ position:sticky; left:0; background:var(--card); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:2; font-weight:800; }
+  td:first-child,th:first-child{ position:sticky; left:0; background:var(--card); z-index:2; font-weight:800; }
   
-  .summary{
-    margin-top:24px; padding:32px; border:2px solid var(--border-hover); border-radius:var(--radius);
-    background:var(--card); backdrop-filter:blur(30px); box-shadow:var(--shadow-lg);
-    animation:scaleIn .8s ease; animation-delay:.3s; animation-fill-mode:both;
-  }
+  .summary{ margin-top:24px; padding:32px; border:2px solid var(--border-hover); border-radius:var(--radius); background:var(--card); box-shadow:var(--shadow-lg); }
   .sum-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:20px; }
   @media (max-width:700px){ .sum-grid{ grid-template-columns:1fr; } }
   
-  .srow{
-    display:flex; gap:16px; align-items:center; justify-content:space-between;
-    background:linear-gradient(135deg, rgba(59,130,246,0.05), rgba(139,92,246,0.05));
-    border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; transition:var(--transition); position:relative; overflow:hidden;
-  }
-  .srow::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg, var(--accent), var(--purple)); transform:scaleY(0); transition:transform .4s; }
-  .srow:hover::before{ transform:scaleY(1); }
-  .srow:hover{ transform:translateX(8px); border-color:var(--border-hover); box-shadow:0 8px 25px var(--accent-glow);
-    background:linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1)); }
-  .slabel{ font-weight:700; color:var(--muted); font-size:.9rem; letter-spacing:.5px; }
+  .srow{ display:flex; gap:16px; align-items:center; justify-content:space-between; background:linear-gradient(135deg, rgba(59,130,246,0.05), rgba(139,92,246,0.05)); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; }
+  .slabel{ font-weight:700; color:var(--muted); font-size:.9rem; }
   .sval{ font-variant-numeric:tabular-nums; font-weight:800; font-size:1.1rem; color:var(--text-primary); }
   
-  /* Live summary MSRP × RV% styling — match font, soft purple label */
-  .rv-label{ color:#bfa7ff; font-family:inherit; font-weight:700; letter-spacing:.02em; }
-  .rv-value{ font-family:inherit; font-weight:800; color:var(--text-primary); }
+  .rv-label{ color:#bfa7ff; font-weight:700; }
+  .rv-value{ font-weight:800; color:var(--text-primary); }
   
   .badges{ display:flex; gap:12px; flex-wrap:wrap; margin-top:20px; }
-  .badge{
-    background:linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.1));
-    border:1px solid var(--border-hover); padding:10px 20px; border-radius:999px; font-size:.85rem; font-weight:700; transition:var(--transition); animation:fadeInUp .8s ease; letter-spacing:.3px;
-  }
-  .badge:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 8px 20px var(--accent-glow);
-    background:linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2)); }
+  .badge{ background:linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.1)); border:1px solid var(--border-hover); padding:10px 20px; border-radius:999px; font-size:.85rem; font-weight:700; }
   
-  .footer{ margin:40px 0 20px; animation:fadeInUp 1s ease; }
+  .footer{ margin:40px 0 20px; }
   .foot-card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px 32px; text-align:center; }
-  .foot-title{
-    font-weight:900; letter-spacing:.5px; margin-bottom:12px; font-size:1.2rem;
-    background:linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-  }
+  .foot-title{ font-weight:900; letter-spacing:.5px; margin-bottom:12px; font-size:1.2rem; background:linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
   .foot-text{ color:var(--muted); font-size:.95rem; line-height:1.8; }
-  
-  @media (max-width:768px){
-    .result .big{ font-size:2.5rem; }
-    .card{ padding:20px; }
-    .summary{ padding:20px; }
-  }
-  @media print{
-    body{ background:#fff; }
-    .top,.controls,.tableWrap,#leaseCard,.footer,#validatorCard{ display:none !important; }
-    .summary{ border:0; box-shadow:none; }
-  }
-  .loading{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.2rem; color:var(--accent); font-weight:700; animation:pulse 1.5s infinite; }
-  .success-flash{ animation:successPulse .6s ease; }
-  @keyframes successPulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.05); box-shadow:0 0 30px var(--success-glow)} }
 
-  /* ---- Compact Deal Sniffer (small typography) ---- */
-  .sniffer-card{
-    margin-top:16px;
-    padding:16px 18px;
-    border:1px dashed var(--border-hover);
-    border-radius:12px;
-    background:linear-gradient(135deg, rgba(59,130,246,0.06), rgba(139,92,246,0.06));
-  }
-  .sniffer-title{
-    font-size:.9rem;
-    font-weight:900;
-    letter-spacing:.4px;
-    background:linear-gradient(135deg,var(--accent),var(--purple));
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-    margin-bottom:8px;
-  }
-  .sniffer-grid{
-    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;
-  }
-  @media (max-width:700px){ .sniffer-grid{ grid-template-columns:1fr; } }
-  .sniff-row{
-    display:flex; justify-content:space-between; align-items:center;
-    border:1px solid var(--border);
-    background:var(--bg-secondary);
-    border-radius:10px; padding:8px 10px;
-    font-size:.85rem;
-  }
-  .sniff-label{ color:var(--muted); font-weight:700; }
-  .sniff-value{ font-variant-numeric:tabular-nums; font-weight:900; }
-  .sniff-delta{ font-variant-numeric:tabular-nums; font-weight:800; opacity:.95; }
-  .pos{ color:var(--danger); }   /* higher payment */
-  .neg{ color:var(--success); }  /* lower payment */
+  /* Deal Sniffer */
+  .sniffer { margin-top:18px; }
+  .sniffer h4 { font-size:1.05rem; background:linear-gradient(135deg,var(--accent),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; font-weight:900; }
+  .sniff-grid { display:grid; gap:10px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  @media (max-width:900px){ .sniff-grid{ grid-template-columns:1fr; } }
+  .sniff-card{ border:1px solid var(--border); border-radius:16px; padding:14px 16px; background:var(--bg-secondary); }
+  .sniff-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .sniff-name { font-weight:900; font-size:.95rem; }
+  .sniff-meta { color:var(--muted); font-size:.85rem; }
+  .sniff-cta { margin-top:8px; display:flex; justify-content:flex-end; }
+  .sniff-btn{ cursor:pointer; border:1px solid var(--border); padding:8px 12px; border-radius:10px; background:var(--card); font-weight:700; }
+  .sniff-btn:hover{ border-color:var(--border-hover); box-shadow:0 4px 16px var(--accent-glow); transform:translateY(-1px); }
 </style>
 
 </head>
@@ -441,23 +344,9 @@
             <span class="sval" id="sumLvi" title="Higher is better">—</span>
           </div>
         </div>
-        <div class="hint" id="lviHelp" style="margin-top:12px;text-align:center;">💡 Higher Value Index = Better Deal</div>
 
         <div class="badges" id="badgeRow" aria-label="Adjustments"></div>
       </div>
-
-      <!-- ▼▼▼ Compact Deal Sniffer (added) ▼▼▼ -->
-      <div class="sniffer-card" id="snifferCard">
-        <div class="sniffer-title">🔎 Deal Sniffer — compact</div>
-        <div id="snifferHint" class="muted" style="font-size:.8rem; margin-bottom:6px;">Enter MSRP & lease inputs to see payment deltas.</div>
-        <div class="sniffer-grid" id="snifferGrid" style="display:none;">
-          <div class="sniff-row"><span class="sniff-label">Cap −$1,000</span><span class="sniff-value" id="sniffCapDown">$—</span><span class="sniff-delta" id="sniffCapDownDelta">Δ —</span></div>
-          <div class="sniff-row"><span class="sniff-label">MF −0.00010</span><span class="sniff-value" id="sniffMfDown">$—</span><span class="sniff-delta" id="sniffMfDownDelta">Δ —</span></div>
-          <div class="sniff-row"><span class="sniff-label">RV +1%</span><span class="sniff-value" id="sniffRvUp">$—</span><span class="sniff-delta" id="sniffRvUpDelta">Δ —</span></div>
-          <div class="sniff-row"><span class="sniff-label">+12 mo term</span><span class="sniff-value" id="sniffTermUp">$—</span><span class="sniff-delta" id="sniffTermUpDelta">Δ —</span></div>
-        </div>
-      </div>
-      <!-- ▲▲▲ Compact Deal Sniffer (added) ▲▲▲ -->
     </div>
 
     <div class="card" id="leaseCard" style="margin-top: 20px; animation-delay: 0.6s;">
@@ -512,6 +401,13 @@
         <div class="srow" style="border:2px solid var(--success);"><span class="slabel" style="color:var(--success);">Monthly (Pre-Tax)</span><span class="sval" id="leasePreTax" style="color:var(--success);font-size:1.3rem;">—</span></div>
         <div class="srow" style="border:2px solid var(--purple);"><span class="slabel" style="color:var(--purple);">Monthly (With Tax)</span><span class="sval" id="leaseWithTax" style="color:var(--purple);font-size:1.3rem;">—</span></div>
       </div>
+
+      <!-- Deal Sniffer BELOW lease estimator -->
+      <div class="sniffer" id="snifferBox" style="display:none; margin-top:18px;">
+        <h4>🔎 Deal Sniffer (Top 3)</h4>
+        <div class="sniff-grid" id="sniffGrid"></div>
+        <div class="hint" style="margin-top:8px;">Finds lowest payment using your current Cap Cost, MF, Tax, Fees, and Cap Reduction — varies only Term / Miles / PACPO.</div>
+      </div>
     </div>
 
     <div class="card" id="validatorCard" style="margin-top:16px; display:none; animation-delay:0.8s;">
@@ -536,6 +432,7 @@
 
 <script>
 (function(){
+  /* PWA icon + manifest */
   (function generateIconsAndManifest(){
     try{
       var canvas = document.createElement('canvas');
@@ -544,8 +441,7 @@
       var grad = ctx.createLinearGradient(0,0,512,512);
       grad.addColorStop(0,'#3b82f6'); grad.addColorStop(1,'#8b5cf6');
       ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 280px Inter, Arial, sans-serif';
+      ctx.fillStyle = '#ffffff'; ctx.font = 'bold 280px Inter, Arial, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('R', 256, 270);
       canvas.toBlob(function(blob){
@@ -570,19 +466,18 @@
     }catch(e){}
   })();
 
+  /* THEME — default LIGHT */
   var themeBtn = document.getElementById('themeBtn');
-  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-  themeBtn.innerHTML = prefersDark ? '☀️ Light' : '🌙 Dark';
+  document.documentElement.setAttribute('data-theme', 'light');
+  themeBtn.innerHTML = '🌙 Dark';
   themeBtn.addEventListener('click', function(){
     var cur = document.documentElement.getAttribute('data-theme');
     var next = cur === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', next);
     themeBtn.innerHTML = next === 'light' ? '🌙 Dark' : '☀️ Light';
-    themeBtn.classList.add('success-flash');
-    setTimeout(function(){ themeBtn.classList.remove('success-flash'); }, 600);
   });
 
+  /* Elements */
   var programSel = document.getElementById('programSel');
   var validateBtn = document.getElementById('validateBtn');
   var exportCsvBtn = document.getElementById('exportCsvBtn');
@@ -636,19 +531,8 @@
   var validatorCard = document.getElementById('validatorCard');
   var closeValBtn = document.getElementById('closeValBtn');
   var validatorOutput = document.getElementById('validatorOutput');
-
-  // Deal Sniffer handles
-  var snifferCard = document.getElementById('snifferCard');
-  var snifferHint = document.getElementById('snifferHint');
-  var snifferGrid = document.getElementById('snifferGrid');
-  var sniffCapDown = document.getElementById('sniffCapDown');
-  var sniffCapDownDelta = document.getElementById('sniffCapDownDelta');
-  var sniffMfDown = document.getElementById('sniffMfDown');
-  var sniffMfDownDelta = document.getElementById('sniffMfDownDelta');
-  var sniffRvUp = document.getElementById('sniffRvUp');
-  var sniffRvUpDelta = document.getElementById('sniffRvUpDelta');
-  var sniffTermUp = document.getElementById('sniffTermUp');
-  var sniffTermUpDelta = document.getElementById('sniffTermUpDelta');
+  var snifferBox = document.getElementById('snifferBox');
+  var sniffGrid = document.getElementById('sniffGrid');
 
   var data, MONTHS = [], PACPO = 2;
   var fullTrimList = [];
@@ -703,8 +587,11 @@
         sumProgram.textContent = label || target;
         initSelectors();
         restoreFromParams();
-        // Preload Lease Estimator defaults (added)
-        preloadLeaseDefaults();
+        /* Preload Lease Estimator values */
+        leaseMF.value = '0.00400';
+        leaseTax.value = '9.75';
+        leaseCapReduction.value = '7500';
+        leaseFees.value = '1095';
         compute();
         updateShareURL();
       });
@@ -782,23 +669,58 @@
       .forEach(function(n){ var opt = document.createElement('option'); opt.value = String(n); opt.textContent = n.toLocaleString() + ' mi/yr'; annualMilesSel.appendChild(opt); });
     annualMilesSel.value = "15000";
   }
-  
+
+  /* FIXED: Trim label normalization */
   function collectTrimsForYear(){
     fullTrimList = [];
     var branch = branchForFamily(familySel.value);
     var dispYear = yearSel.value;
     var yearKey = Object.keys(branch).find(function(k){ return normalizeYearKey(k).display === dispYear; });
     var rows = (yearKey && branch[yearKey]) || {};
-    Object.entries(rows).forEach(function(entry){ fullTrimList.push({code: entry[0], model: entry[1].model || entry[0]}); });
+
+    var seen = new Set();
+    Object.keys(rows).forEach(function(key){
+      var entry = rows[key];
+      if (!entry || typeof entry !== 'object') return;
+      if (/^__/.test(key)) return;
+
+      var code = String(key).trim();
+      var model = entry.model ? String(entry.model).trim() : '';
+
+      if (!model) {
+        var m = code.match(/^\s*([A-Za-z0-9]+)[\s_-]+(.+?)\s*$/);
+        if (m && m[1] && m[2] && m[2].length > 1) { code = m[1]; model = m[2]; }
+        else { return; }
+      }
+      model = model.replace(/\s+/g,' ').trim();
+      var ded = (model + '|' + code).toLowerCase();
+      if (seen.has(ded)) return;
+      seen.add(ded);
+      fullTrimList.push({ code: code, model: model });
+    });
+
+    fullTrimList.sort(function(a,b){ return a.model.localeCompare(b.model); });
   }
-  
+
   function populateTrims(filterTerm){
     trimSel.innerHTML = '';
     var term = (filterTerm||'').trim().toLowerCase();
-    var filtered = fullTrimList.filter(function(t){ return (t.model + " " + t.code).toLowerCase().indexOf(term) !== -1; });
-    filtered.forEach(function(item){ var opt = document.createElement('option'); opt.value = item.code; opt.textContent = item.model; opt.dataset.code = item.code; trimSel.appendChild(opt); });
-    trimCount.textContent = filtered.length ? (filtered.length + ' trim(s) available') : 'No matches';
-    trimWarn.style.display = filtered.length ? 'none' : 'block';
+
+    var list = fullTrimList.filter(function(t){
+      var hay = (t.model + ' ' + t.code).toLowerCase();
+      return hay.indexOf(term) !== -1;
+    });
+
+    list.forEach(function(item){
+      var opt = document.createElement('option');
+      opt.value = item.code;            // clean code
+      opt.textContent = item.model;     // human label
+      opt.dataset.code = item.code;
+      trimSel.appendChild(opt);
+    });
+
+    trimCount.textContent = list.length ? (list.length + ' trim(s) available') : 'No matches';
+    trimWarn.style.display = list.length ? 'none' : 'block';
   }
 
   function parseRange(str){
@@ -835,111 +757,58 @@
 
   function computeLVI(rvPercent, mf){ if(!isFinite(rvPercent) || !isFinite(mf) || mf <= 0) return null; return rvPercent / mf; }
 
-  function compute(){
+  /* Helper: compute final RV% given specific term/miles/pacpo (no UI mutation) */
+  function finalRvFor(term, milesPerYear, pacpoOn){
     var fam = familySel.value;
     var branch = branchForFamily(fam);
     var dispYear = yearSel.value;
     var yrKey = Object.keys(branch).find(function(k){ return normalizeYearKey(k).display === dispYear; });
     var code = trimSel.value;
-    var term = termSel.value;
-    var milesPerYear = parseInt(annualMilesSel.value, 10);
-    var odo = odoInput.value ? parseInt(String(odoInput.value).replace(/,/g,''), 10) : null;
-
-    if(!yrKey || !code){
-      finalOut.textContent = '—';
-      detailOut.textContent = 'Select family/year/trim';
-      trueOut.textContent = '';
-      if(lviBadge) lviBadge.textContent = '';
-      if(sumLvi) sumLvi.textContent = '—';
-      updateShareURL();
-      return;
-    }
-
+    if(!yrKey || !code) return null;
     var entry = branch[yrKey][code];
-    var base = term ? ((entry && entry.residuals && entry.residuals[term]) || null) : null;
-    var PACPO = data.pacpo_bonus_percent || 2;
-    var pacpoAdj = pacpoToggle.checked ? PACPO : 0;
-    var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
-    var annualAdj = 0;
-    if(base !== null && parseInt(term || "0", 10) >= 24){ annualAdj = milesMap[String(milesPerYear)] || 0; }
+    if(!entry || !entry.residuals) return null;
 
-    var inceptionKeyCandidates = [yrKey, dispYear, dispYear.replace(/\s+/g,'')];
+    var base = entry.residuals[term];
+    if(base == null) return null;
+
+    var PACPOv = data.pacpo_bonus_percent || 2;
+    var pacpoAdj = pacpoOn ? PACPOv : 0;
+    var milesMap = (data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
+    var annualAdj = (parseInt(term,10) >= 24) ? (milesMap[String(milesPerYear)] || 0) : 0;
+
+    var candidates = [yrKey, dispYear, dispYear.replace(/\s+/g,'')];
+    var odo = odoInput.value ? parseInt(String(odoInput.value).replace(/,/g,''), 10) : null;
     var inceptionAdj = 0;
-    for(var i=0;i<inceptionKeyCandidates.length;i++){
-      var bands = (data && data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[inceptionKeyCandidates[i]]) || null;
-      if(bands){ inceptionAdj = findInceptionAdj(inceptionKeyCandidates[i], odo); break; }
+    for(var i=0;i<candidates.length;i++){
+      var bands = (data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[candidates[i]]) || null;
+      if(bands){ inceptionAdj = findInceptionAdj(candidates[i], odo); break; }
     }
-
-    var monthsShown = visibleMonthsFor(entry);
-    buildHeader(monthsShown);
-
-    var final = (base === null || term == null) ? null : (base + pacpoAdj + annualAdj + inceptionAdj);
-    finalOut.textContent = final === null ? '—' : final + '%';
-    finalOut.classList.add('success-flash');
-    setTimeout(function(){ finalOut.classList.remove('success-flash'); }, 600);
-    detailOut.textContent = final === null ? 'Select a term' : 'Final with all adjustments';
-    codeBadge.textContent = 'Code: ' + (code || '—');
-
-    tvalRow.innerHTML = '';
-    var lead = document.createElement('td'); lead.textContent = (entry && entry.model) || '—'; tvalRow.appendChild(lead);
-    monthsShown.forEach(function(m){
-      var td = document.createElement('td');
-      var v = entry && entry.residuals && entry.residuals[m];
-      var shown = '—';
-      if(v !== null && v !== undefined){
-        var mN = parseInt(m, 10);
-        var aAdj = (mN >= 24) ? (milesMap[String(milesPerYear)] || 0) : 0;
-        var total = v + pacpoAdj + aAdj + inceptionAdj;
-        shown = total + '%'; td.classList.add('ok');
-      } else { td.classList.add('err'); }
-      td.textContent = shown; tvalRow.appendChild(td);
-    });
-
-    sumProgram.textContent = currentProgramLabel;
-    sumYear.textContent = dispYear || '—';
-    sumFamily.textContent = fam || '—';
-    sumTrim.textContent = (entry && entry.model) || '—';
-    sumTerm.textContent = term ? (term + ' mo') : '—';
-    sumMilesYear.textContent = Number.isFinite(milesPerYear) ? milesPerYear.toLocaleString() + ' mi/yr' : '—';
-    sumOdo.textContent = (odo != null && !isNaN(odo)) ? odo.toLocaleString() + ' mi' : '—';
-
-    var msrp = msrpInput.value ? Number(msrpInput.value) : null;
-    if (sumMsrp) sumMsrp.textContent = (msrp != null && !isNaN(msrp)) ? ('$' + msrp.toLocaleString()) : '—';
-    var trueResidual = (final != null && msrp != null && !isNaN(msrp)) ? Math.round(msrp * (final/100)) : null;
-    sumTrue.textContent = (trueResidual != null) ? ('$' + trueResidual.toLocaleString()) : '—';
-
-    /* Live summary line: purple label + value with matching font/colors */
-    trueOut.innerHTML = (trueResidual != null)
-      ? ('<span class="rv-label">MSRP × RV% = </span><span class="rv-value">$' + trueResidual.toLocaleString() + '</span>')
-      : '';
-
-    badgeRow.innerHTML = '';
-    if(base !== null && term){ addBadge('Base ' + base + '%'); }
-    if(pacpoToggle.checked){ addBadge('+' + PACPO + '% PACPO'); }
-    if(term && parseInt(term, 10) >= 24){ addBadge(((annualAdj>=0?'+':'') + annualAdj + '%') + ' Annual'); }
-    if(odo != null && !isNaN(odo)){ addBadge(((inceptionAdj>=0?'+':'') + inceptionAdj + '%') + ' Inception'); }
-
-    sumFinal.textContent = final === null ? '—' : final + '%';
-
-    var mfVal = leaseMF && leaseMF.value ? Number(leaseMF.value) : NaN;
-    var lviCurrent = computeLVI(final, mfVal);
-    if(lviCurrent != null){
-      var lviText = (lviCurrent/1000).toFixed(1) + 'k';
-      if(lviBadge) lviBadge.textContent = 'LVI: ' + lviText;
-      if(sumLvi) sumLvi.textContent = lviText;
-    } else {
-      if(lviBadge) lviBadge.textContent = '';
-      if(sumLvi) sumLvi.textContent = '—';
-    }
-
-    updateShareURL();
-    if(leaseTerm && (!leaseTerm.value || leaseTerm.value === '')) {
-      if(termSel && termSel.value) leaseTerm.value = termSel.value;
-    }
-    leaseCompute();
-    dealSniffer(); // update sniffer with latest numbers
+    return base + pacpoAdj + annualAdj + inceptionAdj;
   }
-  
+
+  /* Compute monthly given a final RV% and current price inputs */
+  function monthlyWithTax(finalRvPct, term){
+    var msrp = msrpInput.value ? Number(msrpInput.value) : NaN;
+    var cap = leaseCapCost.value ? Number(leaseCapCost.value) : NaN;
+    var mf = leaseMF.value ? Number(leaseMF.value) : NaN;
+    var tax = leaseTax.value ? Number(leaseTax.value)/100 : 0;
+    var capRed = leaseCapReduction.value ? Number(leaseCapReduction.value) : 0;
+    var fees = leaseFees.value ? Number(leaseFees.value) : 0;
+
+    if(!isFinite(finalRvPct) || !isFinite(msrp) || !isFinite(term) || !isFinite(cap) || !isFinite(mf)) return null;
+    if(term <= 0 || mf <= 0) return null;
+
+    var rvAmt = Math.round(msrp * (finalRvPct/100));
+    var adjCap = cap - (isFinite(capRed) ? capRed : 0) + (isFinite(fees) ? fees : 0);
+    if(!isFinite(adjCap) || adjCap <= 0) return null;
+
+    var dep = (adjCap - rvAmt) / term;
+    var fin = (adjCap + rvAmt) * mf;
+    var preTax = dep + fin;
+    if(!isFinite(preTax) || preTax < 0) return null;
+    return preTax * (1 + (isFinite(tax) ? tax : 0));
+  }
+
   function addBadge(txt){
     var b = document.createElement('div'); b.className = 'badge'; b.textContent = txt; badgeRow.appendChild(b);
   }
@@ -1056,18 +925,6 @@
     validatorCard.style.display = 'block';
   }
 
-  // ===== Lease math reused for sniffer =====
-  function calcMonthlyWithTax(params){
-    var rvPct = params.rvPct, msrp = params.msrp, term = params.term, cap = params.cap, mf = params.mf, tax = params.tax, capRed = params.capRed || 0, fees = params.fees || 0;
-    if(!isFinite(rvPct) || !isFinite(msrp) || !isFinite(term) || term <= 0 || !isFinite(cap) || !isFinite(mf) || mf <= 0){ return NaN; }
-    var rvAmt = Math.round(msrp * (rvPct/100));
-    var adjCap = cap - capRed + fees;
-    var dep = (adjCap - rvAmt) / term;
-    var fin = (adjCap + rvAmt) * mf;
-    var preTax = dep + fin;
-    return preTax * (1 + (isFinite(tax) ? tax : 0));
-  }
-
   function leaseCompute(){
     var rvPctText = sumFinal.textContent;
     var rvPct = (rvPctText && rvPctText.endsWith('%')) ? parseFloat(rvPctText) : NaN;
@@ -1088,6 +945,7 @@
       leasePreTax.textContent = '—';
       leaseWithTax.textContent = '—';
       mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
+      updateSniffer(); // still try to render suggestions if possible
       return;
     }
 
@@ -1101,6 +959,7 @@
       leasePreTax.textContent = '—';
       leaseWithTax.textContent = '—';
       mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
+      updateSniffer();
       return;
     }
 
@@ -1109,72 +968,95 @@
     var preTax = dep + fin;
     var withTax = preTax * (1 + (isFinite(tax) ? tax : 0));
 
-    if(!isFinite(preTax) || preTax < 0){
-      leasePreTax.textContent = '—';
-      leaseWithTax.textContent = '—';
-      mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
-      return;
-    }
-
     leasePreTax.textContent = '$' + Math.round(preTax).toLocaleString();
     leaseWithTax.textContent = '$' + Math.round(withTax).toLocaleString();
     mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
+
+    updateSniffer();
   }
 
-  // ===== Compact Deal Sniffer (added) =====
-  function nextHigherTerm(cur){
-    if(!cur || !MONTHS || !MONTHS.length) return null;
-    var idx = MONTHS.map(function(m){return parseInt(m,10)}).sort(function(a,b){return a-b;}).findIndex(function(m){ return m > cur; });
-    var sorted = MONTHS.map(function(m){return parseInt(m,10)}).sort(function(a,b){return a-b;});
-    return (idx === -1) ? null : sorted[idx];
-  }
+  /* Deal Sniffer: explore best 3 structures by lowest monthly with tax */
+  function updateSniffer(){
+    // Needs a selected trim/year, MSRP, MF, Cap Cost, etc.
+    var fam = familySel.value, dispYear = yearSel.value, code = trimSel.value;
+    if(!fam || !dispYear || !code){ snifferBox.style.display = 'none'; return; }
 
-  function dealSniffer(){
-    var rvPctText = sumFinal.textContent;
-    var rvPct = (rvPctText && rvPctText.endsWith('%')) ? parseFloat(rvPctText) : NaN;
-    var msrp = msrpInput.value ? Number(msrpInput.value) : NaN;
-    var term = leaseTerm.value ? parseInt(leaseTerm.value, 10)
-                               : (termSel && termSel.value ? parseInt(termSel.value,10) : NaN);
-    var cap = leaseCapCost.value ? Number(leaseCapCost.value) : NaN;
-    var mf = leaseMF.value ? Number(leaseMF.value) : NaN;
-    var tax = leaseTax.value ? Number(leaseTax.value)/100 : 0;
-    var capRed = leaseCapReduction.value ? Number(leaseCapReduction.value) : 0;
-    var fees = leaseFees.value ? Number(leaseFees.value) : 0;
+    // Gather candidate terms: visible months (so we only use valid ones)
+    var branch = branchForFamily(fam);
+    var yrKey = Object.keys(branch).find(function(k){ return normalizeYearKey(k).display === dispYear; });
+    if(!yrKey){ snifferBox.style.display = 'none'; return; }
+    var entry = branch[yrKey][code];
+    if(!entry || !entry.residuals){ snifferBox.style.display = 'none'; return; }
 
-    var baseline = calcMonthlyWithTax({rvPct:rvPct, msrp:msrp, term:term, cap:cap, mf:mf, tax:tax, capRed:capRed, fees:fees});
-    if(!isFinite(baseline)){
-      snifferGrid.style.display = 'none';
-      snifferHint.style.display = 'block';
-      return;
+    var terms = Object.keys(entry.residuals).filter(function(k){ return entry.residuals[k] != null; });
+    if(!terms.length){ snifferBox.style.display = 'none'; return; }
+
+    // Miles options from data (sorted asc)
+    var milesMap = (data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {"15000":0};
+    var milesOptions = Object.keys(milesMap).map(function(k){ return parseInt(k,10); }).sort(function(a,b){ return a-b; });
+
+    var currentMiles = parseInt(annualMilesSel.value,10);
+    if (!isFinite(currentMiles)) currentMiles = 15000;
+
+    // Explore PACPO on/off
+    var pacpoOptions = [false, true];
+
+    var results = [];
+    for(var i=0;i<terms.length;i++){
+      var t = parseInt(terms[i],10);
+      if(!isFinite(t) || t <= 0) continue;
+      for(var j=0;j<milesOptions.length;j++){
+        var mi = milesOptions[j];
+        for(var k=0;k<pacpoOptions.length;k++){
+          var pac = pacpoOptions[k];
+          var rv = finalRvFor(String(t), mi, pac);
+          if(rv==null) continue;
+          var mth = monthlyWithTax(rv, t);
+          if(mth==null) continue;
+          results.push({ term:t, miles:mi, pacpo:pac, rv:rv, monthly:Math.round(mth) });
+        }
+      }
     }
-    snifferGrid.style.display = 'grid';
-    snifferHint.style.display = 'none';
 
-    function formatLine(newPay, elValue, elDelta){
-      var delta = newPay - baseline;
-      elValue.textContent = '$' + Math.round(newPay).toLocaleString();
-      var cls = delta <= 0 ? 'neg' : 'pos';
-      elDelta.className = 'sniff-delta ' + cls;
-      elDelta.textContent = 'Δ ' + (delta<=0 ? '−' : '+') + Math.abs(Math.round(delta)).toLocaleString();
-    }
+    if(!results.length){ snifferBox.style.display = 'none'; return; }
 
-    // Cap -$1,000
-    var payCapDown = calcMonthlyWithTax({rvPct:rvPct, msrp:msrp, term:term, cap:cap-1000, mf:mf, tax:tax, capRed:capRed, fees:fees});
-    if(isFinite(payCapDown)){ formatLine(payCapDown, sniffCapDown, sniffCapDownDelta); }
+    // Sort by lowest monthly; take top 3
+    results.sort(function(a,b){ return a.monthly - b.monthly; });
+    var top = results.slice(0,3);
 
-    // MF -0.00010 (floored at > 0)
-    var mfDown = Math.max(0.00001, mf - 0.00010);
-    var payMfDown = calcMonthlyWithTax({rvPct:rvPct, msrp:msrp, term:term, cap:cap, mf:mfDown, tax:tax, capRed:capRed, fees:fees});
-    if(isFinite(payMfDown)){ formatLine(payMfDown, sniffMfDown, sniffMfDownDelta); }
+    snifferBox.style.display = 'block';
+    sniffGrid.innerHTML = '';
+    top.forEach(function(r, idx){
+      var div = document.createElement('div'); div.className = 'sniff-card';
+      var name = document.createElement('div'); name.className = 'sniff-top';
+      var left = document.createElement('div'); left.innerHTML = `<span class="sniff-name">${idx===0?'Best':'Alt ' + (idx===1?'A':'B')}</span>`;
+      var right = document.createElement('div'); right.className = 'sniff-meta';
+      right.textContent = `${r.term} mo • ${r.miles.toLocaleString()} mi/yr • ${r.pacpo?'+2% PACPO':'PACPO off'}`;
+      name.appendChild(left); name.appendChild(right); div.appendChild(name);
 
-    // RV +1%
-    var payRvUp = calcMonthlyWithTax({rvPct:rvPct+1, msrp:msrp, term:term, cap:cap, mf:mf, tax:tax, capRed:capRed, fees:fees});
-    if(isFinite(payRvUp)){ formatLine(payRvUp, sniffRvUp, sniffRvUpDelta); }
+      var body = document.createElement('div');
+      body.innerHTML = `<div class="rowline" style="justify-content:space-between;">
+        <div class="muted">RV: ${r.rv.toFixed(2)}%</div>
+        <div style="font-weight:900;">$${r.monthly.toLocaleString()} /mo (tax-in)</div>
+      </div>`;
+      div.appendChild(body);
 
-    // +12 mo term (or next higher available)
-    var tAlt = nextHigherTerm(term) || (term+12);
-    var payTermUp = calcMonthlyWithTax({rvPct:rvPct, msrp:msrp, term:tAlt, cap:cap, mf:mf, tax:tax, capRed:capRed, fees:fees});
-    if(isFinite(payTermUp)){ formatLine(payTermUp, sniffTermUp, sniffTermUpDelta); }
+      var cta = document.createElement('div'); cta.className = 'sniff-cta';
+      var btn = document.createElement('button'); btn.className='sniff-btn'; btn.textContent='Apply';
+      btn.addEventListener('click', function(){
+        // Only change Term / Miles / PACPO
+        termSel.value = String(r.term);
+        annualMilesSel.value = String(r.miles);
+        pacpoToggle.checked = !!r.pacpo;
+        // Keep leaseTerm synced
+        leaseTerm.value = String(r.term);
+        compute();
+        // Scroll up a touch to show result
+        document.getElementById('summaryBox').scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      cta.appendChild(btn); div.appendChild(cta);
+      sniffGrid.appendChild(div);
+    });
   }
 
   function restoreFromParams(){
@@ -1192,14 +1074,7 @@
     if(p.msrp){ msrpInput.value = p.msrp; }
   }
 
-  // Preload defaults in Lease Estimator (added)
-  function preloadLeaseDefaults(){
-    if(!leaseMF.value) leaseMF.value = 0.004;
-    if(!leaseTax.value) leaseTax.value = 9.75;
-    if(!leaseCapReduction.value) leaseCapReduction.value = 7500;
-    if(!leaseFees.value) leaseFees.value = 1095;
-  }
-
+  /* Events */
   programSel.addEventListener('change', function(){
     var val = programSel.value;
     var label = programSel.options[programSel.selectedIndex].textContent.replace(/^Program:\s*/,'');
@@ -1218,12 +1093,12 @@
   yearSel.addEventListener('change', function(){ collectTrimsForYear(); populateTrims(trimSearch.value); compute(); });
   trimSearch.addEventListener('input', function(){ populateTrims(trimSearch.value); compute(); });
   trimSel.addEventListener('change', compute);
-  termSel.addEventListener('change', compute);
+  termSel.addEventListener('change', function(){ compute(); leaseTerm.value = termSel.value; });
   pacpoToggle.addEventListener('change', compute);
   hideNA.addEventListener('change', compute);
   annualMilesSel.addEventListener('change', compute);
   odoInput.addEventListener('input', compute);
-  msrpInput.addEventListener('input', function(){ leaseCompute(); dealSniffer(); compute(); });
+  msrpInput.addEventListener('input', function(){ compute(); });
 
   copyBtn.addEventListener('click', function(){
     var parts = [
@@ -1251,14 +1126,124 @@
   validateBtn.addEventListener('click', validateJSON);
   closeValBtn && closeValBtn.addEventListener('click', function(){ validatorCard.style.display='none'; });
 
-  leaseCapCost.addEventListener('input', function(){ leaseCompute(); dealSniffer(); });
-  leaseMF.addEventListener('input', function(){ leaseCompute(); dealSniffer(); compute(); });
-  leaseTax.addEventListener('input', function(){ leaseCompute(); dealSniffer(); });
-  leaseCapReduction.addEventListener('input', function(){ leaseCompute(); dealSniffer(); });
-  leaseFees.addEventListener('input', function(){ leaseCompute(); dealSniffer(); });
-  leaseTerm.addEventListener('input', function(){ leaseCompute(); dealSniffer(); });
+  leaseCapCost.addEventListener('input', leaseCompute);
+  leaseMF.addEventListener('input', function(){ leaseCompute(); compute(); });
+  leaseTax.addEventListener('input', leaseCompute);
+  leaseCapReduction.addEventListener('input', leaseCompute);
+  leaseFees.addEventListener('input', leaseCompute);
+  leaseTerm.addEventListener('input', function(){ termSel.value = leaseTerm.value; leaseCompute(); compute(); });
 
-  var initialParams = readParams();
+  /* Main compute */
+  function compute(){
+    var fam = familySel.value;
+    var branch = branchForFamily(fam);
+    var dispYear = yearSel.value;
+    var yrKey = Object.keys(branch).find(function(k){ return normalizeYearKey(k).display === dispYear; });
+    var code = trimSel.value;
+    var term = termSel.value;
+    var milesPerYear = parseInt(annualMilesSel.value, 10);
+    var odo = odoInput.value ? parseInt(String(odoInput.value).replace(/,/g,''), 10) : null;
+
+    if(!yrKey || !code){
+      finalOut.textContent = '—';
+      detailOut.textContent = 'Select family/year/trim';
+      trueOut.textContent = '';
+      if(lviBadge) lviBadge.textContent = '';
+      if(sumLvi) sumLvi.textContent = '—';
+      updateShareURL();
+      snifferBox.style.display = 'none';
+      return;
+    }
+
+    var entry = branch[yrKey][code];
+    var base = term ? ((entry && entry.residuals && entry.residuals[term]) || null) : null;
+    var PACPOv = data.pacpo_bonus_percent || 2;
+    var pacpoAdj = pacpoToggle.checked ? PACPOv : 0;
+    var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
+    var annualAdj = 0;
+    if(base !== null && parseInt(term || "0", 10) >= 24){ annualAdj = milesMap[String(milesPerYear)] || 0; }
+
+    var inceptionKeyCandidates = [yrKey, dispYear, dispYear.replace(/\s+/g,'')];
+    var inceptionAdj = 0;
+    for(var i=0;i<inceptionKeyCandidates.length;i++){
+      var bands = (data && data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[inceptionKeyCandidates[i]]) || null;
+      if(bands){ inceptionAdj = findInceptionAdj(inceptionKeyCandidates[i], odo); break; }
+    }
+
+    var monthsShown = visibleMonthsFor(entry);
+    buildHeader(monthsShown);
+
+    var final = (base === null || term == null) ? null : (base + pacpoAdj + annualAdj + inceptionAdj);
+    finalOut.textContent = final === null ? '—' : final + '%';
+    detailOut.textContent = final === null ? 'Select a term' : 'Final with all adjustments';
+    codeBadge.textContent = 'Code: ' + (code || '—');
+
+    tvalRow.innerHTML = '';
+    var lead = document.createElement('td'); lead.textContent = (entry && entry.model) || '—'; tvalRow.appendChild(lead);
+    monthsShown.forEach(function(m){
+      var td = document.createElement('td');
+      var v = entry && entry.residuals && entry.residuals[m];
+      var shown = '—';
+      if(v !== null && v !== undefined){
+        var mN = parseInt(m, 10);
+        var aAdj = (mN >= 24) ? (milesMap[String(milesPerYear)] || 0) : 0;
+        var total = v + (pacpoToggle.checked ? PACPOv : 0) + aAdj + inceptionAdj;
+        shown = total + '%'; td.classList.add('ok');
+      } else { td.classList.add('err'); }
+      td.textContent = shown; tvalRow.appendChild(td);
+    });
+
+    sumProgram.textContent = currentProgramLabel;
+    sumYear.textContent = dispYear || '—';
+    sumFamily.textContent = fam || '—';
+    sumTrim.textContent = (entry && entry.model) || '—';
+    sumTerm.textContent = term ? (term + ' mo') : '—';
+    sumMilesYear.textContent = Number.isFinite(milesPerYear) ? milesPerYear.toLocaleString() + ' mi/yr' : '—';
+    sumOdo.textContent = (odo != null && !isNaN(odo)) ? odo.toLocaleString() + ' mi' : '—';
+
+    var msrp = msrpInput.value ? Number(msrpInput.value) : null;
+    if (sumMsrp) sumMsrp.textContent = (msrp != null && !isNaN(msrp)) ? ('$' + msrp.toLocaleString()) : '—';
+    var trueResidual = (final != null && msrp != null && !isNaN(msrp)) ? Math.round(msrp * (final/100)) : null;
+    sumTrue.textContent = (trueResidual != null) ? ('$' + trueResidual.toLocaleString()) : '—';
+
+    trueOut.innerHTML = (trueResidual != null)
+      ? ('<span class="rv-label">MSRP × RV% = </span><span class="rv-value">$' + trueResidual.toLocaleString() + '</span>')
+      : '';
+
+    badgeRow.innerHTML = '';
+    if(base !== null && term){ addBadge('Base ' + base + '%'); }
+    if(pacpoToggle.checked){ addBadge('+' + PACPOv + '% PACPO'); }
+    if(term && parseInt(term, 10) >= 24){ addBadge(((annualAdj>=0?'+':'') + annualAdj + '%') + ' Annual'); }
+    if(odo != null && !isNaN(odo)){ addBadge(((inceptionAdj>=0?'+':'') + inceptionAdj + '%') + ' Inception'); }
+
+    sumFinal.textContent = final === null ? '—' : final + '%';
+
+    var mfVal = leaseMF && leaseMF.value ? Number(leaseMF.value) : NaN;
+    var lviCurrent = computeLVI(final, mfVal);
+    if(lviCurrent != null){
+      var lviText = (lviCurrent/1000).toFixed(1) + 'k';
+      if(lviBadge) lviBadge.textContent = 'LVI: ' + lviText;
+      if(sumLvi) sumLvi.textContent = lviText;
+    } else {
+      if(lviBadge) lviBadge.textContent = '';
+      if(sumLvi) sumLvi.textContent = '—';
+    }
+
+    updateShareURL();
+
+    // Keep leaseTerm synced with selected term
+    if(leaseTerm && (!leaseTerm.value || leaseTerm.value === '')) leaseTerm.value = termSel.value;
+    leaseCompute(); // updates sniffer too
+  }
+  
+  /* Init */
+  var initialParams = (function(){
+    var params = new URLSearchParams(location.search);
+    return {
+      program: params.get('data')
+    };
+  })();
+
   if(initialParams.program){
     var opt = Array.from(programSel.options).find(function(o){return o.value===initialParams.program;});
     if(opt){ programSel.value = initialParams.program; currentProgramLabel = opt.textContent.replace(/^Program:\s*/,''); }

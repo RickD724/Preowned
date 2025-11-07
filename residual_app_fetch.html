@@ -41,7 +41,6 @@
     --glow: 0 0 40px var(--accent-glow);
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
   [data-theme="light"]{
     --bg: #f5f7fa;
     --bg-secondary: #ffffff;
@@ -59,9 +58,7 @@
     --success-glow: rgba(16, 185, 129, 0.2);
     --purple-glow: rgba(139, 92, 246, 0.2);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
   @keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
   @keyframes slideInFromTop { from{transform:translateY(-30px);opacity:0} to{transform:translateY(0);opacity:1} }
@@ -69,59 +66,33 @@
   @keyframes scaleIn { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
   @keyframes shimmer { 0%{background-position:-1000px 0} 100%{background-position:1000px 0} }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
-  
   html, body{
     background: var(--bg);
     color: var(--text);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
-    overflow-x: hidden;
+    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh; overflow-x: hidden;
   }
-  
   body {
     background: linear-gradient(135deg, var(--bg) 0%, var(--bg-secondary) 50%, var(--bg) 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    background-size: 400% 400%; animation: gradientShift 15s ease infinite;
   }
-  
   .wrap { max-width: 980px; margin: 0 auto; padding: 20px 20px 100px; position: relative; }
-  
   body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, var(--purple-glow) 0%, transparent 50%);
+    content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%), radial-gradient(circle at 70% 80%, var(--purple-glow) 0%, transparent 50%);
     opacity: 0.4; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite;
   }
-  body::after {
-    content: '';
-    position: fixed; inset: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.03) 50%, transparent 100%);
-    pointer-events: none; z-index: 0;
-  }
+  body::after { content: ''; position: fixed; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.03) 50%, transparent 100%); pointer-events: none; z-index: 0; }
   .wrap > * { position: relative; z-index: 1; }
-  
   .top {
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow);
-    animation: slideInFromTop 0.6s ease;
+    position: sticky; top: 0; z-index: 50; backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
+    background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow); animation: slideInFromTop 0.6s ease;
   }
   [data-theme="light"] .top { background: rgba(255,255,255,0.8); }
-  
   .brand { display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
   .leftRow { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-  
   .pill{
     display:inline-flex; align-items:center; gap:12px;
     background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
@@ -132,7 +103,6 @@
   .pill::before{ content:''; position:absolute; inset:0; left:-100%;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent); animation:shimmer 3s infinite; }
   .pill:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 12px 40px var(--accent-glow); }
-  
   .theme,.btn{
     border:1px solid var(--border); background:var(--card); backdrop-filter:blur(10px);
     color:var(--text); padding:10px 18px; border-radius:var(--radius-sm); cursor:pointer;
@@ -141,10 +111,8 @@
   .theme::before,.btn::before{ content:''; position:absolute; top:50%; left:50%; width:0; height:0; border-radius:50%; background:var(--accent-glow); transform:translate(-50%,-50%); transition:width .6s, height .6s; }
   .theme:hover::before,.btn:hover::before{ width:300px; height:300px; }
   .theme:hover,.btn:hover{ background:var(--card-hover); border-color:var(--border-hover); transform:translateY(-2px); box-shadow:0 8px 25px var(--accent-glow); }
-  
   .select{ min-width:200px; transition:var(--transition); }
   .select:hover{ transform:scale(1.02); }
-  
   .card{
     background:var(--card); backdrop-filter:blur(30px) saturate(180%); -webkit-backdrop-filter:blur(30px) saturate(180%);
     border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
@@ -153,19 +121,15 @@
   .card::before{ content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity .4s; }
   .card:hover{ border-color:var(--border-hover); box-shadow:var(--shadow-lg), var(--glow); transform:translateY(-5px); }
   .card:hover::before{ opacity:1; }
-  
   .controls{ position:sticky; top:100px; z-index:20; animation-delay:.2s; }
   @media (max-width:900px){ .controls{ position:static; } }
-  
   .grid{ display:grid; gap:18px; }
   .g4{ grid-template-columns:repeat(4,minmax(0,1fr)); }
   .g3{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .g2{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   @media (max-width:900px){ .g4,.g3,.g2{ grid-template-columns:1fr; } }
-  
   label{ font-size:.75rem; color:var(--muted); display:block; margin:0 0 10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:var(--transition); }
   .form-group:hover label{ color:var(--accent); }
-  
   select,input[type="number"],input[type="text"]{
     width:100%; appearance:none; -webkit-appearance:none; background:var(--bg-secondary);
     color:var(--text); border:2px solid var(--border); border-radius:var(--radius-sm);
@@ -180,12 +144,10 @@
   }
   input[type="checkbox"]{ width:24px; height:24px; cursor:pointer; accent-color:var(--accent); transition:var(--transition); }
   input[type="checkbox"]:hover{ transform:scale(1.1); }
-  
   .muted{ color:var(--muted); }
   .hint{ font-size:.8rem; color:var(--muted); margin-top:8px; font-weight:500; font-style:italic; }
   .searchWrap{ max-width:280px; min-width:220px; }
   .rowline{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
-  
   .result{
     display:flex; align-items:baseline; gap:20px; margin:24px 0 20px; flex-wrap:wrap; padding:32px;
     background:linear-gradient(135deg, var(--accent-glow) 0%, var(--purple-glow) 100%);
@@ -199,7 +161,6 @@
     position:relative; z-index:1; text-shadow:0 0 40px var(--accent-glow);
   }
   .result .small{ font-size:1.1rem; font-weight:600; position:relative; z-index:1; }
-  
   .tableWrap{ margin-top:20px; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-secondary); box-shadow:inset 0 2px 10px rgba(0,0,0,0.1); }
   table{ min-width:720px; width:100%; border-collapse:separate; border-spacing:0; }
   th,td{ padding:16px 20px; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; transition:var(--transition); }
@@ -213,7 +174,6 @@
   td.ok{ color:var(--success); font-weight:800; font-variant-numeric:tabular-nums; text-shadow:0 0 10px var(--success-glow); }
   td.err{ color:var(--danger); opacity:.5; }
   td:first-child,th:first-child{ position:sticky; left:0; background:var(--card); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:2; font-weight:800; }
-  
   .summary{
     margin-top:24px; padding:32px; border:2px solid var(--border-hover); border-radius:var(--radius);
     background:var(--card); backdrop-filter:blur(30px); box-shadow:var(--shadow-lg);
@@ -221,7 +181,6 @@
   }
   .sum-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:20px; }
   @media (max-width:700px){ .sum-grid{ grid-template-columns:1fr; } }
-  
   .srow{
     display:flex; gap:16px; align-items:center; justify-content:space-between;
     background:linear-gradient(135deg, rgba(59,130,246,0.05), rgba(139,92,246,0.05));
@@ -233,10 +192,8 @@
     background:linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1)); }
   .slabel{ font-weight:700; color:var(--muted); font-size:.9rem; letter-spacing:.5px; }
   .sval{ font-variant-numeric:tabular-nums; font-weight:800; font-size:1.1rem; color:var(--text-primary); }
-  
   .rv-label{ color:#bfa7ff; font-family:inherit; font-weight:700; letter-spacing:.02em; }
   .rv-value{ font-family:inherit; font-weight:800; color:var(--text-primary); }
-  
   .badges{ display:flex; gap:12px; flex-wrap:wrap; margin-top:20px; }
   .badge{
     background:linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.1));
@@ -244,7 +201,6 @@
   }
   .badge:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 8px 20px var(--accent-glow);
     background:linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2)); }
-  
   .footer{ margin:40px 0 20px; animation:fadeInUp 1s ease; }
   .foot-card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px 32px; text-align:center; }
   .foot-title{
@@ -252,35 +208,23 @@
     background:linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   }
   .foot-text{ color:var(--muted); font-size:.95rem; line-height:1.8; }
-  
-  @media (max-width:768px){
-    .result .big{ font-size:2.5rem; }
-    .card{ padding:20px; }
-    .summary{ padding:20px; }
-  }
+  @media (max-width:768px){ .result .big{ font-size:2.5rem; } .card{ padding:20px; } .summary{ padding:20px; } }
   @media print{
     body{ background:#fff; }
-    .top,.controls,.tableWrap,#leaseCard,.footer,#validatorCard,#snifferCard{ display:none !important; }
+    .top,.controls,.tableWrap,#leaseCard,.footer,#validatorCard{ display:none !important; }
     .summary{ border:0; box-shadow:none; }
   }
   .loading{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.2rem; color:var(--accent); font-weight:700; animation:pulse 1.5s infinite; }
   .success-flash{ animation:successPulse .6s ease; }
   @keyframes successPulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.05); box-shadow:0 0 30px var(--success-glow)} }
-
-  /* Deal Sniffer styles */
-  #snifferCard .sniffer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  #snifferButtons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-  @media (max-width:900px){#snifferButtons{grid-template-columns:1fr}}
-  .sniff-btn{
-    border:2px solid var(--border-hover); background:linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
-    padding:14px 16px; border-radius:16px; cursor:pointer; text-align:left;
-    transition:var(--transition); box-shadow:var(--shadow);
+  .error-banner{
+    display:none; margin:0 0 16px; padding:12px 16px; border-radius:12px; border:1px solid rgba(239,68,68,.35);
+    background: rgba(239,68,68,.08); color:#fecaca; font-weight:700;
   }
-  .sniff-btn:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lg), var(--glow) }
-  .sniff-title{font-weight:900; font-size:1.05rem}
-  .sniff-sub{color:var(--muted); font-size:.9rem; margin-top:4px}
-  .sniff-delta{font-weight:800; margin-top:8px}
-  .sniff-best{border-color:var(--success); background:linear-gradient(135deg, rgba(16,185,129,0.12), rgba(59,130,246,0.08))}
+  .info-banner{
+    display:none; margin:0 0 16px; padding:12px 16px; border-radius:12px; border:1px solid rgba(59,130,246,.35);
+    background: rgba(59,130,246,.08); color:#c7d2fe; font-weight:700;
+  }
 </style>
 
 </head>
@@ -290,7 +234,8 @@
       <div class="brand">
         <div class="leftRow">
           <div class="pill">⚡ Residual Pro — By Ricardo</div>
-          <select id="programSel" class="select">
+          <select id="programSel" class="select" title="Pick where to load JSON from">
+            <!-- Make sure these filenames actually exist next to this HTML OR put absolute URLs -->
             <option value="__current__">Program: Current (from ?data or default)</option>
             <option value="porsche_residuals_all.json">Program: PB 25-10R (Default)</option>
             <option value="porsche_residuals_25-09R.json">Program: PB 25-09R (Oct)</option>
@@ -304,6 +249,8 @@
           <button id="themeBtn" class="theme" type="button">🌙 Dark</button>
         </div>
       </div>
+      <div id="errorBanner" class="error-banner"></div>
+      <div id="infoBanner" class="info-banner"></div>
     </div>
 
     <div class="card controls" id="controls">
@@ -381,16 +328,6 @@
           <thead><tr id="theadRow"></tr></thead>
           <tbody><tr id="tvalRow"></tr></tbody>
         </table>
-      </div>
-
-      <!-- Deal Sniffer (Simple) -->
-      <div class="summary" id="snifferCard" style="margin-top:18px;">
-        <div class="sniffer-head">
-          <strong style="font-size:1.1rem">🧭 Deal Sniffer</strong>
-          <span class="muted" id="snifferMeta">Explores term • miles • PACPO</span>
-        </div>
-        <div id="snifferButtons"></div>
-        <div class="hint" style="margin-top:10px;" id="snifferHelp">Buttons apply changes instantly and recompute. Tie-breaks favor higher LVI.</div>
       </div>
 
       <div class="summary" id="summaryBox">
@@ -605,13 +542,39 @@
   var validatorCard = document.getElementById('validatorCard');
   var closeValBtn = document.getElementById('closeValBtn');
   var validatorOutput = document.getElementById('validatorOutput');
-  var snifferButtons = document.getElementById('snifferButtons');
-  var snifferMeta = document.getElementById('snifferMeta');
-  var snifferHelp = document.getElementById('snifferHelp');
+  var errorBanner = document.getElementById('errorBanner');
+  var infoBanner = document.getElementById('infoBanner');
 
   var data, MONTHS = [], PACPO = 2;
   var fullTrimList = [];
   var currentProgramLabel = 'Current';
+
+  // ---- Inline tiny fallback so UI still boots if external JSON fails ----
+  var FALLBACK_JSON = {
+    months: ["24","36","39","48"],
+    pacpo_bonus_percent: 2,
+    annual_mileage_adjustments_percent: { miles_per_year: {"7500":4,"10000":3,"12000":2,"15000":0} },
+    mileage_at_inception_adjustments_percent: { "MY25":[{miles_range:"0–499",adj:0},{miles_range:"500–1499",adj:-1}] },
+    models: {
+      "911": {
+        "MY25": {
+          "992C2": { model:"Carrera", residuals: {"24":72,"36":63,"39":61,"48":55} }
+        }
+      }
+    }
+  };
+
+  function showError(msg){
+    errorBanner.textContent = 'JSON Load Error: ' + msg;
+    errorBanner.style.display = 'block';
+    setTimeout(function(){ errorBanner.style.display = 'none'; }, 8000);
+    console.error(msg);
+  }
+  function showInfo(msg){
+    infoBanner.textContent = msg;
+    infoBanner.style.display = 'block';
+    setTimeout(function(){ infoBanner.style.display = 'none'; }, 6000);
+  }
 
   function readParams(){
     var p = new URLSearchParams(location.search);
@@ -622,7 +585,29 @@
       msrp: p.get('msrp') || null
     };
   }
-  
+  function resolveUrlMaybe(u){
+    try { return new URL(u, location.href).href; } catch(e){ return u; }
+  }
+  function parseMaybeJSONText(t){
+    try { return JSON.parse(t); } catch(e){ return null; }
+  }
+  function isDataUrl(u){
+    return /^data:application\/json(;charset=[^,]+)?,/i.test(u) || /^data:application\/json;base64,/i.test(u);
+  }
+  function loadFromDataUrl(u){
+    try{
+      if(/^data:application\/json;base64,/i.test(u)){
+        var b64 = u.split(',')[1]; var txt = atob(b64);
+        return Promise.resolve(JSON.parse(txt));
+      } else {
+        var txt = decodeURIComponent(u.split(',')[1] || '');
+        return Promise.resolve(JSON.parse(txt));
+      }
+    }catch(e){
+      return Promise.reject(new Error('Invalid data: URL JSON ('+e.message+')'));
+    }
+  }
+
   function updateShareURL(){
     var p = new URLSearchParams();
     var program = (programSel.value === '__current__') ? (initialProgram || 'porsche_residuals_all.json') : programSel.value;
@@ -646,26 +631,54 @@
     return params.get('data') || 'porsche_residuals_all.json';
   })();
 
+  // ---- Hardened loader: supports relative, absolute, data: URL; falls back nicely ----
   function loadProgram(file, label){
-    var cacheBuster = 't=' + Date.now();
     currentProgramLabel = label || (file === '__current__' ? 'Current' : file);
     var target = (file === '__current__') ? initialProgram : file;
-    return fetch(target + '?' + cacheBuster, {cache:'no-store'})
-      .then(function(res){
-        if(!res.ok) throw new Error('HTTP ' + res.status + ' loading ' + target);
-        return res.json();
-      })
-      .then(function(j){
-        data = j; window.__data = data;
-        MONTHS = data.months || ["12","18","24","27","30","36","39","42","48","51","60"];
-        PACPO = data.pacpo_bonus_percent || 2;
-        sumProgram.textContent = label || target;
-        initSelectors();
-        restoreFromParams();
-        applyLeaseDefaultsIfEmpty(); // preload defaults for MF, tax, capred, fees, term
-        compute();
-        updateShareURL();
+    var resolved = resolveUrlMaybe(target);
+
+    if(isDataUrl(resolved)){
+      return loadFromDataUrl(resolved).then(afterJSONLoaded).catch(function(err){
+        showError(err.message + ' (source: data URL)');
+        return useFallback('Failed to parse data URL');
       });
+    }
+
+    var cacheBuster = 't=' + Date.now();
+    var tryUrl = resolved + (resolved.indexOf('?') === -1 ? '?' : '&') + cacheBuster;
+
+    return fetch(tryUrl, {cache:'no-store', credentials:'omit', mode:'cors'})
+      .then(function(res){
+        if(!res.ok) throw new Error('HTTP ' + res.status + ' loading ' + resolved);
+        return res.text();
+      })
+      .then(function(txt){
+        var j = parseMaybeJSONText(txt);
+        if(!j) throw new Error('Invalid JSON at ' + resolved);
+        afterJSONLoaded(j);
+      })
+      .catch(function(err){
+        showError(err.message + ' | Tried: ' + resolved);
+        return useFallback('Using fallback sample so UI stays usable.');
+      });
+  }
+
+  function useFallback(reason){
+    showInfo('Fallback JSON in use: ' + reason);
+    afterJSONLoaded(FALLBACK_JSON);
+    return Promise.resolve();
+  }
+
+  function afterJSONLoaded(j){
+    data = j; window.__data = data;
+    MONTHS = data.months || ["12","18","24","27","30","36","39","42","48","51","60"];
+    PACPO = data.pacpo_bonus_percent || 2;
+    sumProgram.textContent = currentProgramLabel;
+    initSelectors();
+    restoreFromParams();
+    applyLeaseDefaultsIfEmpty();
+    compute();
+    updateShareURL();
   }
 
   function normalizeYearKey(k){
@@ -674,7 +687,6 @@
     var mMY = s.toUpperCase().replace(/\s+/g,'').match(/^MY(\d{2})$/); if (mMY) return { display: 'MY' + mMY[1], key: k };
     return { display: s, key: k };
   }
-  
   function getCaseInsensitive(obj, name){
     if(!obj || typeof obj !== "object") return undefined;
     var target = String(name).replace(/\s+/g,'').toLowerCase();
@@ -682,7 +694,6 @@
     for(var i=0;i<keys.length;i++){ if(keys[i].replace(/\s+/g,'').toLowerCase() === target) return obj[keys[i]]; }
     return undefined;
   }
-  
   function getVirtualFamilies(){
     var out = new Set();
     var models = data.models || {};
@@ -698,14 +709,12 @@
     var order = ['911','718 Cayman','718 Boxster','Taycan','Macan','Cayenne','Panamera'];
     return Array.from(out).sort(function(a,b){ return order.indexOf(a) - order.indexOf(b); });
   }
-  
   function branchForFamily(famDisp){
     var models = data.models || {};
     if (famDisp === '718 Cayman') return getCaseInsensitive(models['718']||{}, 'Cayman') || models['Cayman'] || {};
     if (famDisp === '718 Boxster') return getCaseInsensitive(models['718']||{}, 'Boxster') || models['Boxster'] || {};
     return models[famDisp] || {};
   }
-  
   function yearsForFamily(famDisp){
     var out = new Set(); var branch = branchForFamily(famDisp);
     Object.keys(branch).forEach(function(k){ out.add(normalizeYearKey(k).display); });
@@ -715,12 +724,10 @@
       return by - ay;
     });
   }
-
   function populate(select, arr){
     select.innerHTML = '';
     arr.forEach(function(v){ var opt = document.createElement('option'); opt.value = v; opt.textContent = v; select.appendChild(opt); });
   }
-  
   function initSelectors(){
     populate(familySel, getVirtualFamilies());
     populate(yearSel, yearsForFamily(familySel.value));
@@ -730,7 +737,6 @@
     collectTrimsForYear();
     populateTrims('');
   }
-  
   function populateAnnualMiles(){
     annualMilesSel.innerHTML = '';
     var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {
@@ -740,7 +746,7 @@
       .forEach(function(n){ var opt = document.createElement('option'); opt.value = String(n); opt.textContent = n.toLocaleString() + ' mi/yr'; annualMilesSel.appendChild(opt); });
     annualMilesSel.value = "15000";
   }
-  
+  var fullTrimList = [];
   function collectTrimsForYear(){
     fullTrimList = [];
     var branch = branchForFamily(familySel.value);
@@ -749,7 +755,6 @@
     var rows = (yearKey && branch[yearKey]) || {};
     Object.entries(rows).forEach(function(entry){ fullTrimList.push({code: entry[0], model: entry[1].model || entry[0]}); });
   }
-  
   function populateTrims(filterTerm){
     trimSel.innerHTML = '';
     var term = (filterTerm||'').trim().toLowerCase();
@@ -758,7 +763,6 @@
     trimCount.textContent = filtered.length ? (filtered.length + ' trim(s) available') : 'No matches';
     trimWarn.style.display = filtered.length ? 'none' : 'block';
   }
-
   function parseRange(str){
     if(!str) return null;
     var s = str.replace(/,/g,'').replace(/\s/g,'');
@@ -767,7 +771,6 @@
     if(isNaN(a) || isNaN(b)) return null;
     return [a,b];
   }
-  
   function findInceptionAdj(myKey, odo){
     var bands = (data && data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[myKey]) || null;
     if(!bands || odo == null) return 0;
@@ -777,20 +780,17 @@
     }
     return 0;
   }
-  
   function visibleMonthsFor(entry){
     if(!hideNA.checked) return MONTHS.slice();
     var result = [];
     for(var i=0;i<MONTHS.length;i++){ if(entry && entry.residuals && entry.residuals[MONTHS[i]] != null) result.push(MONTHS[i]); }
     return result;
   }
-  
   function buildHeader(visibleMonths){
     theadRow.innerHTML = '';
     var th1 = document.createElement('th'); th1.textContent = 'Trim / Term'; theadRow.appendChild(th1);
     visibleMonths.forEach(function(m){ var th = document.createElement('th'); th.textContent = m + ' mo'; theadRow.appendChild(th); });
   }
-
   function computeLVI(rvPercent, mf){ if(!isFinite(rvPercent) || !isFinite(mf) || mf <= 0) return null; return rvPercent / mf; }
 
   function compute(){
@@ -810,14 +810,13 @@
       if(lviBadge) lviBadge.textContent = '';
       if(sumLvi) sumLvi.textContent = '—';
       updateShareURL();
-      renderSniffer(null); // clear
       return;
     }
 
     var entry = branch[yrKey][code];
     var base = term ? ((entry && entry.residuals && entry.residuals[term]) || null) : null;
-    var PACPO = data.pacpo_bonus_percent || 2;
-    var pacpoAdj = pacpoToggle.checked ? PACPO : 0;
+    var PACPOv = data.pacpo_bonus_percent || 2;
+    var pacpoAdj = pacpoToggle.checked ? PACPOv : 0;
     var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
     var annualAdj = 0;
     if(base !== null && parseInt(term || "0", 10) >= 24){ annualAdj = milesMap[String(milesPerYear)] || 0; }
@@ -848,7 +847,7 @@
       if(v !== null && v !== undefined){
         var mN = parseInt(m, 10);
         var aAdj = (mN >= 24) ? (milesMap[String(milesPerYear)] || 0) : 0;
-        var total = v + (pacpoToggle.checked ? PACPO : 0) + aAdj + inceptionAdj;
+        var total = v + pacpoAdj + aAdj + inceptionAdj;
         shown = total + '%'; td.classList.add('ok');
       } else { td.classList.add('err'); }
       td.textContent = shown; tvalRow.appendChild(td);
@@ -866,14 +865,13 @@
     if (sumMsrp) sumMsrp.textContent = (msrp != null && !isNaN(msrp)) ? ('$' + msrp.toLocaleString()) : '—';
     var trueResidual = (final != null && msrp != null && !isNaN(msrp)) ? Math.round(msrp * (final/100)) : null;
     sumTrue.textContent = (trueResidual != null) ? ('$' + trueResidual.toLocaleString()) : '—';
-
     trueOut.innerHTML = (trueResidual != null)
       ? ('<span class="rv-label">MSRP × RV% = </span><span class="rv-value">$' + trueResidual.toLocaleString() + '</span>')
       : '';
 
     badgeRow.innerHTML = '';
     if(base !== null && term){ addBadge('Base ' + base + '%'); }
-    if(pacpoToggle.checked){ addBadge('+' + PACPO + '% PACPO'); }
+    if(pacpoToggle.checked){ addBadge('+' + PACPOv + '% PACPO'); }
     if(term && parseInt(term, 10) >= 24){ addBadge(((annualAdj>=0?'+':'') + annualAdj + '%') + ' Annual'); }
     if(odo != null && !isNaN(odo)){ addBadge(((inceptionAdj>=0?'+':'') + inceptionAdj + '%') + ' Inception'); }
 
@@ -890,19 +888,16 @@
       if(sumLvi) sumLvi.textContent = '—';
     }
 
-    if(leaseTerm) { if (termSel && termSel.value) leaseTerm.value = termSel.value; }
+    if(leaseTerm) {
+      if (termSel && termSel.value) leaseTerm.value = termSel.value;
+    }
 
     updateShareURL();
     leaseCompute();
-
-    // Build Deal Sniffer suggestions
-    renderSniffer({ entry, yrKey, dispYear, milesMap, inceptionAdj });
   }
-  
   function addBadge(txt){
     var b = document.createElement('div'); b.className = 'badge'; b.textContent = txt; badgeRow.appendChild(b);
   }
-
   function exportVisibleCSV(){
     var fam = familySel.value;
     var branch = branchForFamily(fam);
@@ -957,7 +952,6 @@
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
   }
-  
   function printSummary(){ window.print(); }
 
   function validateJSON(){
@@ -1068,7 +1062,7 @@
     mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
   }
 
-  // --- NEW: Preload lease defaults if fields are empty ---
+  // Preload lease defaults if fields are empty (keeps user edits & URL params)
   function applyLeaseDefaultsIfEmpty(){
     if(!leaseMF.value) leaseMF.value = '0.00400';
     if(!leaseTax.value) leaseTax.value = '9.75';
@@ -1077,7 +1071,6 @@
     if(termSel && termSel.value) leaseTerm.value = termSel.value;
     leaseCompute();
   }
-  // ------------------------------------------------------
 
   function restoreFromParams(){
     var p = readParams();
@@ -1094,220 +1087,15 @@
     if(p.msrp){ msrpInput.value = p.msrp; }
   }
 
-  // ===== DEAL SNIFFER (Simple) =====
-  function scenarioKey(s){ return [s.term, s.miles, s.pacpo ? 1 : 0].join('|'); }
-
-  function getCurrentScenario(finalPct){
-    var t = termSel && termSel.value ? parseInt(termSel.value,10) : NaN;
-    var miles = annualMilesSel && annualMilesSel.value ? parseInt(annualMilesSel.value,10) : NaN;
-    return {
-      term: t, miles: miles, pacpo: !!pacpoToggle.checked,
-      finalPct: isFinite(finalPct) ? finalPct : NaN
-    };
-  }
-
-  function computeFinalPctFor(entry, term, miles, pacpo, inceptionAdj, milesMap){
-    if(!entry || !entry.residuals) return NaN;
-    if(entry.residuals[String(term)] == null) return NaN;
-    var base = entry.residuals[String(term)];
-    var pac = pacpo ? (data.pacpo_bonus_percent || 2) : 0;
-    var annualAdj = (parseInt(term,10) >= 24) ? (milesMap[String(miles)] || 0) : 0;
-    return base + pac + annualAdj + (inceptionAdj || 0);
-  }
-
-  function priceMonthlyWithTax(finalPct, term, inputs){
-    var msrp = inputs.msrp, cap = inputs.cap, mf = inputs.mf, tax = inputs.tax, fees = inputs.fees, capRed = inputs.capRed;
-    if(![msrp,cap,mf,term].every(isFinite) || term<=0 || !isFinite(finalPct)) return { ok:false, pre:NaN, withTax:NaN };
-    if(mf<=0) return { ok:false, pre:NaN, withTax:NaN };
-    var rvAmt = Math.round(msrp * (finalPct/100));
-    var adjCap = cap - (isFinite(capRed)?capRed:0) + (isFinite(fees)?fees:0);
-    if(!isFinite(adjCap) || adjCap<=0) return { ok:false, pre:NaN, withTax:NaN };
-    var dep = (adjCap - rvAmt) / term;
-    var fin = (adjCap + rvAmt) * mf;
-    var pre = dep + fin;
-    var withT = pre * (1 + (isFinite(tax)?tax:0));
-    return { ok:isFinite(pre)&&pre>=0, pre:pre, withTax:withT };
-  }
-
-  function lviFrom(finalPct, mf){
-    var l = computeLVI(finalPct, mf);
-    return (l==null)? NaN : l;
-  }
-
-  function enumerateCandidates(entry, milesMap, inceptionAdj){
-    var terms = visibleMonthsFor(entry).map(function(m){return parseInt(m,10);}).filter(function(n){return isFinite(n);});
-    var curMiles = parseInt(annualMilesSel.value||'15000',10);
-    var candidateMiles = [curMiles, 12000, 10000].filter(function(v, i, arr){ return arr.indexOf(v)===i; })
-      .filter(function(v){ return milesMap[String(v)] != null; });
-
-    var curPac = !!pacpoToggle.checked;
-    var pacpoCandidates = [curPac, true].filter(function(v,i,arr){ return arr.indexOf(v)===i; });
-
-    var list = [];
-    terms.forEach(function(t){
-      candidateMiles.forEach(function(mil){
-        pacpoCandidates.forEach(function(p){
-          list.push({term:t, miles:mil, pacpo:p});
-        });
-      });
-    });
-    return list;
-  }
-
-  function gatherLeaseInputs(){
-    return {
-      msrp: msrpInput.value ? Number(msrpInput.value) : NaN,
-      cap: leaseCapCost.value ? Number(leaseCapCost.value) : NaN,
-      mf: leaseMF.value ? Number(leaseMF.value) : NaN,
-      tax: leaseTax.value ? Number(leaseTax.value)/100 : 0,
-      capRed: leaseCapReduction.value ? Number(leaseCapReduction.value) : 0,
-      fees: leaseFees.value ? Number(leaseFees.value) : 0
-    };
-  }
-
-  function renderSniffer(ctx){
-    if(!snifferButtons) return;
-    snifferButtons.innerHTML = '';
-
-    if(!ctx){
-      snifferMeta.textContent = 'Explores term • miles • PACPO';
-      snifferHelp.style.display = '';
-      return;
-    }
-
-    var entry = ctx.entry;
-    var milesMap = ctx.milesMap || {};
-    var inceptionAdj = ctx.inceptionAdj || 0;
-
-    if(!entry || !entry.residuals){
-      snifferMeta.textContent = 'Select a trim to see suggestions';
-      snifferHelp.style.display = '';
-      return;
-    }
-
-    var currentFinalPctText = sumFinal.textContent;
-    var currentFinalPct = (currentFinalPctText && currentFinalPctText.endsWith('%')) ? parseFloat(currentFinalPctText) : NaN;
-    var curScenario = getCurrentScenario(currentFinalPct);
-    var leaseInputs = gatherLeaseInputs();
-
-    var candidates = enumerateCandidates(entry, milesMap, inceptionAdj);
-
-    // Score each candidate
-    var seen = new Set();
-    var scored = candidates.map(function(scn){
-      var key = scenarioKey(scn);
-      if(seen.has(key)) return null;
-      seen.add(key);
-      var finalPct = computeFinalPctFor(entry, scn.term, scn.miles, scn.pacpo, inceptionAdj, milesMap);
-      var pay = priceMonthlyWithTax(finalPct, scn.term, leaseInputs);
-      var lvi = lviFrom(finalPct, leaseInputs.mf);
-      return {
-        term: scn.term,
-        miles: scn.miles,
-        pacpo: scn.pacpo,
-        finalPct: finalPct,
-        validPayment: !!(pay && pay.ok),
-        monthlyWithTax: pay.withTax,
-        preTax: pay.pre,
-        lvi: lvi
-      };
-    }).filter(Boolean).filter(function(x){ return isFinite(x.finalPct); });
-
-    if(scored.length === 0){
-      snifferMeta.textContent = 'Enter MSRP, Cap, MF to rank by payment — otherwise ranks by LVI';
-      snifferHelp.style.display = '';
-      return;
-    }
-
-    // Determine current payment/lvi for deltas
-    var curPay = priceMonthlyWithTax(curScenario.finalPct, curScenario.term, leaseInputs);
-    var curHasPay = !!(curPay && curPay.ok);
-    var curMonthly = curHasPay ? curPay.withTax : NaN;
-    var curLVI = lviFrom(curScenario.finalPct, leaseInputs.mf);
-
-    // Sort: prefer valid payment by lowest payment; fallback to highest LVI
-    scored.sort(function(a,b){
-      if(a.validPayment && b.validPayment){
-        if(a.monthlyWithTax === b.monthlyWithTax){
-          return (isFinite(b.lvi)?b.lvi:-Infinity) - (isFinite(a.lvi)?a.lvi:-Infinity);
-        }
-        return a.monthlyWithTax - b.monthlyWithTax;
-      }
-      if(a.validPayment !== b.validPayment){
-        return a.validPayment ? -1 : 1;
-      }
-      // neither has valid payment → sort by LVI desc
-      return (isFinite(b.lvi)?b.lvi:-Infinity) - (isFinite(a.lvi)?a.lvi:-Infinity);
-    });
-
-    var top = scored.slice(0,3);
-    snifferMeta.textContent = 'Best ' + top.length + ' scenario' + (top.length>1?'s':'');
-
-    top.forEach(function(s, idx){
-      var btn = document.createElement('button');
-      btn.className = 'sniff-btn' + (idx===0 ? ' sniff-best' : '');
-      var pacText = s.pacpo ? 'PACPO ON' : 'PACPO OFF';
-      var title = (idx===0 ? 'Best: ' : (idx===1?'Alt A: ':'Alt B: ')) + s.term + ' mo • ' + s.miles.toLocaleString() + '/yr • ' + pacText;
-
-      // Deltas
-      var deltaStr = '';
-      if(s.validPayment && curHasPay){
-        var diff = Math.round(s.monthlyWithTax - curMonthly);
-        deltaStr = (diff===0) ? '≈ $0/mo change' :
-                   (diff<0 ? '≈ −$'+Math.abs(diff).toLocaleString()+'/mo' : '≈ +$'+diff.toLocaleString()+'/mo');
-      } else {
-        // fallback to LVI delta if payment not available
-        var dL = (isFinite(s.lvi)&&isFinite(curLVI)) ? (s.lvi - curLVI) : NaN;
-        if(isFinite(dL)){
-          var k = (dL/1000).toFixed(1) + 'k';
-          deltaStr = (dL>=0?'+':'') + k + ' LVI';
-        } else {
-          deltaStr = '—';
-        }
-      }
-
-      // Subtitle: RV% and LVI
-      var lviTxt = isFinite(s.lvi) ? (s.lvi/1000).toFixed(1)+'k' : '—';
-      var sub = 'RV ' + (isFinite(s.finalPct)?s.finalPct.toFixed(2)+'%':'—') + ' • LVI ' + lviTxt;
-
-      btn.innerHTML =
-        '<div class="sniff-title">'+title+'</div>'+
-        '<div class="sniff-sub">'+sub+'</div>'+
-        '<div class="sniff-delta">'+deltaStr+'</div>';
-
-      btn.addEventListener('click', function(){
-        // Apply scenario → update selectors & toggle; then recompute
-        termSel.value = String(s.term);
-        annualMilesSel.value = String(s.miles);
-        pacpoToggle.checked = !!s.pacpo;
-        compute(); // will mirror leaseTerm and recompute everything
-        // scroll summary into view lightly
-        var sum = document.getElementById('summaryBox');
-        if(sum){ sum.scrollIntoView({behavior:'smooth', block:'start'}); sum.classList.add('success-flash'); setTimeout(function(){ sum.classList.remove('success-flash'); }, 600); }
-      });
-
-      snifferButtons.appendChild(btn);
-    });
-
-    // Tie-break hint if close
-    if(top.length>=2 && top[0].validPayment && top[1].validPayment){
-      var diff01 = Math.abs(top[0].monthlyWithTax - top[1].monthlyWithTax);
-      snifferHelp.textContent = diff01<=10 ? 'Near-tie detected (≤ $10/mo). Higher LVI preferred.' : 'Buttons apply changes instantly and recompute.';
-    } else {
-      snifferHelp.textContent = 'Buttons apply changes instantly and recompute.';
-    }
-  }
-  // ===== END DEAL SNIFFER =====
-
   programSel.addEventListener('change', function(){
     var val = programSel.value;
     var label = programSel.options[programSel.selectedIndex].textContent.replace(/^Program:\s*/,'');
     loadProgram(val, label).catch(function(err){
-      alert('Could not load "'+val+'". Ensure JSON exists.\n\n' + err.message);
+      showError('Could not load "'+val+'". ' + err.message);
       programSel.value = '__current__';
     });
   });
-  
+
   jumpSummaryBtn.addEventListener('click', function(){
     var el = document.getElementById('summaryBox');
     if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); el.classList.add('success-flash'); setTimeout(function(){ el.classList.remove('success-flash'); }, 600); }
@@ -1356,31 +1144,25 @@
   validateBtn.addEventListener('click', validateJSON);
   closeValBtn && closeValBtn.addEventListener('click', function(){ validatorCard.style.display='none'; });
 
-  leaseCapCost.addEventListener('input', function(){ leaseCompute(); renderSnifferDelayed(); });
-  leaseMF.addEventListener('input', function(){ leaseCompute(); compute(); renderSnifferDelayed(); });
-  leaseTax.addEventListener('input', function(){ leaseCompute(); renderSnifferDelayed(); });
-  leaseCapReduction.addEventListener('input', function(){ leaseCompute(); renderSnifferDelayed(); });
-  leaseFees.addEventListener('input', function(){ leaseCompute(); renderSnifferDelayed(); });
-  leaseTerm.addEventListener('input', function(){ leaseCompute(); renderSnifferDelayed(); });
+  leaseCapCost.addEventListener('input', leaseCompute);
+  leaseMF.addEventListener('input', function(){ leaseCompute(); compute(); });
+  leaseTax.addEventListener('input', leaseCompute);
+  leaseCapReduction.addEventListener('input', leaseCompute);
+  leaseFees.addEventListener('input', leaseCompute);
+  leaseTerm.addEventListener('input', leaseCompute);
 
-  // small debounce for sniffer re-renders when editing lease inputs
-  var sniffTimer = null;
-  function renderSnifferDelayed(){
-    if(sniffTimer) cancelAnimationFrame(sniffTimer);
-    sniffTimer = requestAnimationFrame(function(){ compute(); });
-  }
-
+  // Boot
   var initialParams = readParams();
   if(initialParams.program){
     var opt = Array.from(programSel.options).find(function(o){return o.value===initialParams.program;});
     if(opt){ programSel.value = initialParams.program; currentProgramLabel = opt.textContent.replace(/^Program:\s*/,''); }
     else { programSel.value = '__current__'; currentProgramLabel = initialParams.program; }
-    loadProgram(programSel.value, currentProgramLabel).catch(function(err){ alert(err.message); });
+    loadProgram(programSel.value, currentProgramLabel).catch(function(err){ showError(err.message); });
   } else {
     programSel.value = 'porsche_residuals_all.json';
     loadProgram(programSel.value, 'PB 25-10R (Default)').catch(function(){
       programSel.value = '__current__';
-      loadProgram('__current__', 'Current').catch(function(err){ alert(err.message); });
+      loadProgram('__current__', 'Current').catch(function(err){ showError(err.message); });
     });
   }
 })();

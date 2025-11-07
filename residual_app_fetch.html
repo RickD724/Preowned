@@ -41,6 +41,7 @@
     --glow: 0 0 40px var(--accent-glow);
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  
   [data-theme="light"]{
     --bg: #f5f7fa;
     --bg-secondary: #ffffff;
@@ -58,7 +59,9 @@
     --success-glow: rgba(16, 185, 129, 0.2);
     --purple-glow: rgba(139, 92, 246, 0.2);
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  
   @keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
   @keyframes slideInFromTop { from{transform:translateY(-30px);opacity:0} to{transform:translateY(0);opacity:1} }
@@ -66,165 +69,223 @@
   @keyframes scaleIn { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
   @keyframes shimmer { 0%{background-position:-1000px 0} 100%{background-position:1000px 0} }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+  
   html, body{
     background: var(--bg);
     color: var(--text);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh; overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
+  
   body {
     background: linear-gradient(135deg, var(--bg) 0%, var(--bg-secondary) 50%, var(--bg) 100%);
-    background-size: 400% 400%; animation: gradientShift 15s ease infinite;
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
   }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 20px 20px 100px; position: relative; }
+  
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 20px 20px 100px;
+    position: relative;
+  }
+  
   body::before {
-    content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-    background: radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%), radial-gradient(circle at 70% 80%, var(--purple-glow) 0%, transparent 50%);
-    opacity: 0.4; pointer-events: none; z-index: 0; animation: float 20s ease-in-out infinite;
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, var(--purple-glow) 0%, transparent 50%);
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+    animation: float 20s ease-in-out infinite;
   }
-  body::after { content: ''; position: fixed; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.03) 50%, transparent 100%); pointer-events: none; z-index: 0; }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.03) 50%, transparent 100%);
+    pointer-events: none; z-index: 0;
+  }
   .wrap > * { position: relative; z-index: 1; }
+  
   .top {
-    position: sticky; top: 0; z-index: 50; backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
-    background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow); animation: slideInFromTop 0.6s ease;
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px 16px; margin-bottom: 16px; box-shadow: var(--shadow);
+    animation: slideInFromTop 0.6s ease;
   }
   [data-theme="light"] .top { background: rgba(255,255,255,0.8); }
-  .brand { display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
-  .leftRow { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  
+  .brand { display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  .leftRow { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  
   .pill{
-    display:inline-flex; align-items:center; gap:12px;
+    display:inline-flex; align-items:center; gap:10px;
     background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
     background-size:200% 200%; animation: gradientShift 8s ease infinite;
-    color:#fff; padding:12px 24px; border-radius:999px; font-weight:900; font-size:.95rem; letter-spacing:.5px;
+    color:#fff; padding:10px 16px; border-radius:999px; font-weight:800; font-size:.9rem; letter-spacing:.4px;
     box-shadow:0 8px 30px var(--accent-glow); white-space:nowrap; transition:var(--transition); position:relative; overflow:hidden;
   }
   .pill::before{ content:''; position:absolute; inset:0; left:-100%;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent); animation:shimmer 3s infinite; }
-  .pill:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 12px 40px var(--accent-glow); }
+  .pill:hover{ transform:translateY(-2px); box-shadow:0 12px 40px var(--accent-glow); }
+  
   .theme,.btn{
     border:1px solid var(--border); background:var(--card); backdrop-filter:blur(10px);
-    color:var(--text); padding:10px 18px; border-radius:var(--radius-sm); cursor:pointer;
-    font-weight:600; font-size:.9rem; transition:var(--transition); white-space:nowrap; font-family:'Inter',sans-serif; position:relative; overflow:hidden;
+    color:var(--text); padding:8px 14px; border-radius:var(--radius-sm); cursor:pointer;
+    font-weight:600; font-size:.88rem; transition:var(--transition); white-space:nowrap; font-family:'Inter',sans-serif; position:relative; overflow:hidden;
   }
   .theme::before,.btn::before{ content:''; position:absolute; top:50%; left:50%; width:0; height:0; border-radius:50%; background:var(--accent-glow); transform:translate(-50%,-50%); transition:width .6s, height .6s; }
   .theme:hover::before,.btn:hover::before{ width:300px; height:300px; }
-  .theme:hover,.btn:hover{ background:var(--card-hover); border-color:var(--border-hover); transform:translateY(-2px); box-shadow:0 8px 25px var(--accent-glow); }
+  .theme:hover,.btn:hover{ background:var(--card-hover); border-color:var(--border-hover); transform:translateY(-1px); box-shadow:0 6px 20px var(--accent-glow); }
+  
   .select{ min-width:200px; transition:var(--transition); }
-  .select:hover{ transform:scale(1.02); }
+  .select:hover{ transform:scale(1.01); }
+  
   .card{
     background:var(--card); backdrop-filter:blur(30px) saturate(180%); -webkit-backdrop-filter:blur(30px) saturate(180%);
     border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
-    padding:28px; transition:var(--transition); animation:fadeInUp .6s ease; position:relative; overflow:hidden;
+    padding:22px; transition:var(--transition); animation:fadeInUp .6s ease; position:relative; overflow:hidden;
   }
-  .card::before{ content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity .4s; }
-  .card:hover{ border-color:var(--border-hover); box-shadow:var(--shadow-lg), var(--glow); transform:translateY(-5px); }
-  .card:hover::before{ opacity:1; }
-  .controls{ position:sticky; top:100px; z-index:20; animation-delay:.2s; }
+  .card:hover{ border-color:var(--border-hover); box-shadow:var(--shadow-lg), var(--glow); }
+  
+  .controls{ position:sticky; top:86px; z-index:20; animation-delay:.2s; }
   @media (max-width:900px){ .controls{ position:static; } }
-  .grid{ display:grid; gap:18px; }
+  
+  .grid{ display:grid; gap:14px; }
   .g4{ grid-template-columns:repeat(4,minmax(0,1fr)); }
   .g3{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .g2{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   @media (max-width:900px){ .g4,.g3,.g2{ grid-template-columns:1fr; } }
-  label{ font-size:.75rem; color:var(--muted); display:block; margin:0 0 10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:var(--transition); }
+  
+  label{ font-size:.72rem; color:var(--muted); display:block; margin:0 0 8px; font-weight:700; text-transform:uppercase; letter-spacing:.9px; transition:var(--transition); }
   .form-group:hover label{ color:var(--accent); }
+  
   select,input[type="number"],input[type="text"]{
     width:100%; appearance:none; -webkit-appearance:none; background:var(--bg-secondary);
     color:var(--text); border:2px solid var(--border); border-radius:var(--radius-sm);
-    padding:14px 18px; font-size:.95rem; font-weight:500; transition:var(--transition); font-family:'Inter',sans-serif;
+    padding:12px 14px; font-size:.95rem; font-weight:500; transition:var(--transition); font-family:'Inter',sans-serif;
   }
-  select:focus,input:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-glow); background:var(--card); transform:translateY(-2px); }
+  select:focus,input:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-glow); background:var(--card); transform:translateY(-1px); }
   select:hover,input:hover{ border-color:var(--border-hover); }
   select{
     cursor:pointer;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 14px center; padding-right:45px;
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:42px;
   }
-  input[type="checkbox"]{ width:24px; height:24px; cursor:pointer; accent-color:var(--accent); transition:var(--transition); }
-  input[type="checkbox"]:hover{ transform:scale(1.1); }
+  input[type="checkbox"]{ width:22px; height:22px; cursor:pointer; accent-color:var(--accent); transition:var(--transition); }
+  input[type="checkbox"]:hover{ transform:scale(1.06); }
+  
   .muted{ color:var(--muted); }
-  .hint{ font-size:.8rem; color:var(--muted); margin-top:8px; font-weight:500; font-style:italic; }
+  .hint{ font-size:.8rem; color:var(--muted); margin-top:6px; font-weight:500; font-style:italic; }
   .searchWrap{ max-width:280px; min-width:220px; }
-  .rowline{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  .rowline{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  
   .result{
-    display:flex; align-items:baseline; gap:20px; margin:24px 0 20px; flex-wrap:wrap; padding:32px;
+    display:flex; align-items:baseline; gap:18px; margin:18px 0 16px; flex-wrap:wrap; padding:24px;
     background:linear-gradient(135deg, var(--accent-glow) 0%, var(--purple-glow) 100%);
     border-radius:var(--radius); border:2px solid var(--border-hover); position:relative; overflow:hidden; animation:scaleIn .6s ease;
   }
-  .result::before{ content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
-    background:linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent); animation:shimmer 3s infinite; }
   .result .big{
-    font-size:4rem; font-weight:900; letter-spacing:-1px;
+    font-size:3.2rem; font-weight:800; letter-spacing:-0.5px;
     background:linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-    position:relative; z-index:1; text-shadow:0 0 40px var(--accent-glow);
   }
-  .result .small{ font-size:1.1rem; font-weight:600; position:relative; z-index:1; }
-  .tableWrap{ margin-top:20px; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-secondary); box-shadow:inset 0 2px 10px rgba(0,0,0,0.1); }
+  .result .small{ font-size:1.02rem; font-weight:600; }
+  
+  .tableWrap{ margin-top:12px; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-secondary); }
   table{ min-width:720px; width:100%; border-collapse:separate; border-spacing:0; }
-  th,td{ padding:16px 20px; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; transition:var(--transition); }
+  th,td{ padding:14px 16px; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; transition:var(--transition); }
   thead th{
-    font-size:.75rem; color:var(--muted); font-weight:800; position:sticky; top:0;
+    font-size:.7rem; color:var(--muted); font-weight:800; position:sticky; top:0;
     background:var(--card); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:1;
     text-transform:uppercase; letter-spacing:1px; border-bottom:2px solid var(--border-hover);
   }
-  tbody tr{ transition:var(--transition); }
-  tbody tr:hover{ background:var(--card-hover); transform:scale(1.01); }
-  td.ok{ color:var(--success); font-weight:800; font-variant-numeric:tabular-nums; text-shadow:0 0 10px var(--success-glow); }
+  tbody tr:hover{ background:var(--card-hover); }
+  td.ok{ color:var(--success); font-weight:800; font-variant-numeric:tabular-nums; }
   td.err{ color:var(--danger); opacity:.5; }
-  td:first-child,th:first-child{ position:sticky; left:0; background:var(--card); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:2; font-weight:800; }
+  td:first-child,th:first-child{ position:sticky; left:0; background:var(--card); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:2; font-weight:700; }
+  
   .summary{
-    margin-top:24px; padding:32px; border:2px solid var(--border-hover); border-radius:var(--radius);
-    background:var(--card); backdrop-filter:blur(30px); box-shadow:var(--shadow-lg);
-    animation:scaleIn .8s ease; animation-delay:.3s; animation-fill-mode:both;
+    margin-top:18px; padding:24px; border:2px solid var(--border-hover); border-radius:var(--radius);
+    background:var(--card); box-shadow:var(--shadow-lg);
+    animation:scaleIn .8s ease; animation-delay:.2s; animation-fill-mode:both;
   }
-  .sum-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:20px; }
+  .sum-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
   @media (max-width:700px){ .sum-grid{ grid-template-columns:1fr; } }
+  
   .srow{
-    display:flex; gap:16px; align-items:center; justify-content:space-between;
+    display:flex; gap:12px; align-items:center; justify-content:space-between;
     background:linear-gradient(135deg, rgba(59,130,246,0.05), rgba(139,92,246,0.05));
-    border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; transition:var(--transition); position:relative; overflow:hidden;
+    border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; transition:var(--transition);
   }
-  .srow::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg, var(--accent), var(--purple)); transform:scaleY(0); transition:transform .4s; }
-  .srow:hover::before{ transform:scaleY(1); }
-  .srow:hover{ transform:translateX(8px); border-color:var(--border-hover); box-shadow:0 8px 25px var(--accent-glow);
-    background:linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1)); }
-  .slabel{ font-weight:700; color:var(--muted); font-size:.9rem; letter-spacing:.5px; }
-  .sval{ font-variant-numeric:tabular-nums; font-weight:800; font-size:1.1rem; color:var(--text-primary); }
-  .rv-label{ color:#bfa7ff; font-family:inherit; font-weight:700; letter-spacing:.02em; }
-  .rv-value{ font-family:inherit; font-weight:800; color:var(--text-primary); }
-  .badges{ display:flex; gap:12px; flex-wrap:wrap; margin-top:20px; }
+  .slabel{ font-weight:700; color:var(--muted); font-size:.9rem; letter-spacing:.2px; }
+  .sval{ font-variant-numeric:tabular-nums; font-weight:800; font-size:1.05rem; color:var(--text-primary); }
+  
+  .rv-label{ color:#bfa7ff; font-weight:700; }
+  .rv-value{ font-weight:800; color:var(--text-primary); }
+  
+  .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
   .badge{
-    background:linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.1));
-    border:1px solid var(--border-hover); padding:10px 20px; border-radius:999px; font-size:.85rem; font-weight:700; transition:var(--transition); animation:fadeInUp .8s ease; letter-spacing:.3px;
+    background:linear-gradient(135deg, rgba(59,130,246,0.18), rgba(139,92,246,0.12));
+    border:1px solid var(--border-hover); padding:8px 14px; border-radius:999px; font-size:.83rem; font-weight:700;
   }
-  .badge:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 8px 20px var(--accent-glow);
-    background:linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2)); }
-  .footer{ margin:40px 0 20px; animation:fadeInUp 1s ease; }
-  .foot-card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px 32px; text-align:center; }
+
+  /* Deal Sniffer */
+  .sniffer{
+    margin-top:16px; padding:18px; border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--bg-secondary);
+  }
+  .snifferHead{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;
+  }
+  .snifferTitle{ font-weight:800; letter-spacing:.2px; display:flex; align-items:center; gap:8px; }
+  .snifferHint{ color:var(--muted); font-size:.85rem; }
+  .snifferGrid{ display:grid; gap:12px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  @media (max-width:900px){ .snifferGrid{ grid-template-columns:1fr; } }
+  .sniffCard{
+    border:1px solid var(--border); border-radius:14px; padding:14px; background:var(--card);
+    transition:var(--transition); cursor:pointer;
+  }
+  .sniffCard:hover{ transform:translateY(-2px); border-color:var(--border-hover); box-shadow:var(--shadow); }
+  .sniffHeader{
+    font-weight:700; font-size:1rem; display:flex; align-items:center; gap:8px;
+  }
+  .sniffMeta{ margin-top:6px; font-size:.9rem; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; }
+  .sniffGain{ margin-top:8px; font-weight:700; font-size:.9rem; }
+  .sniffBest{ border:1.5px solid rgba(16,185,129,.6); background:linear-gradient(135deg, rgba(16,185,129,.08), rgba(59,130,246,.05)); }
+  
+  .footer{ margin:28px 0 12px; }
+  .foot-card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px 24px; text-align:center; }
   .foot-title{
-    font-weight:900; letter-spacing:.5px; margin-bottom:12px; font-size:1.2rem;
+    font-weight:900; letter-spacing:.4px; margin-bottom:8px; font-size:1.1rem;
     background:linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   }
-  .foot-text{ color:var(--muted); font-size:.95rem; line-height:1.8; }
-  @media (max-width:768px){ .result .big{ font-size:2.5rem; } .card{ padding:20px; } .summary{ padding:20px; } }
+  .foot-text{ color:var(--muted); font-size:.95rem; line-height:1.7; }
+
+  @media (max-width:768px){
+    .result .big{ font-size:2.4rem; }
+    .card{ padding:18px; }
+    .summary{ padding:18px; }
+  }
   @media print{
     body{ background:#fff; }
-    .top,.controls,.tableWrap,#leaseCard,.footer,#validatorCard{ display:none !important; }
+    .top,.controls,.tableWrap,#leaseCard,.footer,#validatorCard,#snifferCard{ display:none !important; }
     .summary{ border:0; box-shadow:none; }
   }
-  .loading{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.2rem; color:var(--accent); font-weight:700; animation:pulse 1.5s infinite; }
+  .loading{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.1rem; color:var(--accent); font-weight:700; animation:pulse 1.5s infinite; }
   .success-flash{ animation:successPulse .6s ease; }
   @keyframes successPulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.05); box-shadow:0 0 30px var(--success-glow)} }
-  .error-banner{
-    display:none; margin:0 0 16px; padding:12px 16px; border-radius:12px; border:1px solid rgba(239,68,68,.35);
-    background: rgba(239,68,68,.08); color:#fecaca; font-weight:700;
-  }
-  .info-banner{
-    display:none; margin:0 0 16px; padding:12px 16px; border-radius:12px; border:1px solid rgba(59,130,246,.35);
-    background: rgba(59,130,246,.08); color:#c7d2fe; font-weight:700;
-  }
 </style>
 
 </head>
@@ -234,8 +295,7 @@
       <div class="brand">
         <div class="leftRow">
           <div class="pill">⚡ Residual Pro — By Ricardo</div>
-          <select id="programSel" class="select" title="Pick where to load JSON from">
-            <!-- Make sure these filenames actually exist next to this HTML OR put absolute URLs -->
+          <select id="programSel" class="select">
             <option value="__current__">Program: Current (from ?data or default)</option>
             <option value="porsche_residuals_all.json">Program: PB 25-10R (Default)</option>
             <option value="porsche_residuals_25-09R.json">Program: PB 25-09R (Oct)</option>
@@ -249,8 +309,6 @@
           <button id="themeBtn" class="theme" type="button">🌙 Dark</button>
         </div>
       </div>
-      <div id="errorBanner" class="error-banner"></div>
-      <div id="infoBanner" class="info-banner"></div>
     </div>
 
     <div class="card controls" id="controls">
@@ -275,7 +333,7 @@
         </div>
       </div>
 
-      <div class="grid g3" style="margin-top: 16px">
+      <div class="grid g3" style="margin-top: 8px">
         <div>
           <label>⏱️ Term (months)</label>
           <select id="termSel"></select>
@@ -284,20 +342,20 @@
           <label>📊 Miles per Year</label>
           <select id="annualMilesSel"></select>
         </div>
-        <div class="rowline" style="margin-top: 32px">
-          <label class="rowline" style="gap: 10px;">
+        <div class="rowline" style="margin-top: 26px">
+          <label class="rowline" style="gap: 8px;">
             <input id="pacpoToggle" type="checkbox" />
             <span>+2% PACPO</span>
           </label>
-          <label class="rowline" style="gap: 10px;">
+          <label class="rowline" style="gap: 8px;">
             <input id="hideNA" type="checkbox" />
             <span>Hide N/A</span>
           </label>
-          <div class="pill" id="codeBadge" style="font-size:0.85rem;padding:8px 16px;">Code: —</div>
+          <div class="pill" id="codeBadge" style="font-size:0.8rem;padding:6px 12px;">Code: —</div>
         </div>
       </div>
 
-      <div class="grid g3" style="margin-top: 16px">
+      <div class="grid g3" style="margin-top: 8px">
         <div>
           <label>🛣️ Miles at Inception</label>
           <input id="odoInput" type="number" min="0" step="1" placeholder="e.g., 3,450" />
@@ -315,7 +373,7 @@
       </div>
     </div>
 
-    <div class="card" style="margin-top: 20px; animation-delay: 0.4s;">
+    <div class="card" style="margin-top: 14px; animation-delay: 0.2s;">
       <div class="result">
         <div class="big" id="finalOut">—</div>
         <div class="small muted" id="detailOut">Select options to calculate</div>
@@ -330,15 +388,25 @@
         </table>
       </div>
 
+      <!-- Deal Sniffer -->
+      <div class="sniffer" id="snifferCard" style="display:none;">
+        <div class="snifferHead">
+          <div class="snifferTitle">🕵️‍♂️ Deal Sniffer</div>
+          <div class="snifferHint">Best 3 scenarios</div>
+        </div>
+        <div class="snifferGrid" id="snifferGrid"></div>
+        <div class="hint" style="margin-top:8px;">Buttons apply changes instantly and recompute.</div>
+      </div>
+
       <div class="summary" id="summaryBox">
         <div class="rowline" style="justify-content:space-between;">
-          <strong style="font-size:1.3rem;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">📋 Summary</strong>
+          <strong style="font-size:1.15rem;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">📋 Summary</strong>
           <button id="copyBtn" class="theme btn" type="button">📄 Copy</button>
         </div>
 
-        <div class="srow" style="margin-top:16px; border:3px solid var(--accent); box-shadow: var(--glow); background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));">
-          <span class="slabel" style="color:var(--accent);font-size:1rem;">Final Residual</span>
-          <span class="sval" id="sumFinal" style="font-size:1.8rem;color:var(--accent);font-weight:900;">—</span>
+        <div class="srow" style="margin-top:12px; border:2px solid var(--accent); box-shadow: var(--glow); background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.12));">
+          <span class="slabel" style="color:var(--accent);font-size:.95rem;">Final Residual</span>
+          <span class="sval" id="sumFinal" style="font-size:1.5rem;color:var(--accent);font-weight:900;">—</span>
         </div>
 
         <div class="sum-grid">
@@ -360,16 +428,16 @@
             <span class="sval" id="sumLvi" title="Higher is better">—</span>
           </div>
         </div>
-        <div class="hint" id="lviHelp" style="margin-top:12px;text-align:center;">💡 Higher Value Index = Better Deal</div>
+        <div class="hint" id="lviHelp" style="margin-top:8px;text-align:center;">💡 Higher Value Index = Better Deal</div>
 
         <div class="badges" id="badgeRow" aria-label="Adjustments"></div>
       </div>
     </div>
 
-    <div class="card" id="leaseCard" style="margin-top: 20px; animation-delay: 0.6s;">
-      <div class="rowline" style="justify-content:space-between; margin-bottom:16px;">
-        <strong style="font-size:1.2rem;background:linear-gradient(135deg,var(--success),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">💳 Lease Estimator</strong>
-        <span class="muted" style="font-size:0.95rem;font-style:italic;">Uses current RV% & term</span>
+    <div class="card" id="leaseCard" style="margin-top: 14px; animation-delay: 0.3s;">
+      <div class="rowline" style="justify-content:space-between; margin-bottom:10px;">
+        <strong style="font-size:1.05rem;background:linear-gradient(135deg,var(--success),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">💳 Lease Estimator</strong>
+        <span class="muted" style="font-size:0.9rem;font-style:italic;">Uses current RV% & term</span>
       </div>
 
       <div class="grid g3">
@@ -390,7 +458,7 @@
         </div>
       </div>
 
-      <div class="grid g3" style="margin-top:14px">
+      <div class="grid g3" style="margin-top:10px">
         <div>
           <label>💸 Cap Reduction ($)</label>
           <input id="leaseCapReduction" type="number" min="0" step="100" placeholder="0" />
@@ -408,21 +476,21 @@
         </div>
       </div>
 
-      <div class="grid g3" style="margin-top:16px">
+      <div class="grid g3" style="margin-top:10px">
         <div class="srow"><span class="slabel">Residual %</span><span class="sval" id="leaseRvPct">—</span></div>
         <div class="srow"><span class="slabel">Residual $</span><span class="sval" id="leaseRvAmt">—</span></div>
         <div class="srow"><span class="slabel">Adj Cap Cost</span><span class="sval" id="leaseAdjCap">—</span></div>
       </div>
 
-      <div class="grid g2" style="margin-top:16px">
-        <div class="srow" style="border:2px solid var(--success);"><span class="slabel" style="color:var(--success);">Monthly (Pre-Tax)</span><span class="sval" id="leasePreTax" style="color:var(--success);font-size:1.3rem;">—</span></div>
-        <div class="srow" style="border:2px solid var(--purple);"><span class="slabel" style="color:var(--purple);">Monthly (With Tax)</span><span class="sval" id="leaseWithTax" style="color:var(--purple);font-size:1.3rem;">—</span></div>
+      <div class="grid g2" style="margin-top:10px">
+        <div class="srow" style="border:2px solid var(--success);"><span class="slabel" style="color:var(--success);">Monthly (Pre-Tax)</span><span class="sval" id="leasePreTax" style="color:var(--success);font-size:1.2rem;">—</span></div>
+        <div class="srow" style="border:2px solid var(--purple);"><span class="slabel" style="color:var(--purple);">Monthly (With Tax)</span><span class="sval" id="leaseWithTax" style="color:var(--purple);font-size:1.2rem;">—</span></div>
       </div>
     </div>
 
-    <div class="card" id="validatorCard" style="margin-top:16px; display:none; animation-delay:0.8s;">
-      <div class="rowline" style="justify-content:space-between; margin-bottom:12px;">
-        <strong style="font-size:1.1rem;">🔍 JSON Validator</strong>
+    <div class="card" id="validatorCard" style="margin-top:14px; display:none; animation-delay:0.35s;">
+      <div class="rowline" style="justify-content:space-between; margin-bottom:8px;">
+        <strong style="font-size:1rem;">🔍 JSON Validator</strong>
         <button id="closeValBtn" class="btn" type="button">✕ Close</button>
       </div>
       <div id="validatorOutput" class="muted" style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:0.9rem; line-height:1.8;"></div>
@@ -442,6 +510,7 @@
 
 <script>
 (function(){
+  // ---- App Icons + Manifest (unchanged) ----
   (function generateIconsAndManifest(){
     try{
       var canvas = document.createElement('canvas');
@@ -476,10 +545,10 @@
     }catch(e){}
   })();
 
+  // ---- Theme: Light by default ----
   var themeBtn = document.getElementById('themeBtn');
-  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-  themeBtn.innerHTML = prefersDark ? '☀️ Light' : '🌙 Dark';
+  document.documentElement.setAttribute('data-theme', 'light');
+  themeBtn.innerHTML = '🌙 Dark';
   themeBtn.addEventListener('click', function(){
     var cur = document.documentElement.getAttribute('data-theme');
     var next = cur === 'light' ? 'dark' : 'light';
@@ -489,6 +558,7 @@
     setTimeout(function(){ themeBtn.classList.remove('success-flash'); }, 600);
   });
 
+  // ---- DOM refs ----
   var programSel = document.getElementById('programSel');
   var validateBtn = document.getElementById('validateBtn');
   var exportCsvBtn = document.getElementById('exportCsvBtn');
@@ -542,39 +612,14 @@
   var validatorCard = document.getElementById('validatorCard');
   var closeValBtn = document.getElementById('closeValBtn');
   var validatorOutput = document.getElementById('validatorOutput');
-  var errorBanner = document.getElementById('errorBanner');
-  var infoBanner = document.getElementById('infoBanner');
+
+  // Deal Sniffer refs
+  var snifferCard = document.getElementById('snifferCard');
+  var snifferGrid = document.getElementById('snifferGrid');
 
   var data, MONTHS = [], PACPO = 2;
   var fullTrimList = [];
   var currentProgramLabel = 'Current';
-
-  // ---- Inline tiny fallback so UI still boots if external JSON fails ----
-  var FALLBACK_JSON = {
-    months: ["24","36","39","48"],
-    pacpo_bonus_percent: 2,
-    annual_mileage_adjustments_percent: { miles_per_year: {"7500":4,"10000":3,"12000":2,"15000":0} },
-    mileage_at_inception_adjustments_percent: { "MY25":[{miles_range:"0–499",adj:0},{miles_range:"500–1499",adj:-1}] },
-    models: {
-      "911": {
-        "MY25": {
-          "992C2": { model:"Carrera", residuals: {"24":72,"36":63,"39":61,"48":55} }
-        }
-      }
-    }
-  };
-
-  function showError(msg){
-    errorBanner.textContent = 'JSON Load Error: ' + msg;
-    errorBanner.style.display = 'block';
-    setTimeout(function(){ errorBanner.style.display = 'none'; }, 8000);
-    console.error(msg);
-  }
-  function showInfo(msg){
-    infoBanner.textContent = msg;
-    infoBanner.style.display = 'block';
-    setTimeout(function(){ infoBanner.style.display = 'none'; }, 6000);
-  }
 
   function readParams(){
     var p = new URLSearchParams(location.search);
@@ -585,29 +630,7 @@
       msrp: p.get('msrp') || null
     };
   }
-  function resolveUrlMaybe(u){
-    try { return new URL(u, location.href).href; } catch(e){ return u; }
-  }
-  function parseMaybeJSONText(t){
-    try { return JSON.parse(t); } catch(e){ return null; }
-  }
-  function isDataUrl(u){
-    return /^data:application\/json(;charset=[^,]+)?,/i.test(u) || /^data:application\/json;base64,/i.test(u);
-  }
-  function loadFromDataUrl(u){
-    try{
-      if(/^data:application\/json;base64,/i.test(u)){
-        var b64 = u.split(',')[1]; var txt = atob(b64);
-        return Promise.resolve(JSON.parse(txt));
-      } else {
-        var txt = decodeURIComponent(u.split(',')[1] || '');
-        return Promise.resolve(JSON.parse(txt));
-      }
-    }catch(e){
-      return Promise.reject(new Error('Invalid data: URL JSON ('+e.message+')'));
-    }
-  }
-
+  
   function updateShareURL(){
     var p = new URLSearchParams();
     var program = (programSel.value === '__current__') ? (initialProgram || 'porsche_residuals_all.json') : programSel.value;
@@ -631,54 +654,26 @@
     return params.get('data') || 'porsche_residuals_all.json';
   })();
 
-  // ---- Hardened loader: supports relative, absolute, data: URL; falls back nicely ----
   function loadProgram(file, label){
+    var cacheBuster = 't=' + Date.now();
     currentProgramLabel = label || (file === '__current__' ? 'Current' : file);
     var target = (file === '__current__') ? initialProgram : file;
-    var resolved = resolveUrlMaybe(target);
-
-    if(isDataUrl(resolved)){
-      return loadFromDataUrl(resolved).then(afterJSONLoaded).catch(function(err){
-        showError(err.message + ' (source: data URL)');
-        return useFallback('Failed to parse data URL');
-      });
-    }
-
-    var cacheBuster = 't=' + Date.now();
-    var tryUrl = resolved + (resolved.indexOf('?') === -1 ? '?' : '&') + cacheBuster;
-
-    return fetch(tryUrl, {cache:'no-store', credentials:'omit', mode:'cors'})
+    return fetch(target + '?' + cacheBuster, {cache:'no-store'})
       .then(function(res){
-        if(!res.ok) throw new Error('HTTP ' + res.status + ' loading ' + resolved);
-        return res.text();
+        if(!res.ok) throw new Error('HTTP ' + res.status + ' loading ' + target);
+        return res.json();
       })
-      .then(function(txt){
-        var j = parseMaybeJSONText(txt);
-        if(!j) throw new Error('Invalid JSON at ' + resolved);
-        afterJSONLoaded(j);
-      })
-      .catch(function(err){
-        showError(err.message + ' | Tried: ' + resolved);
-        return useFallback('Using fallback sample so UI stays usable.');
+      .then(function(j){
+        data = j; window.__data = data;
+        MONTHS = data.months || ["12","18","24","27","30","36","39","42","48","51","60"];
+        PACPO = data.pacpo_bonus_percent || 2;
+        sumProgram.textContent = label || target;
+        initSelectors();
+        restoreFromParams();
+        applyLeaseDefaultsIfEmpty();
+        compute();
+        updateShareURL();
       });
-  }
-
-  function useFallback(reason){
-    showInfo('Fallback JSON in use: ' + reason);
-    afterJSONLoaded(FALLBACK_JSON);
-    return Promise.resolve();
-  }
-
-  function afterJSONLoaded(j){
-    data = j; window.__data = data;
-    MONTHS = data.months || ["12","18","24","27","30","36","39","42","48","51","60"];
-    PACPO = data.pacpo_bonus_percent || 2;
-    sumProgram.textContent = currentProgramLabel;
-    initSelectors();
-    restoreFromParams();
-    applyLeaseDefaultsIfEmpty();
-    compute();
-    updateShareURL();
   }
 
   function normalizeYearKey(k){
@@ -687,6 +682,7 @@
     var mMY = s.toUpperCase().replace(/\s+/g,'').match(/^MY(\d{2})$/); if (mMY) return { display: 'MY' + mMY[1], key: k };
     return { display: s, key: k };
   }
+  
   function getCaseInsensitive(obj, name){
     if(!obj || typeof obj !== "object") return undefined;
     var target = String(name).replace(/\s+/g,'').toLowerCase();
@@ -694,6 +690,7 @@
     for(var i=0;i<keys.length;i++){ if(keys[i].replace(/\s+/g,'').toLowerCase() === target) return obj[keys[i]]; }
     return undefined;
   }
+  
   function getVirtualFamilies(){
     var out = new Set();
     var models = data.models || {};
@@ -709,12 +706,14 @@
     var order = ['911','718 Cayman','718 Boxster','Taycan','Macan','Cayenne','Panamera'];
     return Array.from(out).sort(function(a,b){ return order.indexOf(a) - order.indexOf(b); });
   }
+  
   function branchForFamily(famDisp){
     var models = data.models || {};
     if (famDisp === '718 Cayman') return getCaseInsensitive(models['718']||{}, 'Cayman') || models['Cayman'] || {};
     if (famDisp === '718 Boxster') return getCaseInsensitive(models['718']||{}, 'Boxster') || models['Boxster'] || {};
     return models[famDisp] || {};
   }
+  
   function yearsForFamily(famDisp){
     var out = new Set(); var branch = branchForFamily(famDisp);
     Object.keys(branch).forEach(function(k){ out.add(normalizeYearKey(k).display); });
@@ -724,10 +723,12 @@
       return by - ay;
     });
   }
+
   function populate(select, arr){
     select.innerHTML = '';
     arr.forEach(function(v){ var opt = document.createElement('option'); opt.value = v; opt.textContent = v; select.appendChild(opt); });
   }
+  
   function initSelectors(){
     populate(familySel, getVirtualFamilies());
     populate(yearSel, yearsForFamily(familySel.value));
@@ -737,6 +738,7 @@
     collectTrimsForYear();
     populateTrims('');
   }
+  
   function populateAnnualMiles(){
     annualMilesSel.innerHTML = '';
     var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {
@@ -746,7 +748,7 @@
       .forEach(function(n){ var opt = document.createElement('option'); opt.value = String(n); opt.textContent = n.toLocaleString() + ' mi/yr'; annualMilesSel.appendChild(opt); });
     annualMilesSel.value = "15000";
   }
-  var fullTrimList = [];
+  
   function collectTrimsForYear(){
     fullTrimList = [];
     var branch = branchForFamily(familySel.value);
@@ -755,6 +757,7 @@
     var rows = (yearKey && branch[yearKey]) || {};
     Object.entries(rows).forEach(function(entry){ fullTrimList.push({code: entry[0], model: entry[1].model || entry[0]}); });
   }
+  
   function populateTrims(filterTerm){
     trimSel.innerHTML = '';
     var term = (filterTerm||'').trim().toLowerCase();
@@ -763,6 +766,7 @@
     trimCount.textContent = filtered.length ? (filtered.length + ' trim(s) available') : 'No matches';
     trimWarn.style.display = filtered.length ? 'none' : 'block';
   }
+
   function parseRange(str){
     if(!str) return null;
     var s = str.replace(/,/g,'').replace(/\s/g,'');
@@ -771,6 +775,7 @@
     if(isNaN(a) || isNaN(b)) return null;
     return [a,b];
   }
+  
   function findInceptionAdj(myKey, odo){
     var bands = (data && data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[myKey]) || null;
     if(!bands || odo == null) return 0;
@@ -780,124 +785,26 @@
     }
     return 0;
   }
+  
   function visibleMonthsFor(entry){
     if(!hideNA.checked) return MONTHS.slice();
     var result = [];
     for(var i=0;i<MONTHS.length;i++){ if(entry && entry.residuals && entry.residuals[MONTHS[i]] != null) result.push(MONTHS[i]); }
     return result;
   }
+  
   function buildHeader(visibleMonths){
     theadRow.innerHTML = '';
     var th1 = document.createElement('th'); th1.textContent = 'Trim / Term'; theadRow.appendChild(th1);
     visibleMonths.forEach(function(m){ var th = document.createElement('th'); th.textContent = m + ' mo'; theadRow.appendChild(th); });
   }
+
   function computeLVI(rvPercent, mf){ if(!isFinite(rvPercent) || !isFinite(mf) || mf <= 0) return null; return rvPercent / mf; }
 
-  function compute(){
-    var fam = familySel.value;
-    var branch = branchForFamily(fam);
-    var dispYear = yearSel.value;
-    var yrKey = Object.keys(branch).find(function(k){ return normalizeYearKey(k).display === dispYear; });
-    var code = trimSel.value;
-    var term = termSel.value;
-    var milesPerYear = parseInt(annualMilesSel.value, 10);
-    var odo = odoInput.value ? parseInt(String(odoInput.value).replace(/,/g,''), 10) : null;
-
-    if(!yrKey || !code){
-      finalOut.textContent = '—';
-      detailOut.textContent = 'Select family/year/trim';
-      trueOut.textContent = '';
-      if(lviBadge) lviBadge.textContent = '';
-      if(sumLvi) sumLvi.textContent = '—';
-      updateShareURL();
-      return;
-    }
-
-    var entry = branch[yrKey][code];
-    var base = term ? ((entry && entry.residuals && entry.residuals[term]) || null) : null;
-    var PACPOv = data.pacpo_bonus_percent || 2;
-    var pacpoAdj = pacpoToggle.checked ? PACPOv : 0;
-    var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
-    var annualAdj = 0;
-    if(base !== null && parseInt(term || "0", 10) >= 24){ annualAdj = milesMap[String(milesPerYear)] || 0; }
-
-    var inceptionKeyCandidates = [yrKey, dispYear, dispYear.replace(/\s+/g,'')];
-    var inceptionAdj = 0;
-    for(var i=0;i<inceptionKeyCandidates.length;i++){
-      var bands = (data && data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[inceptionKeyCandidates[i]]) || null;
-      if(bands){ inceptionAdj = findInceptionAdj(inceptionKeyCandidates[i], odo); break; }
-    }
-
-    var monthsShown = visibleMonthsFor(entry);
-    buildHeader(monthsShown);
-
-    var final = (base === null || term == null) ? null : (base + pacpoAdj + annualAdj + inceptionAdj);
-    finalOut.textContent = final === null ? '—' : final + '%';
-    finalOut.classList.add('success-flash');
-    setTimeout(function(){ finalOut.classList.remove('success-flash'); }, 600);
-    detailOut.textContent = final === null ? 'Select a term' : 'Final with all adjustments';
-    codeBadge.textContent = 'Code: ' + (code || '—');
-
-    tvalRow.innerHTML = '';
-    var lead = document.createElement('td'); lead.textContent = (entry && entry.model) || '—'; tvalRow.appendChild(lead);
-    monthsShown.forEach(function(m){
-      var td = document.createElement('td');
-      var v = entry && entry.residuals && entry.residuals[m];
-      var shown = '—';
-      if(v !== null && v !== undefined){
-        var mN = parseInt(m, 10);
-        var aAdj = (mN >= 24) ? (milesMap[String(milesPerYear)] || 0) : 0;
-        var total = v + pacpoAdj + aAdj + inceptionAdj;
-        shown = total + '%'; td.classList.add('ok');
-      } else { td.classList.add('err'); }
-      td.textContent = shown; tvalRow.appendChild(td);
-    });
-
-    sumProgram.textContent = currentProgramLabel;
-    sumYear.textContent = dispYear || '—';
-    sumFamily.textContent = fam || '—';
-    sumTrim.textContent = (entry && entry.model) || '—';
-    sumTerm.textContent = term ? (term + ' mo') : '—';
-    sumMilesYear.textContent = Number.isFinite(milesPerYear) ? milesPerYear.toLocaleString() + ' mi/yr' : '—';
-    sumOdo.textContent = (odo != null && !isNaN(odo)) ? odo.toLocaleString() + ' mi' : '—';
-
-    var msrp = msrpInput.value ? Number(msrpInput.value) : null;
-    if (sumMsrp) sumMsrp.textContent = (msrp != null && !isNaN(msrp)) ? ('$' + msrp.toLocaleString()) : '—';
-    var trueResidual = (final != null && msrp != null && !isNaN(msrp)) ? Math.round(msrp * (final/100)) : null;
-    sumTrue.textContent = (trueResidual != null) ? ('$' + trueResidual.toLocaleString()) : '—';
-    trueOut.innerHTML = (trueResidual != null)
-      ? ('<span class="rv-label">MSRP × RV% = </span><span class="rv-value">$' + trueResidual.toLocaleString() + '</span>')
-      : '';
-
-    badgeRow.innerHTML = '';
-    if(base !== null && term){ addBadge('Base ' + base + '%'); }
-    if(pacpoToggle.checked){ addBadge('+' + PACPOv + '% PACPO'); }
-    if(term && parseInt(term, 10) >= 24){ addBadge(((annualAdj>=0?'+':'') + annualAdj + '%') + ' Annual'); }
-    if(odo != null && !isNaN(odo)){ addBadge(((inceptionAdj>=0?'+':'') + inceptionAdj + '%') + ' Inception'); }
-
-    sumFinal.textContent = final === null ? '—' : final + '%';
-
-    var mfVal = leaseMF && leaseMF.value ? Number(leaseMF.value) : NaN;
-    var lviCurrent = computeLVI(final, mfVal);
-    if(lviCurrent != null){
-      var lviText = (lviCurrent/1000).toFixed(1) + 'k';
-      if(lviBadge) lviBadge.textContent = 'LVI: ' + lviText;
-      if(sumLvi) sumLvi.textContent = lviText;
-    } else {
-      if(lviBadge) lviBadge.textContent = '';
-      if(sumLvi) sumLvi.textContent = '—';
-    }
-
-    if(leaseTerm) {
-      if (termSel && termSel.value) leaseTerm.value = termSel.value;
-    }
-
-    updateShareURL();
-    leaseCompute();
-  }
   function addBadge(txt){
     var b = document.createElement('div'); b.className = 'badge'; b.textContent = txt; badgeRow.appendChild(b);
   }
+
   function exportVisibleCSV(){
     var fam = familySel.value;
     var branch = branchForFamily(fam);
@@ -952,6 +859,7 @@
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
   }
+  
   function printSummary(){ window.print(); }
 
   function validateJSON(){
@@ -1062,7 +970,90 @@
     mfAprHint.textContent = isFinite(mf) ? ('≈ ' + (mf*2400).toFixed(2) + '% APR') : '';
   }
 
-  // Preload lease defaults if fields are empty (keeps user edits & URL params)
+  // ---- Deal Sniffer logic ----
+  function updateSniffer(){
+    if(!data) return;
+    var fam = familySel.value;
+    var branch = branchForFamily(fam);
+    var dispYear = yearSel.value;
+    var yrKey = Object.keys(branch).find(function(k){ return normalizeYearKey(k).display === dispYear; });
+    var code = trimSel.value;
+    if(!yrKey || !code){ snifferCard.style.display='none'; return; }
+    var entry = branch[yrKey][code];
+    if(!entry){ snifferCard.style.display='none'; return; }
+
+    var mf = leaseMF.value ? Number(leaseMF.value) : NaN;
+    if(!isFinite(mf) || mf <= 0){ snifferCard.style.display='none'; return; }
+
+    // Build candidates across available months & common mileage bands
+    var milesBands = [15000,12000,10000];
+    var months = visibleMonthsFor(entry).map(function(m){ return parseInt(m,10); });
+    if(months.length === 0){ snifferCard.style.display='none'; return; }
+
+    var milesMap = (data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
+    var odo = odoInput.value ? parseInt(String(odoInput.value).replace(/,/g,''), 10) : null;
+    var inceptionAdj = findInceptionAdj(yrKey, odo);
+    var basePacpo = data.pacpo_bonus_percent || 2;
+
+    var candidates = [];
+    months.forEach(function(mo){
+      milesBands.forEach(function(my){
+        [true].forEach(function(pacpoOn){ // always ON per your screenshot; easy to extend
+          var base = entry.residuals[String(mo)];
+          if(base == null) return;
+          var annualAdj = (mo >= 24) ? (milesMap[String(my)] || 0) : 0;
+          var pacpoAdj = pacpoOn ? basePacpo : 0;
+          var rv = base + annualAdj + inceptionAdj + pacpoAdj;
+          var lvi = computeLVI(rv, mf);
+          if(lvi != null){
+            candidates.push({
+              term: mo, miles: my, pacpo: pacpoOn, rv: rv, lvi: lvi
+            });
+          }
+        });
+      });
+    });
+
+    if(candidates.length === 0){ snifferCard.style.display='none'; return; }
+
+    // Current selection baseline
+    var curMiles = parseInt(annualMilesSel.value,10);
+    var curTerm = parseInt(termSel.value||'0',10);
+    var curPacpo = pacpoToggle.checked;
+    var cur = candidates.find(function(c){ return c.term===curTerm && c.miles===curMiles && c.pacpo===curPacpo; });
+    var curLvi = cur ? cur.lvi : null;
+
+    // Top 3 by LVI
+    candidates.sort(function(a,b){ return b.lvi - a.lvi; });
+    var top3 = candidates.slice(0,3);
+
+    // Render
+    snifferGrid.innerHTML = '';
+    top3.forEach(function(c, idx){
+      var card = document.createElement('div');
+      card.className = 'sniffCard' + (idx===0 ? ' sniffBest' : '');
+      var star = idx===0 ? '⭐ ' : '';
+      card.innerHTML = ''
+        + '<div class="sniffHeader">'+star+(idx===0?'Best':'Alt '+String.fromCharCode(64+idx))+': '
+        + c.term+' mo • '+c.miles.toLocaleString()+'/yr'+(c.pacpo?' • PACPO ON':'')+'</div>'
+        + '<div class="sniffMeta">RV '+c.rv.toFixed(2)+'% • LVI '+(c.lvi/1000).toFixed(1)+'k</div>'
+        + '<div class="sniffGain">'+(curLvi!=null ? ( (c.lvi - curLvi)>=0?'+':'') + ((c.lvi - curLvi)/1000).toFixed(1)+'k LVI' : '+ LVI')+'</div>';
+      card.addEventListener('click', function(){
+        // Apply suggestion
+        termSel.value = String(c.term);
+        annualMilesSel.value = String(c.miles);
+        pacpoToggle.checked = !!c.pacpo;
+        // Mirror to leaseTerm and recompute
+        if(leaseTerm) leaseTerm.value = String(c.term);
+        compute();
+      });
+      snifferGrid.appendChild(card);
+    });
+
+    snifferCard.style.display = 'block';
+  }
+
+  // --- NEW: Preload lease defaults if fields are empty ---
   function applyLeaseDefaultsIfEmpty(){
     if(!leaseMF.value) leaseMF.value = '0.00400';
     if(!leaseTax.value) leaseTax.value = '9.75';
@@ -1071,7 +1062,114 @@
     if(termSel && termSel.value) leaseTerm.value = termSel.value;
     leaseCompute();
   }
+  // ------------------------------------------------------
 
+  function compute(){
+    var fam = familySel.value;
+    var branch = branchForFamily(fam);
+    var dispYear = yearSel.value;
+    var yrKey = Object.keys(branch).find(function(k){ return normalizeYearKey(k).display === dispYear; });
+    var code = trimSel.value;
+    var term = termSel.value;
+    var milesPerYear = parseInt(annualMilesSel.value, 10);
+    var odo = odoInput.value ? parseInt(String(odoInput.value).replace(/,/g,''), 10) : null;
+
+    if(!yrKey || !code){
+      finalOut.textContent = '—';
+      detailOut.textContent = 'Select family/year/trim';
+      trueOut.textContent = '';
+      if(lviBadge) lviBadge.textContent = '';
+      if(sumLvi) sumLvi.textContent = '—';
+      updateShareURL();
+      snifferCard.style.display='none';
+      return;
+    }
+
+    var entry = branch[yrKey][code];
+    var base = term ? ((entry && entry.residuals && entry.residuals[term]) || null) : null;
+    var PACPO = data.pacpo_bonus_percent || 2;
+    var pacpoAdj = pacpoToggle.checked ? PACPO : 0;
+    var milesMap = (data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
+    var annualAdj = 0;
+    if(base !== null && parseInt(term || "0", 10) >= 24){ annualAdj = milesMap[String(milesPerYear)] || 0; }
+
+    var inceptionKeyCandidates = [yrKey, dispYear, dispYear.replace(/\s+/g,'')];
+    var inceptionAdj = 0;
+    for(var i=0;i<inceptionKeyCandidates.length;i++){
+      var bands = (data && data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[inceptionKeyCandidates[i]]) || null;
+      if(bands){ inceptionAdj = findInceptionAdj(inceptionKeyCandidates[i], odo); break; }
+    }
+
+    var monthsShown = visibleMonthsFor(entry);
+    buildHeader(monthsShown);
+
+    var final = (base === null || term == null) ? null : (base + pacpoAdj + annualAdj + inceptionAdj);
+    finalOut.textContent = final === null ? '—' : final + '%';
+    finalOut.classList.add('success-flash');
+    setTimeout(function(){ finalOut.classList.remove('success-flash'); }, 600);
+    detailOut.textContent = final === null ? 'Select a term' : 'Final with all adjustments';
+    codeBadge.textContent = 'Code: ' + (code || '—');
+
+    tvalRow.innerHTML = '';
+    var lead = document.createElement('td'); lead.textContent = (entry && entry.model) || '—'; tvalRow.appendChild(lead);
+    monthsShown.forEach(function(m){
+      var td = document.createElement('td');
+      var v = entry && entry.residuals && entry.residuals[m];
+      var shown = '—';
+      if(v !== null && v !== undefined){
+        var mN = parseInt(m, 10);
+        var aAdj = (mN >= 24) ? (milesMap[String(milesPerYear)] || 0) : 0;
+        var total = v + pacpoAdj + aAdj + inceptionAdj;
+        shown = total + '%'; td.classList.add('ok');
+      } else { td.classList.add('err'); }
+      td.textContent = shown; tvalRow.appendChild(td);
+    });
+
+    sumProgram.textContent = currentProgramLabel;
+    sumYear.textContent = dispYear || '—';
+    sumFamily.textContent = fam || '—';
+    sumTrim.textContent = (entry && entry.model) || '—';
+    sumTerm.textContent = term ? (term + ' mo') : '—';
+    sumMilesYear.textContent = Number.isFinite(milesPerYear) ? milesPerYear.toLocaleString() + ' mi/yr' : '—';
+    sumOdo.textContent = (odo != null && !isNaN(odo)) ? odo.toLocaleString() + ' mi' : '—';
+
+    var msrp = msrpInput.value ? Number(msrpInput.value) : null;
+    if (sumMsrp) sumMsrp.textContent = (msrp != null && !isNaN(msrp)) ? ('$' + msrp.toLocaleString()) : '—';
+    var trueResidual = (final != null && msrp != null && !isNaN(msrp)) ? Math.round(msrp * (final/100)) : null;
+    sumTrue.textContent = (trueResidual != null) ? ('$' + trueResidual.toLocaleString()) : '—';
+
+    trueOut.innerHTML = (trueResidual != null)
+      ? ('<span class="rv-label">MSRP × RV% = </span><span class="rv-value">$' + trueResidual.toLocaleString() + '</span>')
+      : '';
+
+    badgeRow.innerHTML = '';
+    if(base !== null && term){ addBadge('Base ' + base + '%'); }
+    if(pacpoToggle.checked){ addBadge('+' + PACPO + '% PACPO'); }
+    if(term && parseInt(term, 10) >= 24){ addBadge(((annualAdj>=0?'+':'') + annualAdj + '%') + ' Annual'); }
+    if(odo != null && !isNaN(odo)){ addBadge(((inceptionAdj>=0?'+':'') + inceptionAdj + '%') + ' Inception'); }
+
+    sumFinal.textContent = final === null ? '—' : final + '%';
+
+    var mfVal = leaseMF && leaseMF.value ? Number(leaseMF.value) : NaN;
+    var lviCurrent = computeLVI(final, mfVal);
+    if(lviCurrent != null){
+      var lviText = (lviCurrent/1000).toFixed(1) + 'k';
+      if(lviBadge) lviBadge.textContent = 'LVI: ' + lviText;
+      if(sumLvi) sumLvi.textContent = lviText;
+    } else {
+      if(lviBadge) lviBadge.textContent = '';
+      if(sumLvi) sumLvi.textContent = '—';
+    }
+
+    if(leaseTerm) {
+      if (termSel && termSel.value) leaseTerm.value = termSel.value;
+    }
+
+    updateShareURL();
+    leaseCompute();
+    updateSniffer();
+  }
+  
   function restoreFromParams(){
     var p = readParams();
     if(p.family){ familySel.value = p.family; }
@@ -1087,15 +1185,16 @@
     if(p.msrp){ msrpInput.value = p.msrp; }
   }
 
+  // ---- UI Events ----
   programSel.addEventListener('change', function(){
     var val = programSel.value;
     var label = programSel.options[programSel.selectedIndex].textContent.replace(/^Program:\s*/,'');
     loadProgram(val, label).catch(function(err){
-      showError('Could not load "'+val+'". ' + err.message);
+      alert('Could not load "'+val+'". Ensure JSON exists.\n\n' + err.message);
       programSel.value = '__current__';
     });
   });
-
+  
   jumpSummaryBtn.addEventListener('click', function(){
     var el = document.getElementById('summaryBox');
     if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); el.classList.add('success-flash'); setTimeout(function(){ el.classList.remove('success-flash'); }, 600); }
@@ -1151,18 +1250,18 @@
   leaseFees.addEventListener('input', leaseCompute);
   leaseTerm.addEventListener('input', leaseCompute);
 
-  // Boot
+  // ---- Initial load ----
   var initialParams = readParams();
   if(initialParams.program){
     var opt = Array.from(programSel.options).find(function(o){return o.value===initialParams.program;});
     if(opt){ programSel.value = initialParams.program; currentProgramLabel = opt.textContent.replace(/^Program:\s*/,''); }
     else { programSel.value = '__current__'; currentProgramLabel = initialParams.program; }
-    loadProgram(programSel.value, currentProgramLabel).catch(function(err){ showError(err.message); });
+    loadProgram(programSel.value, currentProgramLabel).catch(function(err){ alert(err.message); });
   } else {
     programSel.value = 'porsche_residuals_all.json';
     loadProgram(programSel.value, 'PB 25-10R (Default)').catch(function(){
       programSel.value = '__current__';
-      loadProgram('__current__', 'Current').catch(function(err){ showError(err.message); });
+      loadProgram('__current__', 'Current').catch(function(err){ alert(err.message); });
     });
   }
 })();

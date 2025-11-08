@@ -257,7 +257,26 @@
   .chip.term{ border-color: rgba(59,130,246,.5); }
 </style>
 
-<style id="top15-css">.rank-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}.rank-item{border:1px solid var(--border);border-radius:12px;background:var(--bg-secondary);padding:12px;display:flex;gap:10px;align-items:center;transition:var(--transition)}.rank-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--border-hover)}.rank-no{width:36px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:900;border:1px solid var(--border)}.rank-main{flex:1;display:flex;flex-direction:column;gap:4px}.rank-title{font-weight:900;font-size:.98rem}.rank-sub{color:var(--muted);font-size:.85rem}.rank-chips{display:flex;flex-wrap:wrap;gap:8px}.rank-chip{border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:.8rem;font-weight:700}.rank-chip.ok{border-color:rgba(16,185,129,.5)}.rank-chip.term{border-color:rgba(59,130,246,.5)}.rank-chip.lvi{border-color:rgba(139,92,246,.5)}.soft-divider{height:1px;background:var(--border);opacity:.55;margin:8px 2px 12px 2px;border-radius:1px}.top15-spin{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted)}.top15-spin .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);animation:top15-bounce 1.1s infinite ease-in-out both}.top15-spin .dot:nth-child(1){animation-delay:-.32s}.top15-spin .dot:nth-child(2){animation-delay:-.16s}@keyframes top15-bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}</style>
+<style id="top15-css">
+.rank-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}
+.rank-item{border:1px solid var(--border);border-radius:12px;background:var(--bg-secondary);padding:12px;display:flex;gap:10px;align-items:center;transition:var(--transition)}
+.rank-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--border-hover)}
+.rank-no{width:36px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:900;border:1px solid var(--border)}
+.rank-main{flex:1;display:flex;flex-direction:column;gap:4px}
+.rank-title{font-weight:900;font-size:.98rem}
+.rank-sub{color:var(--muted);font-size:.85rem}
+.rank-chips{display:flex;flex-wrap:wrap;gap:8px}
+.rank-chip{border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:.8rem;font-weight:700}
+.rank-chip.ok{border-color:rgba(16,185,129,.5)}
+.rank-chip.term{border-color:rgba(59,130,246,.5)}
+.rank-chip.lvi{border-color:rgba(139,92,246,.5)}
+.soft-divider{height:1px;background:var(--border);opacity:.55;margin:8px 2px 12px 2px;border-radius:1px}
+.top15-spin{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted)}
+.top15-spin .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);animation:top15-bounce 1.1s infinite ease-in-out both}
+.top15-spin .dot:nth-child(1){animation-delay:-.32s}
+.top15-spin .dot:nth-child(2){animation-delay:-.16s}
+@keyframes top15-bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -451,13 +470,33 @@
     <!-- Lease Sniffer (Top 5, auto-run) -->
     <div class="card" id="snifferCard" style="margin-top:14px; animation-delay:0.35s;">
       <div class="rowline" style="justify-content:space-between; margin-bottom:8px;">
-        <strong style="font-size:1.05rem;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">🕵️ Lease Sniffer — Top 5</strong>
+        <strong style="font-size:1.05rem;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">🕵️ Lease Sniffer — Top 6</strong>
         <span class="muted" style="font-size:0.9rem;">Ranks by Value Index (LVI) first, then With-Tax payment</span>
       </div>
       <div id="sniffSummary" class="hint" style="margin-bottom:8px;">—</div>
       <div class="sniff-cards" id="sniffCards"></div>
     </div>
-<div class="soft-divider"></div><div class="card" id="topLeasableContainer" style="margin-top:10px;"><div class="rowline" style="justify-content:space-between;margin-bottom:10px;"><strong style="font-size:1.05rem;background:linear-gradient(135deg,var(--accent),var(--success));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">🏆 Top 15 Best-Leasable (Current Program)</strong><button id="rebuildTopBtn" class="btn" type="button" title="Rebuild ranking">↻ Rebuild</button></div><div class="muted" id="top15-desc" style="margin-bottom:8px;">Ranks each trim by highest achievable Final RV% using best term, best annual miles (≥24 mo), and most favorable inception band for the selected MY. If an MF is entered, LVI is shown as a hint.</div><div id="top15Loading" class="top15-spin" style="margin:4px 0 10px 0; display:none;"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Scanning programs…</span></div><ol id="topDealsList" class="rank-list"></ol><div id="topDealsEmpty" class="muted" style="display:none;">Load a program to see the ranking.</div></div>
+
+<div class="soft-divider"></div>
+<div class="card" id="topLeasableContainer" style="margin-top:10px;">
+  <div class="rowline" style="justify-content:space-between;margin-bottom:10px;">
+    <strong style="font-size:1.05rem;background:linear-gradient(135deg,var(--accent),var(--success));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+      🏆 Top 15 Best-Leasable (Current Program)
+    </strong>
+    <button id="rebuildTopBtn" class="btn" type="button" title="Rebuild ranking">↻ Rebuild</button>
+  </div>
+  <div class="muted" style="margin-bottom:8px;">
+    Ranks each trim by highest achievable Final RV% using best term, best annual miles (≥24 mo), and most favorable inception band for the selected MY.
+    If an MF is entered, LVI is shown as a hint.
+  </div>
+  <div id="top15Loading" class="top15-spin" style="margin:4px 0 10px 0; display:none;">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <span>Scanning programs…</span>
+  </div>
+  <ol id="topDealsList" class="rank-list"></ol>
+  <div id="topDealsEmpty" class="muted" style="display:none;">Load a program to see the ranking.</div>
+</div>
+
 
 
     <div class="card" id="validatorCard" style="margin-top:12px; display:none; animation-delay:0.4s;">
@@ -1136,7 +1175,7 @@
       return a.withTax - b.withTax;  // then cheaper payment
     });
 
-    var best = candidates.slice(0,5);
+    var best = candidates.slice(0,6);
     sniffCards.innerHTML = '';
     if(best.length===0){ sniffSummary.textContent='No alternatives found for this trim.'; return; }
 
@@ -1333,7 +1372,106 @@ function updateSnifferDeltas(){
 
 </script>
 
-<script id="top15-js">(function(){function q(id){return document.getElementById(id)}function hasModels(o){try{return o&&typeof o==='object'&&o.models&&typeof o.models==='object'}catch(e){return false}}function resolveProgram(){if(hasModels(window.porsche_residuals_all))return window.porsche_residuals_all;var keys=Object.getOwnPropertyNames(window);for(var j=0;j<keys.length;j++){try{var v=window[keys[j]];if(hasModels(v))return v}catch(e){}}return null}function _toNum(x){if(x==null)return 0;var n=(typeof x==='number')?x:parseFloat(String(x).replace(/[,\s]/g,''));return isNaN(n)?0:n}function bestAnnualMilesAdjForTerm(term,root){var t=parseInt(term,10),map=(root&&root.annual_mileage_adjustments_percent&&root.annual_mileage_adjustments_percent.miles_per_year)||{};if(!isFinite(t)||t<24)return{miles:null,adj:0};var best={miles:null,adj:-1e9};Object.keys(map).forEach(function(k){var v=_toNum(map[k]);if(v>best.adj)best={miles:parseInt(k,10),adj:v}});if(best.adj===-1e9)best={miles:null,adj:0};return best}function bestInceptionAdjForYearKey(yrKey,root){var bands=(root&&root.mileage_at_inception_adjustments_percent&&root.mileage_at_inception_adjustments_percent[yrKey])||null;if(!bands)return{range:null,adj:0};var best={range:null,adj:-1e9};for(var i=0;i<bands.length;i++){var adj=_toNum(bands[i].adj||0);if(adj>best.adj)best={range:bands[i].miles_range,adj:adj}}if(best.adj===-1e9)best={range:null,adj:0};return best}function normalizeYearKey(k){var m=String(k).match(/^MY(\d{2})$/);return m?{raw:k,display:'MY 20'+m[1]}:{raw:k,display:k}}function build(){var list=q('topDealsList'),empty=q('topDealsEmpty'),root=resolveProgram();if(!root||!root.models){if(empty)empty.style.display='block';return false}if(empty)empty.style.display='none';var pacpo=q('pacpoToggle'),leaseMF=q('leaseMF');var pacpoAdj=(pacpo&&pacpo.checked)?(root.pacpo_bonus_percent||2):0;var mf=(leaseMF&&leaseMF.value)?Number(leaseMF.value):NaN;var items=[],MONTHS=(window.MONTHS||root.months||['12','18','24','27','30','36','39','42','48','51','60']);Object.keys(root.models||{}).forEach(function(fam){var famBranch=root.models[fam]||{};Object.keys(famBranch).forEach(function(yrKey){var yearDisp=normalizeYearKey(yrKey).display;var inceptionBest=bestInceptionAdjForYearKey(yrKey,root);var rows=famBranch[yrKey]||{};Object.keys(rows).forEach(function(code){var entry=rows[code]||{},model=entry.model||code,residuals=entry.residuals||{};var best={term:null,miles:null,finalRV:-1e9};(MONTHS||[]).forEach(function(m){var base=residuals[m];if(base==null)return;var ann=bestAnnualMilesAdjForTerm(m,root);var finalRV=_toNum(base)+pacpoAdj+ann.adj+inceptionBest.adj;if(finalRV>best.finalRV){best={term:parseInt(m,10),miles:ann.miles,finalRV:finalRV}}});if(best.finalRV>-1e9){var lvi=(isFinite(mf)&&mf>0)?(best.finalRV/mf):null;items.push({fam:fam,yrKey:yrKey,yearDisp:yearDisp,code:code,model:model,term:best.term,miles:best.miles,finalRV:best.finalRV,lvi:lvi})}})})});items.sort(function(a,b){if(b.finalRV!==a.finalRV)return b.finalRV-a.finalRV;if((b.term||0)!==(a.term||0))return(b.term||0)-(a.term||0);return(b.lvi||0)-(a.lvi||0)});if(list)list.innerHTML='';items.slice(0,15).forEach(function(it,idx){var li=document.createElement('li');li.className='rank-item';li.innerHTML='<div class="rank-no>'+(idx+1)+'</div>'+'<div class="rank-main">'+'<div class="rank-title">'+it.model+'</div>'+'<div class="rank-sub">'+it.yearDisp+' • '+it.fam+' • '+it.code+'</div>'+'<div class="rank-chips">'+'<div class="rank-chip ok">Final RV: '+it.finalRV.toFixed(0)+'%</div>'+'<div class="rank-chip term">Term: '+(it.term?(it.term+' mo'):'—')+'</div>'+(it.miles!=null?('<div class="rank-chip">'+it.miles.toLocaleString()+' mi/yr</div>'):'')+(it.lvi!=null?('<div class="rank-chip lvi" title="Higher = better">LVI: '+(it.lvi/1000).toFixed(1)+'k</div>'):'')+'</div></div>';list.appendChild(li)});return true}function bind(){var btn=q('rebuildTopBtn'),pacpo=q('pacpoToggle'),leaseMF=q('leaseMF'),programSel=q('programSel');function spin(on){var s=q('top15Loading');if(s)s.style.display=on?'flex':'none'}if(btn)btn.addEventListener('click',function(){spin(true);setTimeout(function(){build();spin(false)},50)});if(pacpo)pacpo.addEventListener('change',function(){setTimeout(build,0)});if(leaseMF)leaseMF.addEventListener('input',function(){setTimeout(build,0)});if(programSel)programSel.addEventListener('change',function(){spin(true);setTimeout(function(){build();spin(false)},200)});document.addEventListener('program-loaded',function(){setTimeout(build,200)})}document.addEventListener('DOMContentLoaded',function(){bind();var tries=0,max=20;var t=setInterval(function(){tries++;if(build()||tries>=max){clearInterval(t)}},400)})})();</script>
-<script id="top15-relocate-final">(function(){function norm(s){return (s||'').replace(/\s+/g,' ').trim()}function findSnifferCard(){var cards=document.querySelectorAll('.card');for(var i=0;i<cards.length;i++){var t=norm(cards[i].innerText||'');if(/Lease\s*Sniffer/i.test(t)||/Ranks by Value Index \(LVI\) first, then With-Tax payment/i.test(t))return cards[i]}return null}function move(){var top=document.getElementById('topLeasableContainer');if(!top)return;var sn=findSnifferCard();if(!sn)return;if(top.closest('.card')===sn){sn.parentNode.insertBefore(top,sn.nextSibling)}}function boot(){move();var obs=new MutationObserver(move);obs.observe(document.body,{childList:true,subtree:true});setTimeout(move,250);setTimeout(move,800)}if(document.readyState==='complete'||document.readyState==='interactive')boot();else document.addEventListener('DOMContentLoaded',boot)})();</script>
+<script id="top15-js">
+(function(){
+  function q(id){return document.getElementById(id)}
+  function hasModels(o){try{return o&&typeof o==='object'&&o.models&&typeof o.models==='object'}catch(e){return false}}
+  function resolveProgram(){
+    if(hasModels(window.porsche_residuals_all)) return window.porsche_residuals_all;
+    var keys=Object.getOwnPropertyNames(window);
+    for(var j=0;j<keys.length;j++){try{var v=window[keys[j]]; if(hasModels(v)) return v;}catch(e){}}
+    return null;
+  }
+  function _n(x){if(x==null)return 0;var n=(typeof x==='number')?x:parseFloat(String(x).replace(/[,\s]/g,''));return isNaN(n)?0:n}
+  function bestAnn(term,root){
+    var map=(root&&root.annual_mileage_adjustments_percent&&root.annual_mileage_adjustments_percent.miles_per_year)||{};
+    var best={miles:null,adj:0}; if(parseInt(term,10)<24) return best;
+    Object.keys(map).forEach(function(k){var v=_n(map[k]); if(v>best.adj) best={miles:parseInt(k,10),adj:v};});
+    return best;
+  }
+  function bestInception(yrKey,root){
+    var bands=(root&&root.mileage_at_inception_adjustments_percent&&root.mileage_at_inception_adjustments_percent[yrKey])||null;
+    if(!bands) return {range:null,adj:0};
+    var best={range:null,adj:0};
+    for(var i=0;i<bands.length;i++){var v=_n(bands[i].adj||0); if(v>best.adj) best={range:bands[i].miles_range,adj:v};}
+    return best;
+  }
+  function dispYear(k){var m=String(k).match(/^MY(\d{2})$/);return m?('MY 20'+m[1]):k}
+
+  function build(){
+    var list=q('topDealsList'), empty=q('topDealsEmpty'), root=resolveProgram();
+    if(!root||!root.models){ if(list) list.innerHTML=''; if(empty) empty.style.display='block'; return false; }
+    if(empty) empty.style.display='none';
+    var pacpo=q('pacpoToggle'), leaseMF=q('leaseMF');
+    var pacAdj=(pacpo&&pacpo.checked)?(root.pacpo_bonus_percent||2):0;
+    var mf=(leaseMF&&leaseMF.value)?Number(leaseMF.value):NaN;
+    var items=[], MONTHS=(window.MONTHS||root.months||['12','18','24','27','30','36','39','42','48','51','60']);
+    Object.keys(root.models||{}).forEach(function(fam){
+      var famB=root.models[fam]||{};
+      Object.keys(famB).forEach(function(yrKey){
+        var inc=bestInception(yrKey,root), y=dispYear(yrKey);
+        var rows=famB[yrKey]||{};
+        Object.keys(rows).forEach(function(code){
+          var e=rows[code]||{}, model=e.model||code, res=e.residuals||{};
+          var best={term:null,miles:null,finalRV:-1e9};
+          MONTHS.forEach(function(m){
+            var base=res[m]; if(base==null) return;
+            var ann=bestAnn(m,root);
+            var rv=_n(base)+pacAdj+ann.adj+inc.adj;
+            if(rv>best.finalRV) best={term:parseInt(m,10),miles:ann.miles,finalRV:rv};
+          });
+          if(best.finalRV>-1e9){
+            var lvi=(isFinite(mf)&&mf>0)?(best.finalRV/mf):null;
+            items.push({fam:fam,yrKey:yrKey,yearDisp:y,code:code,model:model,term:best.term,miles:best.miles,finalRV:best.finalRV,lvi:lvi});
+          }
+        });
+      });
+    });
+    items.sort(function(a,b){ if(b.finalRV!==a.finalRV) return b.finalRV-a.finalRV; if((b.term||0)!==(a.term||0)) return (b.term||0)-(a.term||0); return (b.lvi||0)-(a.lvi||0); });
+    // cap to max 2 per model
+    var cap=2, kept=[], seen=Object.create(null);
+    for(var i=0;i<items.length && kept.length<60;i++){ var key=(items[i].model||'').toLowerCase(); var n=seen[key]||0; if(n>=cap) continue; seen[key]=n+1; kept.push(items[i]); }
+    items = kept;
+
+    if(list) list.innerHTML='';
+    items.slice(0,15).forEach(function(it,idx){
+      var li=document.createElement('li'); li.className='rank-item';
+      li.innerHTML='<div class="rank-no">'+(idx+1)+'</div>' +
+        '<div class="rank-main"><div class="rank-title">'+it.model+'</div>' +
+        '<div class="rank-sub">'+it.yearDisp+' • '+it.fam+' • '+it.code+'</div>' +
+        '<div class="rank-chips">' +
+          '<div class="rank-chip ok">Final RV: '+it.finalRV.toFixed(0)+'%</div>' +
+          '<div class="rank-chip term">Term: '+(it.term?(it.term+' mo'):'—')+'</div>' +
+          (it.miles!=null?('<div class="rank-chip">'+it.miles.toLocaleString()+' mi/yr</div>'):'') +
+          (it.lvi!=null?('<div class="rank-chip lvi">LVI: '+(it.lvi/1000).toFixed(1)+'k</div>'):'') +
+        '</div></div>';
+      list.appendChild(li);
+    });
+    return true;
+  }
+
+  function bind(){
+    var btn=q('rebuildTopBtn'), pacpo=q('pacpoToggle'), leaseMF=q('leaseMF'), programSel=q('programSel');
+    function spin(on){ var s=q('top15Loading'); if(s) s.style.display=on?'flex':'none'; }
+    if(btn) btn.addEventListener('click', function(){ spin(true); setTimeout(function(){ build(); spin(false); }, 50); });
+    if(pacpo) pacpo.addEventListener('change', function(){ setTimeout(build,0); });
+    if(leaseMF) leaseMF.addEventListener('input', function(){ setTimeout(build,0); });
+    if(programSel) programSel.addEventListener('change', function(){ spin(true); setTimeout(function(){ build(); spin(false); }, 200); });
+    document.addEventListener('program-loaded', function(){ setTimeout(build, 250); });
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    bind();
+    var i=0,t=setInterval(function(){i++; if(build()||i>=20) clearInterval(t);}, 400);
+  });
+})();
+</script>
+<script id="top15-relocate-final">
+(function(){function N(s){return(s||'').replace(/\s+/g,' ').trim()}
+function findSniff(){var cs=document.querySelectorAll('.card');for(var i=0;i<cs.length;i++){var t=N(cs[i].innerText||'');if(/Lease\s*Sniffer/i.test(t)||/Ranks by Value Index \(LVI\) first, then With-Tax payment/i.test(t))return cs[i]}return null}
+function move(){var top=document.getElementById('topLeasableContainer');if(!top)return;var sn=findSniff();if(!sn)return;if(top.closest('.card')===sn){sn.parentNode.insertBefore(top,sn.nextSibling)}}
+function boot(){move();var o=new MutationObserver(move);o.observe(document.body,{childList:true,subtree:true});setTimeout(move,250);setTimeout(move,800)}
+if(document.readyState==='complete'||document.readyState==='interactive')boot();else document.addEventListener('DOMContentLoaded',boot);
+})();
+</script>
 </body>
 </html>

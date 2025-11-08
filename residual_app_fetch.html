@@ -255,7 +255,18 @@
   .chip.ok{ border-color: rgba(16,185,129,.5); }
   .chip.cost{ border-color: rgba(139,92,246,.5); }
   .chip.term{ border-color: rgba(59,130,246,.5); }
+
+.soft-divider{height:1px;background:var(--border);opacity:.55;margin:8px 2px 12px 2px;border-radius:1px;}
 </style>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -283,6 +294,16 @@
 .rank-chip.ok{ border-color: rgba(16,185,129,0.5); }
 .rank-chip.term{ border-color: rgba(59,130,246,0.5); }
 .rank-chip.lvi{ border-color: rgba(139,92,246,0.5); }
+
+/* tiny spinner */
+.top15-spin { display:flex; align-items:center; gap:8px; font-size:.9rem; color:var(--muted); }
+.top15-spin .dot {
+  width:8px; height:8px; border-radius:999px; background:var(--accent);
+  animation: top15-bounce 1.1s infinite ease-in-out both;
+}
+.top15-spin .dot:nth-child(1){ animation-delay: -0.32s; }
+.top15-spin .dot:nth-child(2){ animation-delay: -0.16s; }
+@keyframes top15-bounce { 0%,80%,100%{ transform:scale(0);} 40%{ transform:scale(1);} }
 </style>
 
 </head>
@@ -482,8 +503,15 @@
         <span class="muted" style="font-size:0.9rem;">Ranks by Value Index (LVI) first, then With-Tax payment</span>
       </div>
 <!-- ===== Top 15 Container (AFTER Lease Sniffer) ===== -->
-<div class="card" id="topLeasableContainer" style="margin-top:20px;">
-  <div class="rowline" style="justify-content:space-between; margin-bottom:10px;">
+<div class="muted" style="margin-bottom:8px;">
+    
+  </div>
+  <ol id="topDealsList" class="rank-list"></ol>
+  <div id="topDealsEmpty" class="muted" style="display:none;">Load a program to see the ranking.</div>
+</div><div class="soft-divider"></div>
+
+<div class="card" id="topLeasableContainer" style="margin-top:10px;">
+  <div class="rowline" style="justify-content:space-between;margin-bottom:10px;">
     <strong style="font-size:1.05rem;background:linear-gradient(135deg,var(--accent),var(--success));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
       🏆 Top 15 Best-Leasable (Current Program)
     </strong>
@@ -493,17 +521,43 @@
     Ranks each trim by highest achievable Final RV% using best term, best annual miles (≥24 mo), and most favorable inception band for the selected MY.
     If an MF is entered, LVI is shown as a hint.
   </div>
+  <div id="top15Loading" class="top15-spin" style="margin:4px 0 10px 0; display:none;">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <span>Scanning programs…</span>
+  </div>
   <ol id="topDealsList" class="rank-list"></ol>
   <div id="topDealsEmpty" class="muted" style="display:none;">Load a program to see the ranking.</div>
 </div>
+
+<!-- ===== Top 15 Container (AFTER Lease Sniffer card) ===== -->
+<div class="muted" style="margin-bottom:8px;">
+    
+  </div>
+
+  <div id="top15Loading" class="top15-spin" style="margin:4px 0 10px 0; display:none;">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <span>Scanning programs…</span>
+  </div>
+
+  <ol id="topDealsList" class="rank-list"></ol>
+  <div id="topDealsEmpty" class="muted" style="display:none;">Load a program to see the ranking.</div>
+</div>
+
+<!-- ===== Top 15 Container (AFTER Lease Sniffer card) ===== -->
+<div class="muted" style="margin-bottom:8px;">
+    
+  </div>
+  <ol id="topDealsList" class="rank-list"></ol>
+  <div id="topDealsEmpty" class="muted" style="display:none;">Load a program to see the ranking.</div>
+</div>
+
 
       <div id="sniffSummary" class="hint" style="margin-bottom:8px;">—</div>
       <div class="sniff-cards" id="sniffCards"></div>
     </div>
 <!-- ===== Top 15 Container (AFTER Lease Sniffer) ===== -->
 <div class="muted" style="margin-bottom:8px;">
-    Ranks each trim by highest achievable Final RV% using best term, best annual miles (≥24 mo), and most favorable inception band for the selected MY.
-    If an MF is entered, LVI is shown as a hint.
+    
   </div>
   <ol id="topDealsList" class="rank-list"></ol>
   <div id="topDealsEmpty" class="muted" style="display:none;">Load a program to see the ranking.</div>
@@ -1387,13 +1441,34 @@ function updateSnifferDeltas(){
 
 
 
+
+
+
+
+
+
+
+
+
 <script id="top15-js">
 (function(){
   function q(id){ return document.getElementById(id); }
+  function hasModels(obj){ try{ return obj && typeof obj==='object' && obj.models && typeof obj.models==='object'; }catch(e){ return false; } }
+  function resolveProgram(){
+    // Hard-bind to your file first:
+    if(hasModels(window.porsche_residuals_all)) return window.porsche_residuals_all;
+    // Fallbacks
+    var likely = ['data','programData','PROGRAM','activeProgram','currentProgram','PFS','DB','STATE','appState'];
+    for(var i=0;i<likely.length;i++){ var k=likely[i]; try{ if(hasModels(window[k])) return window[k]; }catch(e){} }
+    // Scan window for any object with .models
+    var keys = Object.getOwnPropertyNames(window);
+    for(var j=0;j<keys.length;j++){ try{ if(hasModels(window[keys[j]])) return window[keys[j]]; } catch(e){} }
+    return null;
+  }
 
-  function bestAnnualMilesAdjForTerm(term){
+  function bestAnnualMilesAdjForTerm(term, root){
     var t = parseInt(term,10);
-    var milesMap = (window.data && data.annual_mileage_adjustments_percent && data.annual_mileage_adjustments_percent.miles_per_year) || {};
+    var milesMap = (root && root.annual_mileage_adjustments_percent && root.annual_mileage_adjustments_percent.miles_per_year) || {};
     if(!isFinite(t) || t < 24) return {miles: null, adj: 0};
     var best = {miles: null, adj: -Infinity};
     Object.keys(milesMap).forEach(function(k){
@@ -1403,8 +1478,8 @@ function updateSnifferDeltas(){
     return best;
   }
 
-  function bestInceptionAdjForYearKey(yrKey){
-    var bands = (window.data && data.mileage_at_inception_adjustments_percent && data.mileage_at_inception_adjustments_percent[yrKey]) || null;
+  function bestInceptionAdjForYearKey(yrKey, root){
+    var bands = (root && root.mileage_at_inception_adjustments_percent && root.mileage_at_inception_adjustments_percent[yrKey]) || null;
     if(!bands) return {range:null, adj:0};
     var best = {range: null, adj: -Infinity};
     for(var i=0;i<bands.length;i++){
@@ -1421,24 +1496,34 @@ function updateSnifferDeltas(){
     return {raw:k, display:k};
   }
 
+  function showSpinner(on){
+    var sp = q('top15Loading');
+    if(sp){ sp.style.display = on ? 'flex' : 'none'; }
+  }
+
   function build(){
     var list = q('topDealsList'); var empty = q('topDealsEmpty');
-    if(!window.data || !data.models){ if(list){ list.innerHTML=''; } if(empty){ empty.style.display='block'; } return; }
+    var root = resolveProgram();
+    if(!root || !root.models){
+      if(list){ list.innerHTML=''; }
+      if(empty){ empty.style.display='block'; }
+      return false;
+    }
     if(empty){ empty.style.display='none'; }
 
     var pacpo = q('pacpoToggle'); var leaseMF = q('leaseMF');
     var usePacpo = !!(pacpo && pacpo.checked);
-    var pacpoAdj = usePacpo ? (data.pacpo_bonus_percent || 2) : 0;
+    var pacpoAdj = usePacpo ? (root.pacpo_bonus_percent || 2) : 0;
     var mf = (leaseMF && leaseMF.value) ? Number(leaseMF.value) : NaN;
 
     var items = [];
-    var MONTHS = (window.MONTHS || (data.months || ["12","18","24","27","30","36","39","42","48","51","60"]));
+    var MONTHS = (window.MONTHS || root.months || ["12","18","24","27","30","36","39","42","48","51","60"]);
 
-    Object.keys(data.models||{}).forEach(function(fam){
-      var famBranch = data.models[fam] || {};
+    Object.keys(root.models||{}).forEach(function(fam){
+      var famBranch = root.models[fam] || {};
       Object.keys(famBranch).forEach(function(yrKey){
         var yearDisp = normalizeYearKey(yrKey).display;
-        var inceptionBest = bestInceptionAdjForYearKey(yrKey);
+        var inceptionBest = bestInceptionAdjForYearKey(yrKey, root);
         var rows = famBranch[yrKey] || {};
         Object.keys(rows).forEach(function(code){
           var entry = rows[code];
@@ -1448,7 +1533,7 @@ function updateSnifferDeltas(){
           (MONTHS||[]).forEach(function(m){
             var base = residuals[m];
             if(base==null) return;
-            var ann = bestAnnualMilesAdjForTerm(m);
+            var ann = bestAnnualMilesAdjForTerm(m, root);
             var finalRV = base + pacpoAdj + ann.adj + inceptionBest.adj;
             if(finalRV > best.finalRV){
               best = {term: parseInt(m,10), miles: ann.miles, finalRV: finalRV};
@@ -1471,7 +1556,7 @@ function updateSnifferDeltas(){
 
     if(list){ list.innerHTML=''; }
     var top = items.slice(0,15);
-    if(top.length===0){ if(empty){ empty.style.display='block'; } return; }
+    if(top.length===0){ if(empty){ empty.style.display='block'; } return true; }
 
     top.forEach(function(it, idx){
       var li = document.createElement('li'); li.className = 'rank-item';
@@ -1480,8 +1565,7 @@ function updateSnifferDeltas(){
 
       var title = document.createElement('div'); title.className = 'rank-title'; title.textContent = it.model;
       var sub = document.createElement('div'); sub.className = 'rank-sub';
-      var family = it.fam; 
-      sub.textContent = it.yearDisp + ' • ' + family + ' • ' + it.code;
+      sub.textContent = it.yearDisp + ' • ' + it.fam + ' • ' + it.code;
 
       var chips = document.createElement('div'); chips.className = 'rank-chips';
       var chipRV = document.createElement('div'); chipRV.className = 'rank-chip ok';
@@ -1507,30 +1591,45 @@ function updateSnifferDeltas(){
       li.appendChild(no); li.appendChild(main);
       list.appendChild(li);
     });
+    return true;
   }
 
   function bind(){
-    var programSel = document.getElementById('programSel');
-    var pacpoToggle = document.getElementById('pacpoToggle');
-    var leaseMF = document.getElementById('leaseMF');
-    var btn = document.getElementById('rebuildTopBtn');
+    var programSel = q('programSel');
+    var pacpoToggle = q('pacpoToggle');
+    var leaseMF = q('leaseMF');
+    var btn = q('rebuildTopBtn');
 
-    if(btn) btn.addEventListener('click', build);
-    if(programSel) programSel.addEventListener('change', function(){ setTimeout(build, 60); });
-    if(pacpoToggle) pacpoToggle.addEventListener('change', function(){ setTimeout(build, 0); });
-    if(leaseMF) leaseMF.addEventListener('input', function(){ setTimeout(build, 0); });
+    if(btn) btn.addEventListener('click', function(){ showSpinner(true); setTimeout(function(){ build(); showSpinner(false); }, 50); });
+    if(programSel) programSel.addEventListener('change', function(){ showSpinner(true); setTimeout(function(){ build(); showSpinner(false); }, 200); });
+    if(pacpoToggle) pacpoToggle.addEventListener('change', function(){ setTimeout(function(){ build(); }, 0); });
+    if(leaseMF) leaseMF.addEventListener('input', function(){ setTimeout(function(){ build(); }, 0); });
+
+    document.addEventListener('program-loaded', function(){ showSpinner(true); setTimeout(function(){ build(); showSpinner(false); }, 400); });
   }
 
-  document.addEventListener('DOMContentLoaded', function(){ bind(); setTimeout(build, 300); });
+  document.addEventListener('DOMContentLoaded', function(){
+    bind();
+    showSpinner(true);
+    // Aggressive retry for async JSON
+    var tries = 0, max = 15;
+    var t = setInterval(function(){
+      tries++; var ok = build();
+      if(ok || tries>=max){ clearInterval(t); showSpinner(false); }
+    }, 400);
+  });
 
   if(window.compute){
-    var _c = window.compute; window.compute = function(){ _c(); setTimeout(build, 0); };
+    var _c = window.compute;
+    window.compute = function(){ _c(); setTimeout(function(){ build(); }, 0); };
   }
   if(window.loadProgram){
     var _l = window.loadProgram;
     window.loadProgram = function(file,label){
-      var p = _l(file,label); if(p && p.then){ return p.then(function(){ build(); }); }
-      setTimeout(build, 150); return p;
+      var p = _l(file,label);
+      if(p && p.then){ return p.then(function(){ showSpinner(true); setTimeout(function(){ build(); showSpinner(false); }, 600); }); }
+      setTimeout(function(){ build(); }, 600);
+      return p;
     };
   }
 })();

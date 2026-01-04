@@ -1,0 +1,352 @@
+value ? Number(leaseCapReduction.value) : 0;
+      var fees = leaseFees && leaseFees.value ? Number(leaseFees.value) : 0;
+      if(isFinite(rvPct) && isFinite(msrp) && isFinite(term) && isFinite(cap) && isFinite(mf)){
+        var rvAmt = Math.round(msrp * (rvPct/100));
+        var adjCap = cap - (isFinite(capRed)?capRed:0) + (isFinite(fees)?fees:0);
+        var dep = (adjCap - rvAmt) / term;
+        var fin = (adjCap + rvAmt) * mf;
+        var preTax = dep + fin;
+        var withTax = preTax * (1 + (isFinite(tax)?tax:0));
+        curPay = Math.round(withTax);
+      }
+    }
+    document.querySelectorAll('#sniffCards .sniff-card').forEach(function(card){
+      var wt = Number(card.dataset.withTax || 'NaN');
+      var dm = card.querySelector('.deltaMo');
+      if(!dm || !isFinite(wt) || !isFinite(curPay)) return;
+      var delta = Math.round(curPay - wt);
+      var sign = (delta>0? '-$' + Math.abs(delta).toLocaleString(): (delta<0? '+$' + Math.abs(delta).toLocaleString(): '$0'));
+      dm.textContent = sign + '/mo';
+      dm.style.color = (delta>0) ? 'var(--success)' : (delta<0 ? 'var(--danger)' : '');
+    });
+  }catch(e){}
+}
+
+['input','change'].forEach(function(ev){
+  [leaseCapCost, leaseMF, leaseTax, leaseCapReduction, leaseFees, leaseTerm].forEach(function(el){
+    if(!el) return;
+    el.addEventListener(ev, function(){ setTimeout(updateSnifferDeltas, 0); });
+  });
+});
+
+</script>
+
+<script id="top15-js">
+(function(){
+  function q(id){return document.getElementById(id)}
+  function hasModels(o){try{return o&&typeof o==='object'&&o.models&&typeof o.models==='object'}catch(e){return false}}
+  function resolveProgram(){
+    if(hasModels(window.porsche_residuals_all)) return window.porsche_residuals_all;
+    var keys=Object.getOwnPropertyNames(window);
+    for(var j=0;j<keys.length;j++){try{var v=window[keys[j]]; if(hasModels(v)) return v;}catch(e){}}
+    return null;
+  }
+  function _n(x){if(x==null)return 0;var n=(typeof x==='number')?x:parseFloat(String(x).replace(/[,\s]/g,''));return isNaN(n)?0:n}
+  function bestAnn(term,root){
+    var map=(root&&root.annual_mileage_adjustments_percent&&root.annual_mileage_adjustments_percent.miles_per_year)||{};
+    var best={miles:null,adj:0}; if(parseInt(term,10)<24) return best;
+    Object.keys(map).forEach(function(k){var v=_n(map[k]); if(v>best.adj) best={miles:parseInt(k,10),adj:v};});
+    return best;
+  }
+  function bestInception(yrKey,root){
+    var bands=(root&&root.mileage_at_inception_adjustments_percent&&root.mileage_at_inception_adjustments_percent[yrKey])||null;
+    if(!bands) return {range:null,adj:0};
+    var best={range:null,adj:0};
+    for(var i=0;i<bands.length;i++){var v=_n(bands[i].adj||0); if(v>best.adj) best={range:bands[i].miles_range,adj:v};}
+    return best;
+  }
+  function dispYear(k){var m=String(k).match(/^MY(\d{2})$/);return m?('MY 20'+m[1]):k}
+
+  function build(){
+    var list=q('topDealsList'), empty=q('topDealsEmpty'), root=resolveProgram();
+    if(!root||!root.models){ if(list) list.innerHTML=''; if(empty) empty.style.display='block'; return false; }
+    if(empty) empty.style.display='none';
+    var pacpo=q('pacpoToggle'), leaseMF=q('leaseMF');
+    var pacAdj=(pacpo&&pacpo.checked)?(root.pacpo_bonus_percent||2):0;
+    var mf=(leaseMF&&leaseMF.value)?Number(leaseMF.value):NaN;
+    var items=[], MONTHS=(window.MONTHS||root.months||['12','18','24','27','30','36','39','42','48','51','60']);
+    Object.keys(root.models||{}).forEach(function(fam){
+      var famB=root.models[fam]||{};
+      Object.keys(famB).forEach(function(yrKey){
+        var inc=bestInception(yrKey,root), y=dispYear(yrKey);
+        var rows=famB[yrKey]||{};
+        Object.keys(rows).forEach(function(code){
+          var e=rows[code]||{}, model=e.model||code, res=e.residuals||{};
+          var best={term:null,miles:null,finalRV:-1e9};
+          MONTHS.forEach(function(m){
+            var base=res[m]; if(base==null) return;
+            var ann=bestAnn(m,root);
+            var rv=_n(base)+pacAdj+ann.adj+inc.adj;
+            if(rv>best.finalRV) best={term:parseInt(m,10),miles:ann.miles,finalRV:rv};
+          });
+          if(best.finalRV>-1e9){
+            var lvi=(isFinite(mf)&&mf>0)?(best.finalRV/mf):null;
+            items.push({fam:fam,yrKey:yrKey,yearDisp:y,code:code,model:model,term:best.term,miles:best.miles,finalRV:best.finalRV,lvi:lvi});
+          }
+        });
+      });
+    });
+    items.sort(function(a,b){ if(b.finalRV!==a.finalRV) return b.finalRV-a.finalRV; if((b.term||0)!==(a.term||0)) return (b.term||0)-(a.term||0); return (b.lvi||0)-(a.lvi||0); });
+    var cap=2, kept=[], seen=Object.create(null);
+    for(var i=0;i<items.length && kept.length<60;i++){
+      var key=(items[i].fam||'').toLowerCase();
+      var n=seen[key]||0; if(n>=cap) continue; seen[key]=n+1; kept.push(items[i]);
+    }
+    items = kept;
+
+    if(list) list.innerHTML='';
+    items.slice(0,15).forEach(function(it,idx){
+      var li=document.createElement('li'); li.className='rank-item';
+      li.innerHTML='<div class="rank-no">'+(idx+1)+'</div>' +
+        '<div class="rank-main"><div class="rank-title">'+it.model+'</div>' +
+        '<div class="rank-sub">'+it.yearDisp+' • '+it.fam+' • '+it.code+'</div>' +
+        '<div class="rank-chips">' +
+          '<div class="rank-chip ok">Final RV: '+it.finalRV.toFixed(0)+'%</div>' +
+          '<div class="rank-chip term">Term: '+(it.term?(it.term+' mo'):'—')+'</div>' +
+          (it.miles!=null?('<div class="rank-chip">'+it.miles.toLocaleString()+' mi/yr</div>'):'') +
+          (it.lvi!=null?('<div class="rank-chip lvi">LVI: '+(it.lvi/1000).toFixed(1)+'k</div>'):'') +
+        '</div></div>';
+      list.appendChild(li);
+    });
+    return true;
+  }
+
+  function bind(){
+    var btn=q('rebuildTopBtn'), pacpo=q('pacpoToggle'), leaseMF=q('leaseMF'), programSel=q('programSel');
+    function spin(on){ var s=q('top15Loading'); if(s) s.style.display=on?'flex':'none'; }
+    if(btn) btn.addEventListener('click', function(){ spin(true); setTimeout(function(){ build(); spin(false); }, 50); });
+    if(pacpo) pacpo.addEventListener('change', function(){ setTimeout(build,0); });
+    if(leaseMF) leaseMF.addEventListener('input', function(){ setTimeout(build,0); });
+    if(programSel) programSel.addEventListener('change', function(){ spin(true); setTimeout(function(){ build(); spin(false); }, 200); });
+    document.addEventListener('program-loaded', function(){ setTimeout(build, 250); });
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    bind();
+    var i=0,t=setInterval(function(){i++; if(build()||i>=20) clearInterval(t);}, 400);
+  });
+})();
+</script>
+
+<script id="top15-relocate-final">
+(function(){function N(s){return(s||'').replace(/\s+/g,' ').trim()}
+function findSniff(){var cs=document.querySelectorAll('.card');for(var i=0;i<cs.length;i++){var t=N(cs[i].innerText||'');if(/Lease\s*Sniffer/i.test(t)||/Ranks by Value Index \(LVI\) first, then With-Tax payment/i.test(t))return cs[i]}return null}
+function move(){var top=document.getElementById('topLeasableContainer');if(!top)return;var sn=findSniff();if(!sn)return;if(top.closest('.card')===sn){sn.parentNode.insertBefore(top,sn.nextSibling)}}
+function boot(){move();var o=new MutationObserver(move);o.observe(document.body,{childList:true,subtree:true});setTimeout(move,250);setTimeout(move,800)}
+if(document.readyState==='complete'||document.readyState==='interactive')boot();else document.addEventListener('DOMContentLoaded',boot);
+})();
+</script>
+
+  <!-- Password Overlay -->
+  <div id="password-overlay"
+       style="
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, #041320, #062b44);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+       ">
+    <div id="password-card"
+         style="
+          text-align: center;
+          max-width: 320px;
+          width: 90%;
+          padding: 24px 22px;
+          border-radius: 16px;
+          background: rgba(7, 15, 26, 0.96);
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+          border: 1px solid rgba(90, 170, 255, 0.7);
+         ">
+      <h2 id="password-title"
+          style="
+            margin: 0 0 8px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 20px;
+            letter-spacing: 0.03em;
+          ">
+        Residual App – Login
+      </h2>
+
+      <p id="password-subtitle"
+         style="
+           margin: 0 0 18px;
+           font-size: 13px;
+           opacity: 0.85;
+         ">
+        Enter the access password to continue.
+      </p>
+
+      <form id="password-form">
+        <input id="password-input"
+               type="password"
+               placeholder="Password"
+               autocomplete="off"
+               style="
+                width: 100%;
+                padding: 10px 12px;
+                border-radius: 8px;
+                border: 1px solid #35597b;
+                background:#0b1523;
+                color:#fff;
+                font-size: 14px;
+               " />
+        <div id="password-error"
+             style="
+               margin-top: 8px;
+               font-size: 12px;
+               min-height: 16px;
+               color:#ff6b6b;
+             "></div>
+        <button type="submit"
+                style="
+                  margin-top: 14px;
+                  width: 100%;
+                  padding: 10px 12px;
+                  border-radius: 10px;
+                  border: none;
+                  background: #3BA9FF;
+                  color: #fff;
+                  font-weight: 600;
+                  font-size: 14px;
+                  cursor: pointer;
+                  box-shadow: 0 6px 16px rgba(59, 169, 255, 0.55);
+                  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+                "
+                onmouseover="this.style.background='#66C3FF'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 8px 20px rgba(102,195,255,0.7)';"
+                onmouseout="this.style.background='#3BA9FF'; this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 16px rgba(59,169,255,0.55)';">
+          Enter
+        </button>
+      </form>
+
+      <div id="password-success"
+           style="
+             display: none;
+             flex-direction: column;
+             align-items: center;
+             margin-top: 12px;
+             opacity: 0;
+             transform: scale(0.9);
+             transition: opacity 0.4s ease, transform 0.4s ease;
+           ">
+        <div style="
+              width: 64px;
+              height: 64px;
+              border-radius: 50%;
+              border: 3px solid #3BA9FF;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 8px;
+              box-shadow: 0 8px 22px rgba(59, 169, 255, 0.7);
+              background: rgba(3, 25, 44, 0.9);
+            ">
+          <span style="font-size: 32px; color:#3BA9FF;">✓</span>
+        </div>
+        <div style="font-size: 14px; font-weight: 600;">
+          Access granted
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const CORRECT_PASSWORD = "porsche123";
+      const STORAGE_KEY = "residualAppAuthed_v1";
+
+      const overlay = document.getElementById("password-overlay");
+      const card = document.getElementById("password-card");
+      const form = document.getElementById("password-form");
+      const input = document.getElementById("password-input");
+      const error = document.getElementById("password-error");
+      const title = document.getElementById("password-title");
+      const subtitle = document.getElementById("password-subtitle");
+      const success = document.getElementById("password-success");
+
+      function doFadeOut() {
+        overlay.style.pointerEvents = "none";
+        overlay.style.transition = "opacity 0.6s ease-out";
+        overlay.style.opacity = "0";
+        setTimeout(function () {
+          overlay.style.display = "none";
+        }, 650);
+      }
+
+      function playSuccess() {
+        if (title) title.textContent = "Welcome";
+        if (subtitle) subtitle.textContent = "Access granted. Loading your Residual App...";
+
+        if (form) form.style.display = "none";
+        if (error) error.textContent = "";
+
+        if (success) {
+          success.style.display = "flex";
+          requestAnimationFrame(function () {
+            success.style.opacity = "1";
+            success.style.transform = "scale(1)";
+          });
+        }
+
+        setTimeout(doFadeOut, 900);
+      }
+
+      function unlock() {
+        try {
+          localStorage.setItem(STORAGE_KEY, "1");
+        } catch (e) {}
+        playSuccess();
+      }
+
+      try {
+        if (localStorage.getItem(STORAGE_KEY) === "1") {
+          unlock();
+          return;
+        }
+      } catch (e) {}
+
+      if (!form || !input) return;
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const entered = (input.value || "").trim().toLowerCase();
+
+        if (!entered) {
+          error.textContent = "Please enter the password.";
+          return;
+        }
+
+        if (entered === CORRECT_PASSWORD) {
+          unlock();
+        } else {
+          error.textContent = "Incorrect password. Try again.";
+          input.value = "";
+          input.focus();
+        }
+      });
+    })();
+  </script>
+
+  <!-- Vercel Web Analytics -->
+<script>
+  window.va =
+    window.va ||
+    function () {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+<!-- Vercel Speed Insights -->
+<script>
+  window.si =
+    window.si ||
+    function () {
+      (window.siq = window.siq || []).push(arguments);
+    };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
+</body>
+</html>
